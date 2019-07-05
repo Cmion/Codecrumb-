@@ -1,0 +1,14 @@
+##
+src/
+__pycache__/
+### OSX ###
+.DS_Store
+codecrumb/static/profile-images/
+### Misc ###
+node_modules/
+codecrumb_env/
+*.map
+*.pyc
+*.env
+*.zip
+
