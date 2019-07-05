@@ -1,0 +1,10 @@
+{
+    "vscode.tsc.compiler.alertTSConfigChanges": "never",
+    "python.formatting.provider": "black",
+    "git.ignoreLimitWarning": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pep8Enabled": true,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.enabled": true
+}
