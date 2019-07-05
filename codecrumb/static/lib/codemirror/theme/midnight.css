@@ -1,0 +1,50 @@
+/* Based on the theme at http://bonsaiden.github.com/JavaScript-Garden */
+
+/*<!--match-->*/
+.cm-s-midnight span.CodeMirror-matchhighlight {  }
+.cm-s-midnight.CodeMirror-focused span.CodeMirror-matchhighlight { background: #314D67 !important; }
+
+/*<!--activeline-->*/
+.cm-s-midnight .CodeMirror-activeline-background { background: #253540; }
+
+.cm-s-midnight.CodeMirror {
+  background: transparent;
+  border: none;
+  font-size: 14.5px;
+  font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
+  line-height: 1.3375rem;
+  color: rgba(233, 237, 237, 1);
+  
+}
+
+.cm-s-midnight div.CodeMirror-selected {   background: rgba(45, 50, 74, 0.3);}
+.cm-s-midnight .CodeMirror-line::selection, .cm-s-midnight .CodeMirror-line > span::selection, .cm-s-midnight .CodeMirror-line > span > span::selection {    background: rgba(45, 50, 74, 0.3); }
+.cm-s-midnight .CodeMirror-line::-moz-selection, .cm-s-midnight .CodeMirror-line > span::-moz-selection, .cm-s-midnight .CodeMirror-line > span > span::-moz-selection {    background: rgba(45, 50, 74, 0.3); }
+.cm-s-midnight .CodeMirror-gutters { background: transparent !important; border: none }
+.cm-s-midnight .CodeMirror-guttermarker { }
+.cm-s-midnight .CodeMirror-guttermarker-subtle {}
+.cm-s-midnight .CodeMirror-linenumber { color: #253540; }
+.cm-s-midnight .CodeMirror-cursor { border-left: 1px solid #F8F8F0; }
+
+.cm-s-midnight span.cm-comment {  color: #6c6783;
+  font-style: italic; }
+.cm-s-midnight span.cm-atom { color: #AE81FF; }
+.cm-s-midnight span.cm-number { color: #D1EDFF; }
+
+.cm-s-midnight span.cm-property, 
+.cm-s-midnight span.cm-attribute { color: #50fa7b; }
+.cm-s-midnight span.cm-keyword { color: #E83737; }
+.cm-s-midnight span.cm-string { color: #1DC; }
+
+.cm-s-midnight span.cm-variable { color: #FFAA3E; }
+.cm-s-midnight span.cm-variable-2 { color: #FFAA3E; }
+.cm-s-midnight span.cm-def { color: #4DD; }
+.cm-s-midnight span.cm-bracket { color: #D1EDFF; }
+.cm-s-midnight span.cm-tag { color: #449; }
+.cm-s-midnight span.cm-link { color: #AE81FF; }
+.cm-s-midnight span.cm-error { background: #F92672; color: #F8F8F0; }
+
+.cm-s-midnight .CodeMirror-matchingbracket {
+  border-bottom: 2px solid #AE81FF;
+  color: white !important;
+}

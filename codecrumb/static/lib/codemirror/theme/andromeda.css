@@ -1,0 +1,178 @@
+/*
+
+    Name:       andromeda
+    Author:     Simeon Akpanudo (http://github.com/cmion)
+
+    Original andromeda color scheme by Simeon Akpanudo (https://github.com/cmion/andromeda-syntax)
+
+*/
+/* @import url("../../../css/font.css"); */
+
+.cm-s-andromeda.CodeMirror {
+    background-color: transparent !important;
+    color: rgb(152, 155, 170) !important;
+    border: none;
+    font-size: 14.5px;
+    font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
+    line-height: 1.3375rem;
+    transition: none;
+}
+
+.cm-s-andromeda .CodeMirror-gutters {
+    color: #fff;
+
+    background-color: transparent;
+    border: none;
+    padding-right: 5px;
+}
+
+.cm-s-andromeda .CodeMirror-cursor {
+    border-left: 2px solid #ffaf38;
+}
+
+.cm-s-andromeda .CodeMirror-linenumber {
+    color: #3B3F5180;
+}
+
+.cm-s-andromeda div.CodeMirror-selected {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-andromeda.CodeMirror-focused div.CodeMirror-selected {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-andromeda .CodeMirror-line::selection,
+.cm-s-andromeda .CodeMirror-line>span::selection,
+.cm-s-andromeda .CodeMirror-line>span>span::selection {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-andromeda .CodeMirror-line::-moz-selection,
+.cm-s-andromeda .CodeMirror-line>span::-moz-selection,
+.cm-s-andromeda .CodeMirror-line>span>span::-moz-selection {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-andromeda span.cm-comment {
+    font-style: italic;
+    color: #5f6167;
+}
+
+.cm-s-andromeda span.cm-string{
+    color: #96E072;
+
+
+}
+.cm-s-andromeda span.cm-string-2 {
+   color:  #7cb7ff
+}
+.cm-s-andromeda span.cm-number {
+    color: #f39c12;
+}
+
+.cm-s-andromeda span.cm-variable {
+    color: #00e8c6;
+}
+
+.cm-s-andromeda span.cm-variable-2 {
+    color: #ff00aa;
+}
+
+.cm-s-andromeda span.cm-def {
+    color: #00e8c6;
+
+}
+
+
+.cm-s-andromeda span.cm-error {
+    border-bottom: 2px dotted #89DDFF;
+}
+.cm-s-andromeda span.cm-invalidchar {
+    border-bottom: 2px dotted #FF5370;
+}
+.cm-s-andromeda span.cm-operator {
+    color: #ee5d43;
+}
+
+.cm-s-andromeda span.cm-keyword {
+    color: #c74ded;
+   
+}
+
+.cm-s-andromeda span.cm-atom {
+    color: #ee5d43;
+
+}
+
+.cm-s-andromeda span.cm-meta {
+    color: #f39c12;
+}
+
+.cm-s-andromeda span.cm-tag {
+    color:  #f92672;
+
+}
+
+.cm-s-andromeda span.cm-attribute {
+    color: #FFE66D;
+   
+}
+
+.cm-s-andromeda span.cm-qualifier {
+    color: #FFE66D;
+
+}
+
+.cm-s-andromeda span.cm-property {
+    color: #FFE66D;
+
+}
+
+.cm-s-andromeda span.cm-variable-3 {
+    color: #ff00aa;
+}
+
+.cm-s-andromeda span.cm-type {
+    color: #FFE66D;
+
+}
+
+.cm-s-andromeda span.cm-builtin {
+    color: #f39c12;
+}
+
+.cm-s-andromeda .CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, 0.037);
+}
+
+.cm-s-andromeda .CodeMirror-matchingbracket {
+    /* outline: 1px solid grey; */
+    border-bottom: 2px solid #f39c12;
+    color: #ff00aa !important;
+}
+
+
+
+.CodeMirror-matchingtag {
+    background: #2d324a;
+    border: none;
+    color: #ff00aa;
+}
+
+
+
+
+
+.cm-s-andromeda .cm-hr {
+    color: #FFCB6B;
+}
+
+.cm-s-andromeda .cm-link {
+    color: #c74ded;
+ 
+}
+.cm-s-andromeda span.cm-bracket {
+   color:#89DDFF;
+  
+}

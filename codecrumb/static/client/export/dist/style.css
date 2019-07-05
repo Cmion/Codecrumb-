@@ -1,0 +1,41 @@
+/* Stylus mode */
+#id,
+.class,
+article {
+  font-family: Arial, sans-serif;
+}
+#id,
+.class,
+article {
+  font-family: Arial, sans-serif;
+}
+body {
+  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+input {
+  color: #3782c4;
+  text-decoration: none;
+}
+input:hover,
+input:focus {
+  color: #2f6ea7;
+}
+input:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+input {
+  color: #3782c4;
+  text-decoration: none;
+}
+input:hover,
+input:focus {
+  color: #2f6ea7;
+}
+input:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}

@@ -1,0 +1,111 @@
+{% extends 'layout.html' %} {% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/crumb.css')}}" />
+{% endblock %}
+
+<body>
+  {% block body %} {% block otherHeader %}
+  {{ super() }}
+
+  {% endblock %} {% if crumbs.total != 0 %}
+  <div class="search">
+    <form>
+      <label><input type="text" placeholder="Filter by name"/></label>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  {% else %}
+  <div class="search">
+    <form>
+      <label
+        ><input
+          type="text"
+          class="disabled"
+          placeholder="Filter by name"
+          disabled
+      /></label>
+      <button type="submit" class="disabled" disabled>Search</button>
+    </form>
+  </div>
+  {% endif %}
+  <div class="container">
+    <div class="container__crumb">
+      {% if crumbs.total > 0 %} {% for crumb in crumbs.items %}
+
+      <div class="crumbs">
+        <div class="name">
+          <span>{{ crumb.crumbName }}</span>
+        </div>
+        <div class="thumbnail">
+          <input
+            type="hidden"
+            class="crumbSrc"
+            name="html"
+            value="{{ json.dumps(json_response(crumb, True)) }}"
+          />
+
+          <iframe
+            id="transcend-preview"
+            allow="midi; geolocation; microphone; camera; encrypted-media;"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups"
+            allowfullscreen=""
+            allowpaymentrequest=""
+            frameborder="0"
+            src=""
+            name="CodeCrumb"
+          >
+          </iframe>
+        </div>
+
+        <div class="select-btn">
+          <a
+            href="{{url_for('set_crumb.codecrumb', author=crumb.author.username, url=crumb.url)}}"
+            >Preview</a
+          >
+          <a href="#" class="">Export</a>
+          <a
+            href=""
+            data-confirm="Are you sure you want to delete this crumb?"
+            data-id="{{ crumb.id }}"
+            class="del-tag"
+            >Delete</a
+          >
+        </div>
+      </div>
+      {% endfor %}
+      <div class="deletefooter">
+        {% if crumbs.total != 0 %} {% for i in crumbs.iter_pages(left_edge=1,
+        right_edge=1, left_current=1, right_current=2) %} {% if i %} {% if
+        crumbs.page == i%}
+        <div class="del-del">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}" class="form-tag">{{
+            i
+          }}</a>
+        </div>
+        {% else %}
+        <div class="del-cancel">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}">{{ i }}</a>
+        </div>
+        {% endif %} {% else %}
+        <div class="del-cancel">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}">...</a>
+        </div>
+        {% endif %} {% endfor %} {% endif %}
+      </div>
+    </div>
+    {% elif crumbs.total == 0 %}
+    <div class="empty-crumb">
+      <span>Welcome Programmer, your Crumb is empty</span>
+      <a href="{{ url_for('main.editor') }}" class="add_new"
+        >Create a new Crumb ?</a
+      >
+    </div>
+
+    {% endif %}
+  </div>
+  <script src="{{url_for('static', filename='js/prepro.js')}}"></script>
+  <script src="{{url_for('static', filename='js/crumbpage.js')}}"></script>
+  <!-- {% block otherScript %}
+  {{ super() }}
+  {% endblock %}  -->
+  {% endblock %}
+</body>

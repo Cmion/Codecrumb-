@@ -1,0 +1,17 @@
+{% extends 'layout.html' %} {% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/error.css')}}" />
+{% endblock %} {% block body %} {% block otherHeader %}
+{{ super() }}
+{% endblock %}
+<div class="container">
+  <div class="error-response">
+    <div class="error-message">
+      <span class="error">500</span>
+      <div class="error-txt">
+        <span class="txt">Oops! Something went wrong</span>
+        <span class="txt">Please try again later while we work on it.</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock%}

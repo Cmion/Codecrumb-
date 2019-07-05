@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+{% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+<body>
+    {% block body %}
+    <div class="container">
+        <div class="logo">
+            <a href="{{url_for('main.editor')}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 48 48"
+                    style="transform: rotate(25deg)" fill="#fa0033" fill-rule: 'evenodd'>
+                    <path
+                        d="M12 26c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 1c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm6-9c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm30 11c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-14-7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0-7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zM6 27c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm14 14c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm0-34c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0 7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm16 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-14 7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 7c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-8-24c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 17c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                    <path d="M0 0h48v48H0z" fill="none" />
+                </svg>
+            </a>
+
+        </div>
+        <div class="form-container">
+            <div class="signup ">
+                <span class="form-head">Create an Account</span>
+                <form class="form" method="POST" action="">
+                    {{register.hidden_tag()}}
+
+                    <label class="label-outer">{{register.username.label(class="label")}}
+                        {{register.username}}</label>
+
+                    {% if register.username.errors %}
+                    {% for error in register.username.errors %}
+                    <span class="form-error">{{error}}</span>
+                    {%endfor%}
+                    {%endif%}
+
+                    <label class="label-outer">{{register.email.label(class="label")}}{{register.email}}</label>
+
+                    {% if register.email.errors %}
+                    {% for error in register.email.errors %}
+                    <span class="form-error">{{error}}</span>
+                    {% endfor %}
+                    {% endif %}
+
+                    <label class="label-outer">{{register.password.label(class="label")}} {{register.password}}</label>
+
+                    {% if register.password.errors %}
+                    {% for error in register.password.errors %}
+                    <span class="form-error">{{error}}</span>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="terms">
+                        <h4>
+                            By Signing up you agree to our <a href="#">terms</a> and
+                            <a href="#">privacy policy</a>
+                        </h4>
+                    </div>
+                    <label class="submit">
+                        <span></span> <span></span> <span></span> <span></span>
+                        {{register.submit(class="submit-btn")}}
+
+                    </label>
+
+                </form>
+                <div class="form-util">
+                    <a href="{{url_for('oauth.login')}}" class="sign-in-switch">Sign in</a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <script src="{{url_for('static', filename='js/login.js')}}"></script> -->
+    {% endblock %}
+</body>

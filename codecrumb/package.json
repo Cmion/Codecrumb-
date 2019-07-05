@@ -1,0 +1,28 @@
+{
+  "name": "codecrumb",
+  "version": "1.0.0",
+  "description": "A code workspace",
+  "main": "main.js",
+  "scripts": {
+    "watch": "gulp watch-static",
+    "comp-css": "gulp watch-css"
+  },
+  "author": "CodeCrumb",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/gulp": "^4.0.6",
+    "browser-sync": "^2.26.3",
+    "codemirror-colorpicker": "^1.9.50",
+    "esprima": "^4.0.1",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-minify": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uncss": "^1.0.6",
+    "requirejs": "^2.3.6"
+  },
+  "dependencies": {}
+}

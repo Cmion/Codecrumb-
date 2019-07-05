@@ -1,0 +1,131 @@
+/* The lint marker gutter */
+.CodeMirror-lint-markers {
+  width: 16px;
+}
+
+.CodeMirror-lint-tooltip {
+  background-color: #0f111a;
+  border: none;
+  border-radius: 2px;
+  color: rgb(150, 147, 167);
+  font-family: "hasklig", 'Courier New', Courier, monospace;
+  font-size: 13px;
+  overflow: hidden;
+  padding: 2px 5px;
+  position: fixed;
+  white-space: pre;
+  white-space: pre-wrap;
+  z-index: 100;
+  max-width: 600px;
+ 
+  transition: opacity .2s;
+  -moz-transition: opacity .2s;
+  -webkit-transition: opacity .2s;
+  -o-transition: opacity .2s;
+  -ms-transition: opacity .2s;
+}
+
+.CodeMirror-lint-mark-error,
+.CodeMirror-lint-mark-warning {
+  background-position: right bottom;
+
+  background-repeat: repeat-x;
+}
+
+.CodeMirror-lint-mark-error {
+    height:0;
+    width: 0;
+    border-bottom: 1.5px solid #ff2e59;
+
+}
+
+.CodeMirror-lint-mark-warning {
+  height:0;
+  width: 0;
+  border-bottom: 1.5px solid #FFCB6B;
+}
+
+.CodeMirror-lint-marker-error,
+.CodeMirror-lint-marker-warning {
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  vertical-align: middle;
+  position: relative;
+
+  /* border: 4px solid #ff2e59;
+  border-radius: 50px;
+  padding: 0; */
+}
+
+.CodeMirror-lint-message-error,
+.CodeMirror-lint-message-warning {
+  padding-left: 18px;
+  background-position: top left;
+  
+  background-repeat: no-repeat;
+  position: relative;
+
+  margin: 5px;
+  margin-bottom: 10px;
+}
+.CodeMirror-lint-message-error::before,
+.CodeMirror-lint-marker-error::before{
+  content: "";
+  height:6px;
+  width: 6px;
+  position: absolute;
+  display: flex;
+  background: #ff2e59;
+  /* border: 4px solid #ff2e59; */
+  border-radius: 50%;
+  padding: 0;
+  top: 2px;
+  left: 0;
+  margin-right: 5px;
+}
+
+.CodeMirror-lint-marker-warning::before, 
+.CodeMirror-lint-message-warning::before{
+  content: "";
+  height:6px;
+  width: 6px;
+  position: absolute;
+  display: flex;
+  background: #FFCB6B;
+  /* border: 4px solid #ff2e59; */
+  border-radius: 50%;
+  padding: 0;
+  top: 2px;
+  left: 0;
+  margin-right: 5px;
+}
+
+
+
+.CodeMirror-lint-marker-multiple {
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  /* background: #e6cd69;
+  border-radius: 50%; */
+  
+
+}
+.CodeMirror-lint-marker-multiple {
+  /* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;;
+  top: -95%;
+  left: -25%;
+  width: 100%;
+  height: 100%;
+
+}

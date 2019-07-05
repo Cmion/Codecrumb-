@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      body {
+        height: 100vh;
+        color: #888;
+        width: 100vw;
+        background: transparent;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "segoe ui", Arial, Helvetica, sans-serif;
+        font-weight: 300;
+      }
+      .hello {
+        font-size: 26px;
+        padding: 10px;
+        color: rgba(102, 102, 102, 0.83);
+        user-select: none;
+        text-transform: capitalize;
+      }
+      .hello:hover {
+        color: #fa0033;
+      }
+    </style>
+    <title>CodeCrumb</title>
+  </head>
+  <body>
+    <div class="foo" bar="baz">
+      <span class="hello"></span>
+    </div>
+    <script>
+      const wordArray = [
+        "Click ALT + R to run your code.",
+        "Be the coder your linter says your are!.",
+        "Code your creativity in chunks, and let the bits speak!."
+      ];
+      const hello = document.querySelector(".hello");
+
+      hello.textContent =
+        wordArray[Math.floor(Math.random() * wordArray.length)];
+    </script>
+  </body>
+</html>

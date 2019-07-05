@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f111a" />
+    <meta
+      name="description"
+      content="Test your JavaScript, CSS, HTML or TypeScript online with CodeCrumb code editor."
+    />
+    <meta
+      name="keywords"
+      content="online javascript editor, testing javascript online, online code editor, html, pug, markdown, css, coffeescript, sass, typescript, babel, less, stylus, scss online editor, markdown code editor, typescript code editor, coffeescript code editor, code playground, online ide"
+    />
+    <meta name="author" content="CodeCrumb" />
+    <meta name="copyright" content="share alike" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    {% if title %}
+
+    <title>{{ title }} - CodeCrumb</title>
+    {% else %}
+    <title>CodeCrumb</title>
+
+    {% endif %} {% block meta %} {% endblock %}
+  </head>
+  <body>
+    {% block body %} {% block otherHeader %}
+
+    <div class="header">
+      <div class="logo">
+        <a href="{{ url_for('main.editor') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="55"
+            height="55"
+            viewBox="0 0 48 48"
+            style="transform: rotate(25deg)"
+            fill="#fa0033"
+          >
+            <path
+              d="M12 26c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 1c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm6-9c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm30 11c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-14-7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0-7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zM6 27c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm14 14c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm0-34c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0 7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm16 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-14 7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 7c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-8-24c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 17c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+            />
+            <path d="M0 0h48v48H0z" fill="none" />
+          </svg>
+        </a>
+        <a href="{{ url_for('main.editor') }}" class="new-editor"
+          ><i class="material-icons">code</i>Editor</a
+        >
+      </div>
+      <div class="crumb-note">
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for
+        message in messages %}
+        <span>{{ message }}</span>
+        {% endfor%} {% endif %} {% endwith %}
+      </div>
+      <div class="new-cr">
+        {% if current_user.is_authenticated %}
+        <div class="user-crumb tab-menu-link">
+          <img
+            src="{{ image }}"
+            alt="{{ current_user.username }}"
+            class="user-crumb-img"
+            height="35px"
+            width="35px"
+          />
+          <div class="user-crumb-menu">
+            <a href="{{ url_for('oauth.account') }}">Dashboard</a>
+            <a href="{{ url_for('set_crumb.crumbs') }}">Your crumbs</a>
+
+            <a href="{{ url_for('set_crumb.save') }}">New Crumb</a>
+            <a href="{{ url_for('oauth.logout') }}" class="logout">Logout</a>
+
+            <script>
+              const imageMenu = document.querySelector(".user-crumb img");
+              const userCrumbMenu = document.querySelector(".user-crumb-menu");
+              let _isOut = false;
+              imageMenu.addEventListener("click", e => {
+                userCrumbMenu.style.animation = "hoverin .1s linear forwards";
+                _isOut = true;
+              });
+
+              window.addEventListener("click", function(e) {
+                if (_isOut) {
+                  if (e.target != imageMenu && e.target != userCrumbMenu) {
+                    userCrumbMenu.style.animation =
+                      "hoverout .1s linear forwards";
+                    _isOut = false;
+                  }
+                }
+              });
+            </script>
+          </div>
+        </div>
+        {% else %}
+        <a
+          href="{{ url_for('oauth.register') }}"
+          class="tab-menu-link"
+          style="padding: 10px;"
+          >Sign up</a
+        >
+        <a
+          href="{{ url_for('oauth.login') }}"
+          class="tab-menu-link"
+          style="padding: 10px;"
+          >Sign in</a
+        >
+        {% endif %}
+      </div>
+    </div>
+
+    {% endblock %} {% endblock %}
+  </body>
+</html>
