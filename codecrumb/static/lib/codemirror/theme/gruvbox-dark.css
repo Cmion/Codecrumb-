@@ -17,6 +17,8 @@
     font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
     line-height: 1.3375rem;
     color: #bdae93;
+      -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cm-s-gruvbox-dark .CodeMirror-gutters {

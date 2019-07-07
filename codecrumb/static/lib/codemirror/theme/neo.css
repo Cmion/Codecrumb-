@@ -10,6 +10,8 @@
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   color: #2e383c;
   line-height: 1.3375rem;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .cm-s-neo .CodeMirror-activeline-background {
   background: rgba(255, 255, 255, 0.037);

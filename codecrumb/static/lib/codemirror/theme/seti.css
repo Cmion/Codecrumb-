@@ -17,6 +17,8 @@
   line-height: 1.3375rem;
   color: #CFD2D1 !important;
   border: none;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cm-s-seti .CodeMirror-gutters {

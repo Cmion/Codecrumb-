@@ -13,6 +13,8 @@
   color: rgb(152, 155, 170) !important;
   border: none;
   font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   line-height: 1.3375rem;
 }

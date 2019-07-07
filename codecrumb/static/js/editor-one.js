@@ -180,7 +180,13 @@ const {
   linterITag,
   toggleLinter,
   consoleBar,
-  openDebugConsole
+  openDebugConsole,
+  tabSizeCustom,
+  fontFmCustom,
+  customFSize,
+  fontLigatures,
+  colorPickerType,
+  autoRunDelay
 } = elementDeclaration();
 
 const csse = {
@@ -212,8 +218,7 @@ const examp = {
     },
     stylesheet: {
       snippets: {
-        myp:
-          "body{\n height: 100vh; \n color: #888; \n width: 100vw;\n background: #20232E;\n overflow: hidden; \n display: flex; \n align-items: center; \n justify-content: center; \n} \n .hello{ \n font-size: 30px; \n padding: 10px; \n color: white; \n text-transform: capitalize; \n}"
+        myp: "body{\n height: 100vh; \n color: #888; \n width: 100vw;\n background: #20232E;\n overflow: hidden; \n display: flex; \n align-items: center; \n justify-content: center; \n} \n .hello{ \n font-size: 30px; \n padding: 10px; \n color: white; \n text-transform: capitalize; \n}"
       }
     }
   }
@@ -248,23 +253,23 @@ function crumbEditor(mode) {
     },
 
     _extraKeys: {
-      "Ctrl-Q": function(cm) {
+      "Ctrl-Q": function (cm) {
         cm.foldCode(cm.getCursor());
       },
       "Alt-f": "findPersistent",
-      "Ctrl-Enter": function() {
+      "Ctrl-Enter": function () {
         updatePreview();
       },
-      "Alt-A": function() {
+      "Alt-A": function () {
         prettify(htmlEditor, cssEditor, jsEditor);
       },
-      "Alt-J": function() {
+      "Alt-J": function () {
         beautifySingleFile(jsEditor, csse.js);
       },
-      "Alt-C": function() {
+      "Alt-C": function () {
         beautifySingleFile(cssEditor, csse.css);
       },
-      "Alt-H": function() {
+      "Alt-H": function () {
         beautifySingleFile(htmlEditor, csse.html);
       },
       Tab: "emmetExpandAbbreviationAll",
@@ -321,7 +326,7 @@ cssEditor.setSize("100%", "100%");
 jsEditor.setSize("100%", "100%");
 consoleEditor.setSize("100%", "100%");
 
-(function() {
+(function () {
   // html default value
   const htmlDefValue = `<!-- Every code written here is placed within the body tag -->\n<div class=\"foo\" bar=\"baz\">I am inside a body tag!.</div>\n`;
   htmlEditor.setOption("value", htmlDefValue);
@@ -389,13 +394,13 @@ function setPreload(bool, path = false, e = false) {
     const org = window.origin;
 
     fetch(`${org}${path}`, {
-      method: "POST",
-      headers: new Headers({
-        "Content-Type": "application/json"
-      }),
-      cache: "no-cache",
-      body: getPreload
-    })
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json"
+        }),
+        cache: "no-cache",
+        body: getPreload
+      })
       .then(res => res.json())
       .then(data => {
         const newPath = data.path;
@@ -412,41 +417,41 @@ function setPreload(bool, path = false, e = false) {
   }
 }
 
-(function() {
+(function () {
   if (localStorage.crumb) {
     const discard = document.querySelector(".discard-draft");
     const loadDraft = document.querySelector(".load-draft");
     const unsavedDraft = document.querySelector(".unsaved-draft");
     const alertModal = document.querySelector(".alert-md-body");
     unsavedDraft.style.visibility = "visible";
-    document.addEventListener("DOMContentLoaded", function(e) {
+    document.addEventListener("DOMContentLoaded", function (e) {
       setTimeout(() => {
-        alertModal.style.animation = "alertModal .15s ease-in-out forwards";
+        alertModal.style.animation = "alertModal .15s linear forwards";
       }, 5000);
     });
-    unsavedDraft.addEventListener("click", function(e) {
+    unsavedDraft.addEventListener("click", function (e) {
       e.preventDefault();
-      alertModal.style.animation = "alertModal .15s ease-in-out forwards";
+      alertModal.style.animation = "alertModal .15s linear forwards";
     });
-    window.addEventListener("click", function(e) {
+    window.addEventListener("click", function (e) {
       if (e.target == alertModal) {
-        alertModal.style.animation = "alertModalOut.15s ease-in-out forwards";
+        alertModal.style.animation = "alertModalOut .15s linear forwards";
       }
     });
 
-    discard.addEventListener("click", function(e) {
+    discard.addEventListener("click", function (e) {
       e.preventDefault();
       localStorage.removeItem("crumb");
       unsavedDraft.style.visibility = "hidden";
-      alertModal.style.animation = "alertModalOut.15s ease-in-out forwards";
+      alertModal.style.animation = "alertModalOut .15s linear forwards";
     });
 
-    loadDraft.addEventListener("click", function(e) {
+    loadDraft.addEventListener("click", function (e) {
       e.preventDefault();
       const editorItems = JSON.parse(localStorage.crumb);
       computePreloadPreview(editorItems);
       setTimeout(() => {
-        alertModal.style.animation = "alertModalOut.15s ease-in-out forwards";
+        alertModal.style.animation = "alertModalOut. 15s linear forwards";
       }, 500);
     });
   }
@@ -511,7 +516,7 @@ function computePreloadPreview(editorItems) {
 function unsavedChange() {
   let t;
 
-  htmlEditor.on("keyup", function() {
+  htmlEditor.on("keyup", function () {
     clearTimeout(t);
     t = setTimeout(() => {
       htmlChangeNum++;
@@ -523,7 +528,7 @@ function unsavedChange() {
     }, 2000);
   });
 
-  cssEditor.on("keyup", function() {
+  cssEditor.on("keyup", function () {
     clearTimeout(t);
     t = setTimeout(() => {
       cssChangeNum++;
@@ -535,7 +540,7 @@ function unsavedChange() {
     }, 2000);
   });
 
-  jsEditor.on("keyup", function() {
+  jsEditor.on("keyup", function () {
     clearTimeout(t);
     t = setTimeout(() => {
       jsChangeNum++;
@@ -594,6 +599,7 @@ function updatePreview() {
 
   // console.clear();
 }
+
 function printError(x) {
   let errorCount = parseInt(outnum.getAttribute("data-error"));
   let consoleBError = parseInt(consoleBar.getAttribute("data-label"));
@@ -637,10 +643,10 @@ submitLib.addEventListener("click", () => {
   updatePreview();
 });
 
-crumbName.crumb.addEventListener("change", function(e) {
+crumbName.crumb.addEventListener("change", function (e) {
   e.preventDefault();
 });
-crumbName.addEventListener("submit", function(e) {
+crumbName.addEventListener("submit", function (e) {
   e.preventDefault();
 });
 
@@ -694,18 +700,17 @@ if (dataItem === "True") {
     e.preventDefault();
     setPreload(false);
     savedChange();
-    anonymousModal.style.animation =
-      "saveModal .2s ease-in-out alternate forwards";
+    anonymousModal.style.animation = "alertModal .15s linear  forwards";
   });
 
   window.addEventListener("click", e => {
     if (e.target == anonymousModal) {
       anonymousModal.style.animation =
-        "saveModalOut .2s ease-in-out alternate forwards";
+        "alertModalOut .15s linear forwards";
     }
   });
 
-  saveAnonCrumb.addEventListener("click", function(e) {
+  saveAnonCrumb.addEventListener("click", function (e) {
     e.preventDefault();
 
     setPreload(true, "/anon/crumbs", e);
@@ -723,13 +728,13 @@ function redirectUser(url) {
   // };
 
   fetch(`${org}${url}`, {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/json"
-    }),
-    cache: "no-cache",
-    body: JSON.stringify(getPreload)
-  })
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      cache: "no-cache",
+      body: JSON.stringify(getPreload)
+    })
     .then(res => res.json())
     .then(data => {
       const newPath = data.path;
@@ -820,6 +825,13 @@ function elementDeclaration() {
   const toggleLinter = document.querySelector(".toggle-linter");
   const consoleBar = document.querySelector(".console-bar");
   const openDebugConsole = document.querySelector(".open-debug-console");
+  const tabSizeCustom = document.querySelector("#tab-size-custom");
+  const fontFmCustom = document.querySelector("#font-family-custom");
+  const customFSize = document.querySelector("#font-size-custom");
+  const fontLigatures = document.querySelector("#font-ligatures");
+    const colorPickerType = document.querySelector("#color-picker-type");
+    const autoRunDelay = document.querySelector("#auto-run-delay");
+
   return {
     htmlArea,
     cssArea,
@@ -899,11 +911,17 @@ function elementDeclaration() {
     linterITag,
     toggleLinter,
     consoleBar,
-    openDebugConsole
+    openDebugConsole,
+    tabSizeCustom,
+    fontFmCustom,
+    customFSize,
+    fontLigatures,
+    colorPickerType,
+    autoRunDelay
   };
 }
 
-window.addEventListener("beforeunload", function(e) {
+window.addEventListener("beforeunload", function (e) {
   if (
     (htmlChangeNum > 0 && !saveCrumbClicked) ||
     (cssChangeNum > 0 && !saveCrumbClicked) ||
@@ -914,7 +932,6 @@ window.addEventListener("beforeunload", function(e) {
     return "Changes you made have not been saved, Do you still want to reload?";
   }
 });
-
 function deferred() {
     const s = {}
     const promise = new Promise(function (resolve, reject) {
@@ -1180,12 +1197,6 @@ function CSSCompile(editor, mode) {
 function JSCompile(editor, mode) {
   let userCode = editor.getValue();
   const d = deferred();
-  loopProtect.hit = line => {
-    throw new Error(`Bad loop on line ${line}`);
-  };
-  // loopProtect.alias = "protect";
-  loopProtect.debug(true);
-
   let error;
 
   if (mode === JSModes.JS) {
@@ -1210,7 +1221,7 @@ function JSCompile(editor, mode) {
       };
     } finally {
       d.resolve({
-        code: loopProtect(userCode),
+        code: userCode,
         error
       });
     }
@@ -1232,7 +1243,7 @@ function JSCompile(editor, mode) {
       };
     } finally {
       d.resolve({
-        code: loopProtect(userCode),
+        code: userCode,
         error
       });
     }
@@ -1296,15 +1307,14 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      const code = loopProtect(userCode);
       d.resolve({
-        code: code,
+        code: userCode,
         error
       });
     }
   } else if (mode === JSModes.JSX) {
     editor.setOption("mode", modes.jsx.tdMimeType);
-    let userCodeB;
+    
     try {
       prettier.format(userCode, {
         parser: "babylon",
@@ -1417,7 +1427,7 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
   // data is converted to a blob;
   // strictly frontend.
   const consoleJs = window.origin + "/static/preview/console.js";
-  const loopJS = window.origin + "/static/lib/transpilers/loop-protect-min.js";
+
   const otherScript = [consoleJs];
 
   const getBlobURL = (code, type) => {
@@ -1446,7 +1456,6 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
     );
   }
 
-  otherScript.push(loopJS);
   const defUrl = getBlobURL(defCss, "text/css");
   const cssURL = getBlobURL(css, "text/css");
   const jsURL = getBlobURL(js, "text/javascript");
@@ -2622,7 +2631,18 @@ function showHints(editor) {
     }
   });
 }
-
+function cleanFont(x) {
+  return x
+    .split(",")
+    .map(a => {
+      if (a.match(/[a-zA-Z]+\s/)) {
+        return `"${a.trim(" ")}"`;
+      } else {
+        return a;
+      }
+    })
+    .join(",");
+}
 function lint(bool) {
   htmlEditor.setOption("lint", bool);
   cssEditor.setOption("lint", bool);
@@ -2698,7 +2718,8 @@ function colorPicker() {
   editors.forEach(editor => {
     editor.setOption("colorpicker", {
       mode: "edit",
-      type: "adobexd"
+      
+
     });
   });
 }
@@ -2716,6 +2737,7 @@ function settingButtons(
   keymaps
 ) {
   let delay;
+  let runDelayTimeout;
   // const editors = [htmlEditor, cssEditor, jsEditor];
   // toggles checkboxs and set their values;
   const checkbox = document.querySelectorAll('input[type="checkbox"]');
@@ -2821,7 +2843,7 @@ function settingButtons(
           editor.on("inputRead", function() {
             requestAnimationFrame(() => {
               clearTimeout(delay);
-              delay = setTimeout(updatePreview, 1300);
+              delay = setTimeout(updatePreview, runDelayTimeout);
             });
             console.clear();
           });
@@ -2831,7 +2853,7 @@ function settingButtons(
           editor.on("inputRead", function() {
             requestAnimationFrame(() => {
               clearTimeout(delay);
-              delay = setTimeout(null, 1300);
+              delay = setTimeout(null, runDelayTimeout);
             });
           });
         });
@@ -2846,7 +2868,7 @@ function settingButtons(
       if (current.checked && current.name == "color-picker") {
         colorPicker();
         document.querySelector(".enable-text").textContent =
-          "Disable Color-picker";
+          "Disable color picker";
       } else if (!current.checked && current.name == "color-picker") {
         const editors = [htmlEditor, cssEditor, jsEditor];
         editors.forEach(editor => {
@@ -2855,27 +2877,16 @@ function settingButtons(
           });
         });
         document.querySelector(".enable-text").textContent =
-          "Enable Color-picker";
+          "Enable color picker";
       }
     });
   });
 
-  const tabSize = document.querySelector(".tab-size");
-
-  // event for tab size;
-  tabSize.addEventListener("change", tabToggled);
-
-  function tabToggled() {
-    const tabUnit = parseInt(this.selectedOptions[0].getAttribute("value"));
-
-    htmlEditor.setOption("tabSize", tabUnit);
-    cssEditor.setOption("tabSize", tabUnit);
-    jsEditor.setOption("tabSize", tabUnit);
-    // console.log(tabUnit)
-  }
+  
 
   // event for font-size settings;
   sizes.addEventListener("change", changeFontSize);
+  customFSize.addEventListener("keypress", overRideFontSize);
 
   function changeFontSize() {
     if (dataItems.author) {
@@ -2888,9 +2899,36 @@ function settingButtons(
       const selectedSize = parseInt(
         this.selectedOptions[0].getAttribute("name")
       );
+      customFSize.value = selectedSize;
 
-      fSize.style.fontSize = `${selectedSize}px`;
+
+      fSize.style.fontSize = `${parseInt(customFSize.value, 10)}px`;
     });
+  }
+  function overRideFontSize(e){
+    if(e.keyCode === 13){
+      if (dataItems.author) {
+        if (
+          dataItems.arg === true &&
+          dataItems.author != "anonymous"
+        ) {
+          keyMapSave();
+        }
+      }
+      const themeFSize = document.querySelectorAll(
+        ".CodeMirror"
+      );
+      Array.from(themeFSize).forEach(fSize => {
+        const selectedSize = parseInt(this.value);
+
+        if(selectedSize < 5){
+          fSize.style.fontSize = `${0}px`;
+        }else{
+          fSize.style.fontSize = `${selectedSize}px`;
+        }
+      });
+      customFSize.blur();
+    }
   }
 
   const indentUnit = document.querySelector(".indent-unit");
@@ -2908,21 +2946,43 @@ function settingButtons(
 
   // event for font-family settings;
   fontFm.addEventListener("change", changeFontFamily);
+  fontFmCustom.addEventListener("keypress", overRideFont);
 
   function changeFontFamily() {
-    const themeFSize = document.querySelectorAll(".CodeMirror");
+    const cm = document.querySelectorAll(".CodeMirror");
     if (dataItems.author) {
       if (dataItems.arg === true && dataItems.author != "anonymous") {
         keyMapSave();
       }
     }
-    Array.from(themeFSize).forEach(fSize => {
-      const selectedSize = this.selectedOptions[0].getAttribute("name");
+    Array.from(cm).forEach(fm => {
+      const selFont = this.selectedOptions[0].getAttribute("name");
 
-      fSize.style.fontFamily = `${selectedSize}, consolas, inconsolata, 'lucida console', 'source code pro', monospace`;
+      fontFmCustom.value = `${selFont}, Monospace`;
+      fm.style.fontFamily = fontFmCustom.value;
     });
   }
 
+  // custom fonts overides predefined fonts.
+  // using predefined fonts is just setting the overRiddenFont.
+
+  function overRideFont(e) {
+    if (e.keyCode === 13) {
+      const cm = document.querySelectorAll(".CodeMirror");
+
+      Array.from(cm).forEach(fSize => {
+        const selFont = fontFmCustom.value;
+        const splitfont = cleanFont(selFont);
+        fSize.style.fontFamily = `${splitfont}, monospace`;
+      });
+      fontFmCustom.blur();
+      if (dataItems.author) {
+        if (dataItems.arg === true && dataItems.author != "anonymous") {
+          keyMapSave();
+        }
+      }
+    }
+  }
   // event for theme settings;
   cmDark.addEventListener("change", changeEditorThemeDark);
 
@@ -2958,6 +3018,35 @@ function settingButtons(
       editor.setOption("keyMap", selectedKeyMap);
     });
   }
+
+  // handles font-ligatures.
+     fontLigatures.addEventListener("change", function(){
+       const cmPre = document.querySelectorAll(".CodeMirror pre");
+       Array.from(cmPre).forEach(cm =>{
+         if(fontLigatures.checked){
+           cm.style.fontVariantLigatures = "contextual";
+         }else if(!fontLigatures.checked){
+           cm.style.fontVariantLigatures = "none"
+         }
+       })
+     })
+colorPickerType.addEventListener("change", function() {
+    const editors = [htmlEditor, cssEditor];
+  editors.forEach(editor => {
+    editor.setOption("colorpicker", false);
+    editor.setOption("colorpicker", {
+      mode: "edit",
+      type: colorPickerType.selectedOptions[0].value
+    });
+  });
+})
+autoRunDelay.addEventListener("keypress", function(e){
+  if(e.keyCode === 13){
+    runDelayTimeout = parseInt(this.value, 10);
+    autoRunDelay.blur();
+  }
+})
+     // handles custom tab-size.
 }
 
 function changeEditorSettings(
@@ -2970,17 +3059,14 @@ function changeEditorSettings(
   sizes,
   keymaps
 ) {
-  const font = fontFm.namedItem(editorSettings.font);
-
   const fontSize = sizes.namedItem(editorSettings.fSize);
-
+  const font = sizes.namedItem(editorSettings.font.split(",")[0]);
   const theme = cmDark.namedItem(editorSettings.theme);
 
   const keymap = keymaps.namedItem(editorSettings.keymap);
 
-  fontFm.options.selectedIndex = font.index;
-
-  sizes.options.selectedIndex = fontSize.index;
+  font ? fontFm.options.selectedIndex = font.index : null
+  fontSize ? sizes.options.selectedIndex = fontSize.index : null;
   cmDark.options.selectedIndex = theme.index;
   keymaps.options.selectedIndex = keymap.index;
 
@@ -2988,10 +3074,19 @@ function changeEditorSettings(
   const k = Array.from(themeFSize);
   const m = [k[1], k[2], k[3]];
   m.forEach(size => {
-    size.style.fontSize = `${parseInt(editorSettings.fSize)}px`;
-    size.style.fontFamily = `${
-      editorSettings.font
-    }, consolas, inconsolata, 'lucida console', 'source code pro', monospace`;
+    customFSize.value = editorSettings.fSize;
+    size.style.fontSize = `${parseInt(customFSize.value, 10)}px`;
+    const splitfont = editorSettings.font;
+    size.style.fontFamily = `${splitfont}, monospace`;
+    // just a little string hack.
+    const x = splitfont
+      .split(`"`)
+      .join(" ")
+      .split(",")
+      .map(a => a.trim())
+      .join(", ");
+    fontFmCustom.value = `${x}`;
+    
   });
 
   const editors = [htmlEditor, cssEditor, jsEditor];
@@ -3446,14 +3541,14 @@ class ProxyConsole {
 
     consoleCont,
     logElement,
-    consoleBar
+   
   ) {
     (this.consoleClosed = true),
       (this.errorElement = error),
       (this.consoleText = consoleText),
       (this.consoleElement = consoleElement),
       (this.consoleCont = consoleCont),
-      (this.consoleBar = consoleBar),
+      
       (this.logElement = logElement);
   }
   printToConsole(e) {
@@ -3504,9 +3599,6 @@ class ProxyConsole {
       // updates textContent / error numbers and set text color.
       let eCount = parseInt(this.errorElement.getAttribute("data-error"));
       this.errorElement.textContent = `${eCount}`;
-      let consoleBError = parseInt(this.consoleBar.getAttribute("data-label"));
-      const cCount = ++consoleBError;
-      this.consoleBar.setAttribute("data-label", `${cCount} logs.`);
     } else if (x && y.data.console) {
       // gets response from iframe.
       const mess = x.data.message;
@@ -3529,7 +3621,7 @@ class ProxyConsole {
         this.errorElement.setAttribute("data-error", `${0}`);
         this.updateErrorCount();
 
-        this.consoleBar.setAttribute("data-label", `${0} logs.`);
+     
         this.errorElement.textContent = `${1}`;
       }
 
@@ -3551,16 +3643,12 @@ class ProxyConsole {
   }
   updateErrorCount() {
     let eCount = parseInt(this.errorElement.getAttribute("data-error"));
-    let consoleBError = parseInt(this.consoleBar.getAttribute("data-label"));
     const errorCount = ++eCount;
-    const cCount = ++consoleBError;
-    this.consoleBar.setAttribute("data-label", `${cCount} logs.`);
+ ;
     this.errorElement.setAttribute("data-error", `${errorCount}`);
   }
   clearProxyConsole() {
     let eCount = parseInt(this.errorElement.getAttribute("data-error"));
-    let consoleBError = parseInt(this.consoleBar.getAttribute("data-label"));
-    this.consoleBar.setAttribute("data-label", `${0} logs.`);
     const cleared = `/* Console was cleared. */`;
 
     this.consoleElement.getDoc().setValue(cleared);
@@ -3596,8 +3684,7 @@ const proxyConsole = new ProxyConsole(
   consoleBtn,
   consoleEditor,
   consoleOutput,
-  preserveLog,
-  consoleBar
+  preserveLog
 );
 
 window.addEventListener("message", function(e) {
@@ -3710,7 +3797,9 @@ function exportToZip() {
         js: beautifyExport(js, "babylon")
       },
       url: url,
-      README: `Happy coding! 🚀\n\n#Introducton. \nA Crumb created at CodeCrumb.io. Original URL: [${crumbName.crumb.value}](${path}).`
+      README: `Happy coding! 🚀\n\n#Introducton. \nA Crumb created at CodeCrumb.io. Original URL: [${
+        crumbName.crumb.value
+      }](${path}).`
     });
 
     sendDATA(TOZIP);
@@ -3731,7 +3820,7 @@ function exportToZip() {
         window.location.href = `${window.origin}/crumbs/exports/${
           data.request
         }`;
-        exportFile.textContent = "Export";
+        exportFile.textContent = "Export as ZIP";
       })
       .catch(err => new Error(err));
   }

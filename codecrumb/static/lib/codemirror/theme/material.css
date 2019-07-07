@@ -10,6 +10,8 @@
 .cm-s-material.CodeMirror {
   background: transparent;
   border: none;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-size: 14.5px;
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   line-height: 1.3375rem;

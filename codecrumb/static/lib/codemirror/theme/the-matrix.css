@@ -3,6 +3,8 @@
     font-size: 14.5px;
     font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
     line-height: 1.3375rem;
+      -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
     color: rgba(233, 237, 237, 1);
     border: none;
     

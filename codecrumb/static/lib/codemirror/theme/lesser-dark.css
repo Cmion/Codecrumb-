@@ -13,6 +13,8 @@ Ported to CodeMirror by Peter Kroon
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   line-height: 1.3375rem;
   color: #EBEFE7;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-shadow: 0 -1px 1px #262626;
 }
 

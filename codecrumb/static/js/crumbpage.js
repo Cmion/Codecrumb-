@@ -299,12 +299,6 @@ function CSSCompile(editor, mode) {
 function JSCompile(editor, mode) {
   let userCode = editor.getValue();
   const d = deferred();
-  loopProtect.hit = line => {
-    throw new Error(`Bad loop on line ${line}`);
-  };
-  // loopProtect.alias = "protect";
-  loopProtect.debug(true);
-
   let error;
 
   if (mode === JSModes.JS) {
@@ -329,7 +323,7 @@ function JSCompile(editor, mode) {
       };
     } finally {
       d.resolve({
-        code: loopProtect(userCode),
+        code: userCode,
         error
       });
     }
@@ -351,7 +345,7 @@ function JSCompile(editor, mode) {
       };
     } finally {
       d.resolve({
-        code: loopProtect(userCode),
+        code: userCode,
         error
       });
     }
@@ -415,15 +409,14 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      const code = loopProtect(userCode);
       d.resolve({
-        code: code,
+        code: userCode,
         error
       });
     }
   } else if (mode === JSModes.JSX) {
     editor.setOption("mode", modes.jsx.tdMimeType);
-    let userCodeB;
+    
     try {
       prettier.format(userCode, {
         parser: "babylon",
@@ -574,6 +567,7 @@ Array.from(crumbSrc).forEach(src => {
   // preview.contentDocument.body.style.transform = `scale(0.25)`;
   preview.addEventListener("load", () => {
     preview.contentDocument.body.style.transform = `scale(0.25)`;
+    preview.contentDocument.body.style.transformOrigin = `center`;
   });
   // );
 });

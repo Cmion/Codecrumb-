@@ -16,6 +16,8 @@
     font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
     line-height: 1.3375rem;
     color: #d4cdc6;
+      -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cm-s-3024-night div.CodeMirror-selected {

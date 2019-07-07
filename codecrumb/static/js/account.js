@@ -166,9 +166,15 @@ function getSnippets() {
     body: JSON.stringify({ snippet: snippetEditor.getValue() })
   })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      const response = document.querySelector(".response");
+      response.textContent = "Snippet saved.";
+
+      setTimeout(() => {
+        response.textContent = "";
+      }, 3000);
+    })
     .catch(err => new Error(err));
 }
 
 submitSnippet.addEventListener("click", getSnippets);
-console.log(snippetFormatted);
