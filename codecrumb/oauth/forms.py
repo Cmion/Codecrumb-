@@ -41,7 +41,7 @@ class LoginForm(FlaskForm):
 
     username = StringField(
         "Username / Email",
-        validators=[DataRequired(message="These field cannot be empty"), Length(min=2)],
+        validators=[DataRequired(message="These field cannot be empty"), Length(min=2)], render_kw={"placeholder": "Username"}
     )
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign in")
@@ -52,12 +52,12 @@ class UpdateAccountForm(FlaskForm):
         and creates forms automatically
     """
 
-    firstname = StringField("First name", render_kw={"placeholder": "First name"})
-    lastname = StringField("Last name", render_kw={"placeholder": "Last name"})
-    username = StringField("Username", validators=[DataRequired(), Length(min=2)])
-    email = StringField("Email Address", validators=[DataRequired(), Email()])
-    location = StringField("Location", render_kw={"placeholder": "Location"})
-    github = StringField("Github", render_kw={"placeholder": "Github username"})
+    firstname = StringField("First name", render_kw={"placeholder": "First name", "spellcheck": "false"})
+    lastname = StringField("Last name", render_kw={"placeholder": "Last name", "spellcheck": "false"})
+    username = StringField("Username", validators=[DataRequired(), Length(min=2)], render_kw={"spellcheck": "false"})
+    email = StringField("Email Address", validators=[DataRequired(), Email()], render_kw={"spellcheck": "false"})
+    location = StringField("Location", render_kw={"placeholder": "Location", "spellcheck": "false"})
+    github = StringField("Github", render_kw={"placeholder": "Github username", "spellcheck": "false"})
 
     picture = FileField(
         "Profile Picture", validators=[FileAllowed(["png", "jpeg", "jpg"])]
@@ -83,7 +83,7 @@ class UpdateAccountForm(FlaskForm):
 
 
 class UpdatePasswordForm(FlaskForm):
-    password = PasswordField("Password", render_kw={"placeholder": "Old password"})
+    password = PasswordField("Password", render_kw={"placeholder": "Old password", "spellcheck": "false"})
     newPassword = PasswordField(
         "New Password",
         validators=[DataRequired(), Length(min=8)],
@@ -107,12 +107,12 @@ class UpdatePasswordForm(FlaskForm):
 
 
 class deleteForm(FlaskForm):
-    password = PasswordField("Password", render_kw={"placeholder": "Confirm Password"})
+    pass_w = PasswordField("Password", render_kw={"placeholder": "Confirm Password"})
 
     delete = SubmitField("Delete")
 
-    def validate_password(self, password):
-        userPassword = password.data
+    def validate_password(self, pass_w):
+        userPassword = pass_w.data
         if (
             userPassword
             and bcrypt.check_password_hash(current_user.password, userPassword) is False

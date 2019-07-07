@@ -71,7 +71,7 @@ def login():
                     redirect(nextPage) if nextPage else redirect(url_for("main.editor"))
                 )
             else:
-                flash("Login unsuccessful. Please check username or password")
+                flash("Login unsuccessful!\nPlease check username or password")
 
     # if current_user.is_authenticated:
     #     return redirect(url_for('editor'))
