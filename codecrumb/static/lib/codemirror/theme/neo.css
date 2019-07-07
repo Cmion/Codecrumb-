@@ -10,35 +10,37 @@
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   color: #2e383c;
   line-height: 1.3375rem;
-    -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .cm-s-neo .CodeMirror-activeline-background {
   background: rgba(255, 255, 255, 0.037);
 }
+
 .cm-s-neo .cm-comment {
-  color: #75787b;
-  font-style: italic; 
+  color: #6c6783;
+  font-style: italic;
 }
 
 .cm-s-neo div.CodeMirror-selected {
-background: rgba(45, 50, 74, 0.3);
+  background: rgba(45, 50, 74, 0.3);
 }
 
 .cm-s-neo.CodeMirror-focused div.CodeMirror-selected {
-background: rgba(45, 50, 74, 0.3);
+  background: rgba(45, 50, 74, 0.3);
 }
 
 .cm-s-neo .CodeMirror-line::selection,
 .cm-s-neo .CodeMirror-line>span::selection,
 .cm-s-neo .CodeMirror-line>span>span::selection {
-background: rgba(45, 50, 74, 0.3);
+  background: rgba(45, 50, 74, 0.3);
 }
 
 .cm-s-neo .CodeMirror-line::-moz-selection,
 .cm-s-neo .CodeMirror-line>span::-moz-selection,
 .cm-s-neo .CodeMirror-line>span>span::-moz-selection {
-background: rgba(45, 50, 74, 0.3);
+  background: rgba(45, 50, 74, 0.3);
 }
 
 .cm-s-neo .cm-keyword,
@@ -70,6 +72,8 @@ background: rgba(45, 50, 74, 0.3);
 
 .cm-s-neo pre {
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cm-s-neo .CodeMirror-gutters {
