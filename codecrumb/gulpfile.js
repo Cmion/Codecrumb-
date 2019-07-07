@@ -42,7 +42,7 @@ gulp.task("joinCodeMirrorCss", function() {
       "static/lib/codemirror/addon/lint/lint.css"
     ])
     .pipe(sourceMaps.init())
-    .pipe(concat("crumbmirror.css"))
+    .pipe(concat("vendor.css"))
     .pipe(cleanCss())
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/lib/codemirror/lib/"));
@@ -98,10 +98,10 @@ gulp.task("joinCMAddons", function() {
       "static/lib/codemirror/mode/javascript/javascript.js",
       "static/lib/codemirror/mode/css/css.js",
       "static/lib/codemirror/mode/htmlmixed/htmlmixed.js",
-      "static/lib/emmet/emmet.js"
+      "static/lib/tools/emmet/emmet.js"
     ])
     .pipe(sourceMaps.init())
-    .pipe(concat("codemirror.js"))
+    .pipe(concat("vendor.js"))
     .pipe(minify())
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/lib/codemirror/lib"));
@@ -125,9 +125,9 @@ gulp.task("readme", function() {
       "static/lib/codemirror/mode/javascript/javascript.js",
       "static/lib/codemirror/mode/css/css.js",
       "static/lib/codemirror/mode/htmlmixed/htmlmixed.js",
-      "static/lib/prettier/parser-markdown.js",
-      "static/lib/prettier/parser-html.js",
-      "static/lib/prettier/standalone-min.js",
+      "static/lib/tools/prettier/parser-markdown.js",
+      "static/lib/tools/prettier/parser-html.js",
+      "static/lib/tools/prettier/standalone-min.js",
       "static/lib/transpilers/showdown.min.js"
     ])
     .pipe(sourceMaps.init())
@@ -141,7 +141,6 @@ gulp.task("joinPre", function() {
   return gulp
     .src([
       "static/lib/transpilers/babel-standalone.min.js",
-      "static/lib/transpilers/loop-protect-min.js",
       "static/lib/transpilers/typescript.js",
       "static/lib/transpilers/coffee-script.js",
       "static/lib/transpilers/jade.js",
@@ -171,16 +170,45 @@ gulp.task("linter", function() {
     .pipe(sourceMaps.write("../../../maps/"))
     .pipe(gulp.dest("static/lib/tools/linters"));
 });
+gulp.task("xternCss", function(){
+  return gulp
+    .src([
+      
+      "static/lib/tools/splitjs/splitjs.css",
+      "static/lib/tools/colorpicker/colorpicker.css",
+      "static/lib/tools/font-awesome/all.min.css"
+    ])
+    .pipe(sourceMaps.init())
+    .pipe(concat("xtern.css"))
+    .pipe(cleanCss())
+    .pipe(sourceMaps.write("../../../maps"))
+    .pipe(gulp.dest("static/lib/tools/xtern"));
+})
+
+gulp.task("xternJs", function() {
+  return gulp
+    .src([
+      "static/lib/tools/splitjs/split.min.js",
+      "static/lib/tools/colorpicker/colorpicker.min.js",
+      "static/lib/tools/xtern/moment.js"
+    ])
+    .pipe(sourceMaps.init())
+    .pipe(concat("xtern.js"))
+    .pipe(minify())
+    .pipe(sourceMaps.write("../../../maps"))
+    .pipe(gulp.dest("static/lib/tools/xtern"));
+});
+
 
 // concats prettier standalone and parsers into a single file.
 gulp.task("prettier", function() {
   return gulp
     .src([
-      "static/lib/prettier/parser-postcss.js",
-      "static/lib/prettier/parser-babylon.js",
-      "static/lib/prettier/parser-html.js",
-      "static/lib/prettier/parser-markdown.js",
-      "static/lib/prettier/standalone-min.js"
+      "static/lib/tools/prettier/parser-postcss.js",
+      "static/lib/tools/prettier/parser-babylon.js",
+      "static/lib/tools/prettier/parser-html.js",
+      "static/lib/tools/prettier/parser-markdown.js",
+      "static/lib/tools/prettier/standalone-min.js"
     ])
     .pipe(sourceMaps.init())
     .pipe(concat("prettify.js"))
