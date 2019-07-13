@@ -3,10 +3,50 @@
 {% endblock %}
 
 <body>
-  {% block body %} {% block otherHeader %}
-  {{ super() }}
-
-  {% endblock %} {% if crumbs.total != 0 %}
+  {% block body %}  <div class="header">
+      <div class="logo">
+        <a href="{{ url_for('main.editor') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="55"
+            height="55"
+            viewBox="0 0 48 48"
+            style="transform: rotate(25deg)"
+            fill="#fa0033"
+          >
+            <path
+              d="M12 26c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 1c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm6-9c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm30 11c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-14-7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0-7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zM6 27c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm14 14c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm0-34c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm0 7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm16 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-14 7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 7c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm-8-24c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 17c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+            />
+            <path d="M0 0h48v48H0z" fill="none" />
+          </svg>
+        </a>
+        <a href="{{ url_for('main.editor') }}" class="new-editor"
+          ><i class="material-icons">code</i>Editor</a
+        >
+      </div>
+      <div class="crumb-note">
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for
+        message in messages %}
+        <span>{{ message }}</span>
+        {% endfor%} {% endif %} {% endwith %}
+      </div>
+      <div class="new-cr">
+        <div class="user-crumb tab-menu-link">
+          {% if current_user.is_authenticated %}
+          <img src="{{ image }}" alt="{{ current_user.username }}" class="user-crumb-img" height="35px" width="35px"/>
+          <div class="user-crumb-menu">
+           
+              <a href="{{ url_for('oauth.account') }}">Dashboard</a>
+              <a href="{{ url_for('set_crumb.crumbs') }}" class="first">Your crumbs</a>
+             
+              <a href="{{ url_for('set_crumb.save') }}">New Crumb</a>
+              <a href="{{ url_for('oauth.logout') }}" class="logout">Logout</a>
+           
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div> {% if crumbs.total != 0 %}
   <div class="search">
     <form>
       <label><input type="text" placeholder="Filter by name"/></label>
@@ -94,7 +134,7 @@
     </div>
     {% elif crumbs.total == 0 %}
     <div class="empty-crumb">
-      <span>Welcome Programmer, your Crumb is empty</span>
+      <span>Hey Programmer, your Crumb is empty!</span>
       <a href="{{ url_for('main.editor') }}" class="add_new"
         >Create a new Crumb ?</a
       >

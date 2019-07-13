@@ -2,7 +2,7 @@
 
 <link
   rel="stylesheet"
-  href="{{url_for('static', filename='lib/codemirror/lib/crumbmirror.css')}}"
+  href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}"
 />
 <link
   rel="stylesheet"
@@ -13,9 +13,8 @@
   href="{{url_for('static', filename='css/account.css')}}"
 />
 
-<script src="{{url_for('static', filename='lib/codemirror/lib/codemirror-min.js')}}"></script>
+<script src="{{url_for('static', filename='lib/codemirror/lib/vendor-min.js')}}"></script>
 <script src="{{url_for('static', filename='lib/tools/linters/linters.js')}}"></script>
-<script src="{{url_for('static', filename='lib/codemirror/mode/javascript/javascript.js')}}"></script>
 {% endblock %}
 
 <body>
@@ -276,6 +275,7 @@
           </div>
           <div class="snippet-footer">
             <button class="submit-snippet">Add Snippet</button>
+              <p class="response"></p>
           </div>
         </div>
         <div class="border">
@@ -299,12 +299,12 @@
               {{ deletePassword.hidden_tag() }}
               <div class="del-group">
                 <div class="del-wrapper">
-                  {{ deletePassword.password }}
-                  {{deletePassword.password.label(class="del-labels")}}
+                  {{ deletePassword.pass_w }}
+                  {{deletePassword.pass_w.label(class="del-labels")}}
                 </div>
                 <span class="del-errors">
-                  {% if deletePassword.password.errors %} {% for error in
-                  deletePassword.password.errors %}
+                  {% if deletePassword.pass_w.errors %} {% for error in
+                  deletePassword.pass_w.errors %}
                   <span class="form-error">{{ error }}</span>
                   {% endfor %} {% endif %}
                 </span>
