@@ -64,9 +64,8 @@ gulp.task("joinCMAddons", function() {
       "static/lib/codemirror/addon/selection/active-line.js",
       "static/lib/codemirror/addon/hint/show-hint.js",
       "static/lib/codemirror/addon/hint/anyword-hint.js",
-      "static/lib/codemirror/addon/hint/html-hint.js",
       "static/lib/codemirror/addon/hint/css-hint.js",
-      "static/lib/codemirror/addon/hint/xml-hint.js",
+      "static/lib/codemirror/addon/hint/emoji-hint.js",
       "static/lib/codemirror/addon/hint/javascript-hint.js",
       "static/lib/codemirror/addon/edit/matchtags.js",
       "static/lib/codemirror/addon/edit/closebrackets.js",
@@ -170,10 +169,9 @@ gulp.task("linter", function() {
     .pipe(sourceMaps.write("../../../maps/"))
     .pipe(gulp.dest("static/lib/tools/linters"));
 });
-gulp.task("xternCss", function(){
+gulp.task("xternCss", function() {
   return gulp
     .src([
-      
       "static/lib/tools/splitjs/splitjs.css",
       "static/lib/tools/colorpicker/colorpicker.css",
       "static/lib/tools/font-awesome/all.min.css"
@@ -183,7 +181,7 @@ gulp.task("xternCss", function(){
     .pipe(cleanCss())
     .pipe(sourceMaps.write("../../../maps"))
     .pipe(gulp.dest("static/lib/tools/xtern"));
-})
+});
 
 gulp.task("xternJs", function() {
   return gulp
@@ -198,7 +196,6 @@ gulp.task("xternJs", function() {
     .pipe(sourceMaps.write("../../../maps"))
     .pipe(gulp.dest("static/lib/tools/xtern"));
 });
-
 
 // concats prettier standalone and parsers into a single file.
 gulp.task("prettier", function() {
