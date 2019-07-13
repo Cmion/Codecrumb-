@@ -1,5 +1,6 @@
 (function() {
   const path = window.parent.location.href;
+
   function a(x) {
     window.parent.postMessage(
       {
@@ -9,6 +10,7 @@
       path
     );
   }
+
   function parentLog(type, arg) {
     const _console = window.parent.console;
     const _methods = {
@@ -29,6 +31,7 @@
     clear: window.console.clear,
     dir: window.console.dir
   };
+
   function clear() {
     window.parent.postMessage(
       {
@@ -38,6 +41,7 @@
     );
     _methods.clear.call(_console);
   }
+
   function stringify(o) {
     let arr = [];
 
@@ -51,7 +55,7 @@
         return o;
       } else if (typeof o == "object") {
         if ((o != null || o != undefined) && o.outerHTML) {
-          const h = `[object ${o.constructor.name}]\n\t${o.outerHTML};`;
+          const h = `[object ${o.constructor.name}]\n${o.outerHTML};`;
           return h;
         } else if (o == null) {
           return null;
@@ -81,6 +85,20 @@
               o.offsetX
             }, \n\t'offsetY' => ${o.offsetY}, \n\t'x' => ${o.x}, \n\t'y' => ${
               o.y
+            },\n\t'path' => ${o.path
+              .map(a => {
+                return `${a.localName ? a.localName : ""}${
+                  a.className && a.className != "" ? "." : ""
+                }${a.className ? a.className : ""}`;
+              })
+              .join(" ")
+              .trim()
+              .split(" ")}, \n\t'target' => ${
+              o.target.localName ? o.target.localName : null
+            }${o.target.className && o.target.className !== "" ? "." : ""}${
+              o.target.className && o.target.className !== ""
+                ? o.target.className
+                : ""
             }\n}`;
           } else {
             event = `${{}.toString.call(0)} type => ${o.type}, isTrusted => ${
@@ -113,6 +131,7 @@
       return null;
     }
   }
+
   function print(key) {
     return function() {
       Function.prototype.call(_methods[key], _console, arguments);
