@@ -3,11 +3,11 @@
 /* Color scheme */
 
 .cm-s-neo.CodeMirror {
-  background-color: transparent !important;
+  background: transparent !important;
 
   border: none;
-  font-size: 14px;
-  font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
+  font-size: 13.5px;
+  font-family: consolas, cursive, monospace;
   color: #2e383c;
   line-height: 1.3375rem;
   -webkit-font-smoothing: antialiased;
