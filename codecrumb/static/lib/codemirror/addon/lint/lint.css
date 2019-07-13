@@ -9,7 +9,7 @@
   border-radius: 2px;
   color: rgb(150, 147, 167);
   font-family: "hasklig", 'Courier New', Courier, monospace;
-  font-size: 13px;
+  font-size: 12px;
   overflow: hidden;
   padding: 2px 5px;
   position: fixed;
@@ -35,14 +35,14 @@
 .CodeMirror-lint-mark-error {
     height:0;
     width: 0;
-    border-bottom: 1.5px solid #ff2e59;
+    border-bottom: 1.3px solid #ff2e59;
 
 }
 
 .CodeMirror-lint-mark-warning {
   height:0;
   width: 0;
-  border-bottom: 1.5px solid #FFCB6B;
+  border-bottom: 1.3px solid #FFCB6B;
 }
 
 .CodeMirror-lint-marker-error,
