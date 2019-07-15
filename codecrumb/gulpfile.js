@@ -4,6 +4,7 @@ const concat = require("gulp-concat");
 const sourceMaps = require("gulp-sourcemaps");
 const cleanCss = require("gulp-clean-css");
 
+
 gulp.task("copyHTML", function() {
   return gulp.src("src/template/*.html").pipe(gulp.dest("templates"));
 });
@@ -216,9 +217,9 @@ gulp.task("prettier", function() {
 // concats the mainjs and its utils into a single file
 gulp.task("joinEditor-one", function() {
   return gulp
-    .src(["src/utils/define-mode.js", "src/js/codecrumb.js", "src/js/utils.js"])
+    .src(["src/utils/define-mode.js", "src/js/app.js", "src/js/utils.js"])
     .pipe(sourceMaps.init())
-    .pipe(concat("editor-one.js"))
+    .pipe(concat("app.bundle.one.js"))
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/js"));
 });
@@ -226,11 +227,11 @@ gulp.task("joinEditor-two", function() {
   return gulp
     .src([
       "src/utils/define-mode.js",
-      "src/js/codecrumb.v.js",
+      "src/js/app.two.js",
       "src/js/utils.js"
     ])
     .pipe(sourceMaps.init())
-    .pipe(concat("editor-two.js"))
+    .pipe(concat("app.bundle.two.js"))
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/js"));
 });
@@ -320,11 +321,12 @@ gulp.task("watch-css", function() {
   gulp.watch("src/css/**/*css", gulp.series("copyCSS"));
 });
 
-gulp.task("min", function() {
+gulp.task("sass", function() {
   return gulp
-    .src("static/lib/transpilers/marked.js")
+    .src("src/css/**/*scss")
     .pipe(sourceMaps.init())
     .pipe(minify())
     .pipe(sourceMaps.write("../../../maps/"))
     .pipe(gulp.dest("static/lib/transpilers/"));
 });
+

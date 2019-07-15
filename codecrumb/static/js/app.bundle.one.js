@@ -186,7 +186,11 @@ const {
   customFSize,
   fontLigatures,
   colorPickerType,
-  autoRunDelay
+  autoRunDelay,
+  consoleInput,
+  resizeFrame,
+  editorSkins,
+  consoleOutput
 } = elementDeclaration();
 
 const csse = {
@@ -275,6 +279,7 @@ function crumbEditor(mode) {
       Tab: "emmetExpandAbbreviationAll",
       "Ctrl-E": "emmetExpandAbbreviationAll",
       Enter: "emmetInsertLineBreak",
+      "Ctrl-Space": "autocomplete",
       "Ctrl-W": "emmetWrapWithAbbreviation",
       "Ctrl-/": "toggleComment"
     },
@@ -301,7 +306,7 @@ function crumbEditor(mode) {
   };
 }
 
-const htmlEditor = CodeMirror.fromTextArea(htmlArea, crumbEditor("htmlmixed"));
+const htmlEditor = CodeMirror.fromTextArea(htmlArea, crumbEditor("text/html"));
 const cssEditor = CodeMirror.fromTextArea(cssArea, crumbEditor("css"));
 const jsEditor = CodeMirror.fromTextArea(jsArea, crumbEditor("javascript"));
 
@@ -310,14 +315,18 @@ const consoleEditor = CodeMirror.fromTextArea(consoleText, {
 
   readOnly: true,
   lineWrapping: true,
-  mode: "javascript",
+  mode: "jsx",
+  indentUnit: 2,
   tabSize: 2,
+  indentWithTabs: true,
   scrollbarStyle: "simple",
   disableInput: true,
   showCursorWhenSelecting: true,
   extraKeys: {
     Tab: false
-  }
+  },
+  foldGutter: true,
+  gutters: ["CodeMirror-foldgutter"]
 });
 
 // editors size
@@ -328,18 +337,18 @@ consoleEditor.setSize("100%", "100%");
 
 (function () {
   // html default value
-  const htmlDefValue = `<!-- Every code written here is placed within the body tag -->\n<div class=\"foo\" bar=\"baz\">I am inside a body tag!.</div>\n`;
+  const htmlDefValue = `<!-- Every code written here is placed within the body tag -->\n<div class=\"foo\" bar=\"baz\">I am inside a body tag!. ⚡</div>\n`;
   htmlEditor.setOption("value", htmlDefValue);
 
   // css default value
-  const cssDefValue = `/* toggle the settings button to use a preprocessor, like SCSS */\nbody {\n  font-family: Helvetica;\n  color: #111111;\n  padding: 3em;\n  font-size: 3em;\n}\n`;
+  const cssDefValue = `/* toggle the settings button to use a preprocessor, like SCSS */\nbody {\n  font-family: Helvetica;\n  color: #111111;\n  padding: 1.5em;\n  font-size: 1.5em;\n}\n`;
   cssEditor.setOption("value", cssDefValue);
 
   // javascript default value
-  const jsDefValue = `/* Click the Console button to view your logs */\nconst codeCrumb = x => {\n  console.log("Hey "+ x + ", Press Alt-R or Click Run to Preview");\n};\ncodeCrumb(\"Programmer\");\n`;
+  const jsDefValue = `/* Click the Console button to view your logs */\nconst codeCrumb = x => {\n  console.log("Hey "+ x + ", Press Alt-R or Click Run to Preview your code.");\n};\ncodeCrumb(\"Programmer\");\n`;
   jsEditor.setOption("value", jsDefValue);
 
-  consoleEditor.setOption("value", "/* Your logs will appear here.... */");
+  consoleEditor.setOption("value", "# Your logs will appear here.... ");
   beautifySingleFile(htmlEditor, csse.html);
   beautifySingleFile(cssEditor, csse.css);
   beautifySingleFile(jsEditor, csse.js);
@@ -618,25 +627,36 @@ function printError(x) {
       errorCount++;
       consoleBError++;
       outnum.setAttribute("data-error", `${errorCount}`);
-      consoleBar.setAttribute("data-label", `${consoleBError} logs.`);
+      consoleBError > 1 ? (consoleBar.setAttribute("data-label", `${consoleBError} errors.`)) : (consoleBar.setAttribute("data-label", `${consoleBError} error.`))
       consoleEditor.replaceRange(
         errorOutput,
         CodeMirror.Pos(consoleEditor.lastLine() + 1)
       );
     } else if (!preserveLog.checked) {
       consoleEditor.getDoc().setValue(errorOutput);
-      errorCount = 0;
-      consoleBError = 0;
       ++errorCount;
       ++consoleBError;
       outnum.setAttribute("data-error", `${errorCount}`);
-      consoleBar.setAttribute("data-label", `${consoleBError} logs.`);
+      consoleBError > 1 ?
+        consoleBar.setAttribute(
+          "data-label",
+          `${consoleBError} errors.`
+        ) :
+        consoleBar.setAttribute(
+          "data-label",
+          `${consoleBError} error.`
+        );
     }
 
     // updates textContent / error numbers and set text color.
 
     outnum.textContent = `${errorCount}`;
   }
+  // else if (!x){
+  //   consoleBar.setAttribute("data-label", "0");
+  //   outnum.textContent = "0";
+  //   outnum.setAttribute("data-error", "0")
+  // }
 }
 
 submitLib.addEventListener("click", () => {
@@ -644,10 +664,13 @@ submitLib.addEventListener("click", () => {
 });
 
 crumbName.crumb.addEventListener("change", function (e) {
-  e.preventDefault();
+
 });
-crumbName.addEventListener("submit", function (e) {
-  e.preventDefault();
+crumbName.addEventListener("keypress", e => {
+
+  if (e.keyCode === 13) {
+    crumbName.blur();
+  }
 });
 
 run.addEventListener("click", e => {
@@ -657,7 +680,15 @@ run.addEventListener("click", e => {
 
   //console.log(JSON.parse(p))
 });
-
+function __setEditorPreset__(type, value) {
+  if (localStorage.__defineEditorPresets__) {
+    const x = JSON.parse(localStorage.__defineEditorPresets__);
+    localStorage.setItem(
+      "__defineEditorPresets__",
+      JSON.stringify({ ...x, [type]: value })
+    );
+  }
+}
 settingButtons(
   htmlEditor,
   cssEditor,
@@ -829,8 +860,12 @@ function elementDeclaration() {
   const fontFmCustom = document.querySelector("#font-family-custom");
   const customFSize = document.querySelector("#font-size-custom");
   const fontLigatures = document.querySelector("#font-ligatures");
-    const colorPickerType = document.querySelector("#color-picker-type");
-    const autoRunDelay = document.querySelector("#auto-run-delay");
+  const colorPickerType = document.querySelector("#color-picker-type");
+  const autoRunDelay = document.querySelector("#auto-run-delay");
+  const consoleInput = document.querySelector("#input-log");
+  const resizeFrame = document.querySelector(".frame-in");
+  const editorSkins = document.querySelector("#editor-skin");
+  const consoleOutput = document.querySelector(".output-console");
 
   return {
     htmlArea,
@@ -917,7 +952,11 @@ function elementDeclaration() {
     customFSize,
     fontLigatures,
     colorPickerType,
-    autoRunDelay
+    autoRunDelay,
+    consoleInput,
+    resizeFrame,
+    editorSkins,
+    consoleOutput
   };
 }
 
@@ -1794,6 +1833,28 @@ function animate() {
     loader.classList.add("load-off");
     loader.style.display = "none";
   });
+
+  (function() {
+    if (!localStorage.__defineEditorPresets__) {
+      let __defineEditorPresets__ = {
+        skin: "dark",
+        editorStyle: "left",
+        colorPicker: "default",
+        linter: true,
+        autoComplete: true,
+        autoRunDelay: 2000,
+        tabSize: 2,
+        indentUnit: 2,
+        fontLigature: true,
+        preserveLog: true,
+        activeLine: true
+      };
+      localStorage.setItem(
+        "__defineEditorPresets__",
+        JSON.stringify(__defineEditorPresets__)
+      );
+    }
+  })();
 }
 
 // class for tab selection!!!!.
@@ -1942,12 +2003,12 @@ function fullScreenPreview() {
     "none"
   );
   tabbed.changeView();
+  __setEditorPreset__('editorStyle', "full-view");
 }
 
 //right
 function tabStyleRight() {
   resetSplitPane();
-
   resizePaneX([".editor-preview", ".code-pen"], [56, 44]);
   //splitCodePaneResizeY([41, 41, 41], "vertical");
   resetTransition();
@@ -1985,12 +2046,12 @@ function tabStyleRight() {
   editors.forEach(editor => {
     editor.refresh();
   });
+   __setEditorPreset__("editorStyle", "right");
 }
 
 //left
 function tabStyleLeft() {
   resetSplitPane();
-
   resizePaneX([".code-pen", ".editor-preview"], [44, 56]);
   resetTransition();
   const resizes = [htmlResize, cssResize, jsResize];
@@ -2027,13 +2088,13 @@ function tabStyleLeft() {
   editors.forEach(editor => {
     editor.refresh();
   });
+   __setEditorPreset__("editorStyle", "left");
 }
 
 //tab
 function tabStyleDefault() {
   resetSplitPane();
   resizePaneX([".code-pen", ".editor-preview"], [44, 56]);
-
   const resizes = [htmlResize, cssResize, jsResize];
 
   const tabs = [htmlTab, cssTab, jsTab];
@@ -2082,6 +2143,7 @@ function tabStyleDefault() {
   editors.forEach(editor => {
     editor.refresh();
   });
+   __setEditorPreset__("editorStyle", "default");
 }
 
 //top
@@ -2097,7 +2159,6 @@ function tabStyleTop() {
   jsPen.classList.add("pen-active");
   htmlPen.classList.add("pen-active");
   cssPen.classList.add("pen-active");
-
   const tabbed = new tabOptions(
     1,
     3,
@@ -2126,6 +2187,7 @@ function tabStyleTop() {
   editors.forEach(editor => {
     editor.refresh();
   });
+   __setEditorPreset__("editorStyle", "top");
 }
 
 resizeHeight(33.33);
@@ -2259,8 +2321,8 @@ function resizeHeight(height) {
 }
 
 function resizeWidth() {
-  const MAX = 60;
-  const MIN = 20;
+  const MAX = 70;
+  const MIN = 15;
   const HEIGHT = 100;
   const ORIGINAL = 33.3;
 
@@ -2375,74 +2437,6 @@ function resetTransition() {
   jsPen.style.transition = "0s";
 }
 
-function splitCodePaneResizeX(minimum, dir) {
-  Split([".html-pen", ".css-pen", ".js-pen"], {
-    sizes: [33.33, 33.33, 33.33],
-    minSize: minimum,
-    direction: dir,
-    gutter: function(index, direction) {
-      const gutter = document.createElement("div");
-      gutter.classList.add("resizable");
-      // const gutter2 = document.getElementsByClassName('resize-pen-css')[0];
-      gutter.classList.add("gutter");
-      gutter.classList.add("gutter-" + direction);
-      gutter.style.height = "100%";
-      gutter.style.height = "10px";
-
-      return gutter;
-    },
-
-    gutterSize: 8,
-
-    elementStyle: function(dimension, size, gutterSize) {
-      return {
-        width: "calc(" + size + "% - " + gutterSize + "px)",
-        height: "100%"
-      };
-    },
-    gutterStyle: function(dimension, gutterSize) {
-      return {
-        width: gutterSize + "px",
-        height: "100%"
-      };
-    }
-  });
-}
-
-function splitCodePaneResizeY(minimum, dir) {
-  Split([".html-pen", ".css-pen", ".js-pen"], {
-    sizes: [33.33, 33.33, 33.33],
-    minSize: minimum,
-    direction: dir,
-    gutter: function(index, direction) {
-      const gutter = document.createElement("div");
-      gutter.classList.add("resizable");
-      // const gutter2 = document.getElementsByClassName('resize-pen-css')[0];
-      gutter.classList.add("gutter");
-      gutter.classList.add("gutter-" + direction);
-      gutter.style.width = "100% !important";
-      gutter.style.height = "10px";
-
-      return gutter;
-    },
-
-    gutterSize: 8,
-
-    elementStyle: function(dimension, size, gutterSize) {
-      return {
-        height: "calc(" + size + "% - " + gutterSize + "px)",
-        width: "100%"
-      };
-    },
-    gutterStyle: function(dimension, gutterSize) {
-      return {
-        height: gutterSize + "px",
-        width: "100% !important"
-      };
-    }
-  });
-}
-
 function resizePaneY(el, size) {
   gutterHori.style.order = "2";
   Split(el, {
@@ -2532,15 +2526,54 @@ function resetSplitPane() {
 //splitCodePaneResizeY([41, 41, 41], "vertical")
 resizePaneX([".code-pen", ".editor-preview"], [44, 56]);
 
+const resizeBoth = document.querySelector(".resize-both");
+preview.contentWindow.onresize = function() {
+  resizeFrame.innerHTML = `${this.innerWidth}px &times; ${this.innerHeight}px`;
+
+  if (consoleInput.offsetWidth <= 400) {
+    consoleInput.style.fontSize = "0.8rem";
+  } else if (consoleInput.offsetWidth <= 300) {
+    consoleInput.style.fontSize = "0.7rem";
+  }else if(consoleInput.offsetWidth == 200){
+       consoleInput.style.fontSize = "0.65rem";
+    } else {
+    consoleInput.style.fontSize = "0.95rem";
+  }
+};
+
+preview.addEventListener("load", () => {
+  preview.contentWindow.onresize = function() {
+    resizeFrame.innerHTML = `${this.innerWidth}px &times; ${
+      this.innerHeight
+    }px`;
+    if (consoleInput.offsetWidth <= 400) {
+      consoleInput.style.fontSize = "0.8rem";
+    } else if (consoleInput.offsetWidth <= 300) {
+      consoleInput.style.fontSize = "0.7rem";
+    }else if(consoleInput.offsetWidth == 200){
+       consoleInput.style.fontSize = "0.65rem";
+    }else{
+      consoleInput.style.fontSize = "0.95rem";
+    }
+  };
+});
+resizeBoth.addEventListener("mousedown", () => {
+  resizeFrame.parentElement.style.opacity = "1";
+});
+
+resizeBoth.addEventListener("mouseup", () => {
+  resizeFrame.parentElement.style.opacity = "0";
+});
+
 function showHints(editor) {
   CodeMirror.registerGlobalHelper(
     "hint",
     "emmet",
-    function(mode, editor) {
+    function (mode, editor) {
       // Tell `show-hint` module that current helper will provide completions
       return !!editor.getEmmetAbbreviation();
     },
-    function(editor, options) {
+    function (editor, options) {
       // Activate auto-popup, if disabled (see below)
       const marker = editor.findEmmetMarker();
       if (!marker) {
@@ -2556,11 +2589,11 @@ function showHints(editor) {
           from: completions.from,
           to: completions.to,
           // Transform Emmet completions to ones that supported by `show-hint`
-          list: completions.list.map(function(completion) {
+          list: completions.list.map(function (completion) {
             return {
               from: completion.range.from,
               to: completion.range.to,
-              render: function(elt) {
+              render: function (elt) {
                 var content = document.createDocumentFragment();
                 var label = document.createElement("span");
                 label.className = "emmet-label";
@@ -2590,7 +2623,7 @@ function showHints(editor) {
 
                 elt.appendChild(content);
               },
-              hint: function() {
+              hint: function () {
                 // Use completions’ `insert()` method to properly
                 // insert Emmet completion
                 completion.insert();
@@ -2603,7 +2636,7 @@ function showHints(editor) {
   );
   // Automatically display Emmet completions when cursor enters abbreviation
   // marker if `markEmmetAbbreviation` option was enabled (true by default)
-  editor.on("cursorActivity", function() {
+  editor.on("cursorActivity", function () {
     if (editor.getOption("markEmmetAbbreviation")) {
       const marker = editor.findEmmetMarker();
       if (marker && !marker.autoPopupDisabled) {
@@ -2614,23 +2647,24 @@ function showHints(editor) {
     }
   });
 
-  editor.on("startCompletion", function() {
+  editor.on("startCompletion", function () {
     var marker = editor.findEmmetMarker();
     if (marker) {
       clearTimeout(marker.popupDisableTimer);
       marker.popupDisableTimer = null;
     }
   });
-  editor.on("endCompletion", function() {
+  editor.on("endCompletion", function () {
     var marker = editor.findEmmetMarker();
     if (marker) {
       clearTimeout(marker.popupDisableTimer);
-      marker.popupDisableTimer = setTimeout(function() {
+      marker.popupDisableTimer = setTimeout(function () {
         marker.autoPopupDisabled = true;
       }, 30);
     }
   });
 }
+
 function cleanFont(x) {
   return x
     .split(",")
@@ -2643,6 +2677,7 @@ function cleanFont(x) {
     })
     .join(",");
 }
+
 function lint(bool) {
   htmlEditor.setOption("lint", bool);
   cssEditor.setOption("lint", bool);
@@ -2660,13 +2695,13 @@ function hint() {
 
   editors.forEach(editor => {
     editor.setOption("extrakeys", {
-      "Ctrl-Q": function(cm) {
+      "Ctrl-Q": function (cm) {
         cm.foldCode(cm.getCursor());
       },
 
       "Alt-f": "findPersistent",
 
-      "Ctrl-S": function() {
+      "Ctrl-S": function () {
         if (dataItems.author) {
           if (dataItems.author === "anonymous") return null;
           keyMapSave() || null;
@@ -2675,19 +2710,19 @@ function hint() {
         }
       },
 
-      "Ctrl-Enter": function() {
+      "Ctrl-Enter": function () {
         updatePreview();
       },
-      "Alt-J": function() {
+      "Alt-J": function () {
         beautifySingleFile(jsEditor, csse.js);
       },
-      "Alt-C": function() {
+      "Alt-C": function () {
         beautifySingleFile(cssEditor, csse.css);
       },
-      "Alt-H": function() {
+      "Alt-H": function () {
         beautifySingleFile(htmlEditor, csse.html);
       },
-      "Alt-A": function() {
+      "Alt-A": function () {
         prettify(htmlEditor, cssEditor, jsEditor);
       },
       "Ctrl-Space": "autocomplete",
@@ -2699,7 +2734,7 @@ function hint() {
     });
     editor.setOption("markEmmetAbbreviation", true);
 
-    editor.on("keypress", function(e) {
+    editor.on("keypress", function (e) {
       if (e.keyCode != 13) {
         editor.showHint({
           completeSingle: false,
@@ -2709,6 +2744,15 @@ function hint() {
         });
       }
     });
+    editor.on("cursorActivity", (cm) => {
+      CodeMirror.commands.autocomplete = function (cm) {
+        cm.showHint({
+          hint: CodeMirror.hint.emoji,
+          completeSingle: false,
+          alignWithWord: true
+        });
+      };
+    })
   });
 }
 hint();
@@ -2718,12 +2762,14 @@ function colorPicker() {
   editors.forEach(editor => {
     editor.setOption("colorpicker", {
       mode: "edit",
-      
+
 
     });
   });
 }
 colorPicker();
+
+
 /* eslint-disable no-console */
 function settingButtons(
   htmlEditor,
@@ -2737,7 +2783,7 @@ function settingButtons(
   keymaps
 ) {
   let delay;
-  let runDelayTimeout;
+  let runDelayTimeout = 2000;
   // const editors = [htmlEditor, cssEditor, jsEditor];
   // toggles checkboxs and set their values;
   const checkbox = document.querySelectorAll('input[type="checkbox"]');
@@ -2770,31 +2816,35 @@ function settingButtons(
         editors.forEach(editor => {
           editor.setOption("styleActiveLine", true);
         });
+        __setEditorPreset__("activeLine", true);
+
       } else if (!current.checked && current.name == "active") {
         editors.forEach(editor => {
           editor.setOption("styleActiveLine", false);
         });
+        __setEditorPreset__("activeLine", false);
       }
 
       // conditional check for changes in the auto-complete toggler and adds them.
       if (current.checked && current.name === "complete") {
         hint();
+        __setEditorPreset__("autoComplete", true);
       } else if (!current.checked && current.name === "complete") {
         // console.log('untab')
 
         editors.forEach(editor => {
           editor.setOption("extrakeys", {
-            "Ctrl-Q": function(cm) {
+            "Ctrl-Q": function (cm) {
               cm.foldCode(cm.getCursor());
             },
 
             "Alt-f": "findPersistent",
 
-            "Ctrl-Enter": function() {
+            "Ctrl-Enter": function () {
               updatePreview();
             },
 
-            "Alt-A": function() {
+            "Alt-A": function () {
               prettify(htmlEditor, cssEditor, jsEditor);
             },
             "Ctrl-Space": false,
@@ -2803,11 +2853,12 @@ function settingButtons(
           });
           editor.setOption("markEmmetAbbreviation", false);
 
-          editor.on("keypress", function() {
+          editor.on("keypress", function () {
             editor.closeHint();
           });
           editor.closeHint();
         });
+        __setEditorPreset__("autoComplete", false);
       }
       if (current.checked && current.name === "tags") {
         editors.forEach(editor => {
@@ -2824,7 +2875,7 @@ function settingButtons(
         editors.forEach(editor => {
           editor.setOption("autoCloseBrackets", true);
         });
-      } else if (!current.checked && current.name === "tags") {
+      } else if (!current.checked && current.name === "brackets") {
         editors.forEach(editor => {
           editor.setOption("autoCloseBrackets", false);
         });
@@ -2834,13 +2885,15 @@ function settingButtons(
 
       if (current.checked && current.name == "linter") {
         lint(true);
+        __setEditorPreset__("linter", true);
       } else if (!current.checked && current.name == "linter") {
         lint(false);
+        __setEditorPreset__("linter", false);
       }
 
       if (current.checked && current.name == "run") {
         editors.forEach(editor => {
-          editor.on("inputRead", function() {
+          editor.on("inputRead", function () {
             requestAnimationFrame(() => {
               clearTimeout(delay);
               delay = setTimeout(updatePreview, runDelayTimeout);
@@ -2850,7 +2903,7 @@ function settingButtons(
         });
       } else if (!current.checked && current.name == "run") {
         editors.forEach(editor => {
-          editor.on("inputRead", function() {
+          editor.on("inputRead", function () {
             requestAnimationFrame(() => {
               clearTimeout(delay);
               delay = setTimeout(null, runDelayTimeout);
@@ -2861,8 +2914,10 @@ function settingButtons(
 
       if (current.checked && current.name == "preserve-log") {
         current.setAttribute("data-log", "true");
+        __setEditorPreset__("preserveLog", true);
       } else if (!current.checked && current.name == "preserve-log") {
         current.setAttribute("data-log", "false");
+        __setEditorPreset__("preserveLog", false);
       }
 
       if (current.checked && current.name == "color-picker") {
@@ -2882,7 +2937,7 @@ function settingButtons(
     });
   });
 
-  
+
 
   // event for font-size settings;
   sizes.addEventListener("change", changeFontSize);
@@ -2905,8 +2960,9 @@ function settingButtons(
       fSize.style.fontSize = `${parseInt(customFSize.value, 10)}px`;
     });
   }
-  function overRideFontSize(e){
-    if(e.keyCode === 13){
+
+  function overRideFontSize(e) {
+    if (e.keyCode === 13) {
       if (dataItems.author) {
         if (
           dataItems.arg === true &&
@@ -2921,15 +2977,36 @@ function settingButtons(
       Array.from(themeFSize).forEach(fSize => {
         const selectedSize = parseInt(this.value);
 
-        if(selectedSize < 5){
+        if (selectedSize < 5) {
           fSize.style.fontSize = `${0}px`;
-        }else{
+        } else {
           fSize.style.fontSize = `${selectedSize}px`;
         }
       });
       customFSize.blur();
     }
   }
+
+
+
+  //tab size
+
+  const tabSize = document.querySelector(".tab-size");
+
+  tabSize.addEventListener("change", changeTabSize);
+
+  function changeTabSize() {
+    const cmTab = document.querySelector(".tab-num");
+    const selectedTab = parseInt(this.selectedOptions[0].value, 10);
+    htmlEditor.setOption("indentUnit", selectedTab);
+    cssEditor.setOption("indentUnit", selectedTab);
+    jsEditor.setOption("indentUnit", selectedTab);
+    cmTab.textContent = `${selectedTab}`;
+    __setEditorPreset__("tabSize", selectedTab);
+  }
+
+
+  // indent unit
 
   const indentUnit = document.querySelector(".indent-unit");
 
@@ -2941,12 +3018,18 @@ function settingButtons(
     htmlEditor.setOption("indentUnit", indented);
     cssEditor.setOption("indentUnit", indented);
     jsEditor.setOption("indentUnit", indented);
-    // console.log(indented)
+__setEditorPreset__("indentUnit", indented);
   }
+
+
+
+
 
   // event for font-family settings;
   fontFm.addEventListener("change", changeFontFamily);
   fontFmCustom.addEventListener("keypress", overRideFont);
+  fontFmCustom.addEventListener("blur", overRideFont);
+
 
   function changeFontFamily() {
     const cm = document.querySelectorAll(".CodeMirror");
@@ -2963,11 +3046,36 @@ function settingButtons(
     });
   }
 
+
+
+
+
+
   // custom fonts overides predefined fonts.
   // using predefined fonts is just setting the overRiddenFont.
 
   function overRideFont(e) {
-    if (e.keyCode === 13) {
+    if (e.type === "keypress") {
+      if (e.keyCode === 13) {
+        const cm = document.querySelectorAll(".CodeMirror");
+
+        Array.from(cm).forEach(fSize => {
+          const selFont = fontFmCustom.value;
+          const splitfont = cleanFont(selFont);
+          fSize.style.fontFamily = `${splitfont}, monospace`;
+        });
+        fontFmCustom.blur();
+        if (dataItems.author) {
+          if (
+            dataItems.arg === true &&
+            dataItems.author != "anonymous"
+          ) {
+            keyMapSave();
+          }
+        }
+      }
+    } else if (e.type === "blur") {
+
       const cm = document.querySelectorAll(".CodeMirror");
 
       Array.from(cm).forEach(fSize => {
@@ -2977,12 +3085,20 @@ function settingButtons(
       });
       fontFmCustom.blur();
       if (dataItems.author) {
-        if (dataItems.arg === true && dataItems.author != "anonymous") {
+        if (
+          dataItems.arg === true &&
+          dataItems.author != "anonymous"
+        ) {
           keyMapSave();
         }
       }
+
     }
   }
+
+
+
+
   // event for theme settings;
   cmDark.addEventListener("change", changeEditorThemeDark);
 
@@ -3000,6 +3116,10 @@ function settingButtons(
       editor.setOption("theme", selectedTheme);
     });
   }
+
+
+
+
 
   // event for keymap settings;
   keymaps.addEventListener("change", changeKeymaps);
@@ -3019,34 +3139,50 @@ function settingButtons(
     });
   }
 
+
+
+
+
   // handles font-ligatures.
-     fontLigatures.addEventListener("change", function(){
-       const cmPre = document.querySelectorAll(".CodeMirror pre");
-       Array.from(cmPre).forEach(cm =>{
-         if(fontLigatures.checked){
-           cm.style.fontVariantLigatures = "contextual";
-         }else if(!fontLigatures.checked){
-           cm.style.fontVariantLigatures = "none"
-         }
-       })
-     })
-colorPickerType.addEventListener("change", function() {
+  fontLigatures.addEventListener("change", function () {
+    const cmPre = document.querySelectorAll(".CodeMirror pre");
+    Array.from(cmPre).forEach(cm => {
+      if (fontLigatures.checked) {
+        cm.style.fontVariantLigatures = "contextual";
+      } else if (!fontLigatures.checked) {
+        cm.style.fontVariantLigatures = "none"
+      }
+    })
+    if(fontLigatures.checked){
+      __setEditorPreset__("fontLigature", true);
+    }else{
+      __setEditorPreset__("fontLigature", false);
+    }
+  })
+
+
+
+
+  // color picker type
+  colorPickerType.addEventListener("change", function () {
     const editors = [htmlEditor, cssEditor];
-  editors.forEach(editor => {
-    editor.setOption("colorpicker", false);
-    editor.setOption("colorpicker", {
-      mode: "edit",
-      type: colorPickerType.selectedOptions[0].value
+    editors.forEach(editor => {
+      editor.setOption("colorpicker", false);
+      editor.setOption("colorpicker", {
+        mode: "edit",
+        type: colorPickerType.selectedOptions[0].value
+      });
     });
-  });
-})
-autoRunDelay.addEventListener("keypress", function(e){
-  if(e.keyCode === 13){
-    runDelayTimeout = parseInt(this.value, 10);
-    autoRunDelay.blur();
-  }
-})
-     // handles custom tab-size.
+    __setEditorPreset__("skin", colorPickerType.selectedOptions[0].value);
+  })
+  autoRunDelay.addEventListener("keypress", function (e) {
+    if (e.keyCode === 13) {
+      runDelayTimeout = parseInt(this.value, 10);
+      autoRunDelay.blur();
+      __setEditorPreset__("autoRunDelay", parseInt(this.value, 10));
+    }
+  })
+
 }
 
 function changeEditorSettings(
@@ -3086,7 +3222,7 @@ function changeEditorSettings(
       .map(a => a.trim())
       .join(", ");
     fontFmCustom.value = `${x}`;
-    
+
   });
 
   const editors = [htmlEditor, cssEditor, jsEditor];
@@ -3101,6 +3237,7 @@ function changeEditorSettings(
 function handleFooterLnCol() {
   const edLn = document.querySelector(".ln");
   const edCh = document.querySelector(".ch");
+  const selected = document.querySelector(".line-selected")
   editors.forEach(editor => {
     const editorMode = document.querySelector(".editor-mode");
     editor.on("cursorActivity", () => {
@@ -3110,18 +3247,35 @@ function handleFooterLnCol() {
       edLn.innerText = `${ln}`;
       edCh.innerText = `${col}`;
       if (editor === htmlEditor) {
+        editorMode.style.opacity = "1";
         editorMode.innerText = `${csse.html}`;
         editorMode.style.margin = "4px";
+
         editorMode.style.padding = "5px";
       } else if (editor === cssEditor) {
         editorMode.innerText = `${csse.css}`;
+        editorMode.style.opacity = "1";
         editorMode.style.margin = "4px";
         editorMode.style.padding = "5px";
       } else if (editor === jsEditor) {
-        editorMode.innerText = `${csse.js}`;
+        editorMode.style.opacity = "1";
+        if (csse.js === "babel") {
+          editorMode.innerText = "javascript with babel"
+        } else if (csse.js === "jsx") {
+          editorMode.innerText = "javascript with react"
+        } else {
+          editorMode.innerText = `${csse.js}`
+        }
+
         editorMode.style.margin = "4px";
         editorMode.style.padding = "5px";
       }
+      const selectedLen = editor
+        .getSelection()
+        .split("\n")
+        .join("").length;
+      selectedLen >= 1 ? selected.textContent = `(${selectedLen} selected)` : selected.textContent = ``;
+
     });
   });
 }
@@ -3141,6 +3295,49 @@ toggleLinter.addEventListener("click", () => {
     lint(true);
   }
 });
+
+
+editorSkins.addEventListener("change", (e) => {
+  const skins = {
+    dark: {
+      "--editor-color": "rgba(19, 22, 31, 1)",
+      "--page-color": "#0f111a",
+      "--def-color": "rgba(108, 103, 131, 0.61)",
+      "--def-color-solid": "rgba(108, 103, 131, 1)",
+      "--settings-color": "#aaa",
+      "--def-bg": "#1f222c",
+      "--light": "white",
+      "--light-solid": "#ddd",
+      "--light-solid-2": "#ccc",
+      "--svg-fill": "#6c6783",
+      "--settings-border-2": "rgba(38, 44, 63, 0.801)",
+      "--textarea-bg": "rgba(19, 22, 31, 1)",
+      "--textarea-border": "rgba(38, 44, 63, 0.801)"
+    },
+    darkplus: {
+      "--editor-color": "#11131A",
+      "--page-color": "#090b10",
+      "--def-color": "rgba(108, 103, 131, 0.61)",
+      "--def-color-solid": "rgba(108, 103, 131, 1)",
+      "--settings-color": "#aaa",
+      "--def-bg": "#1f222c",
+      "--light": "white",
+      "--light-solid": "#ddd",
+      "--light-solid-2": "#ccc",
+      "--svg-fill": "#6c6783",
+      "--settings-border-2": "rgba(38, 44, 63, 0.801)",
+      "--textarea-bg": "rgba(20, 24, 29, 0.361)",
+      "--textarea-border": "rgba(116, 124, 148, 0.7)"
+    }
+  };
+  const value = editorSkins.selectedOptions[0].value;
+  const colors = skins[value];
+  let i;
+  for (i in colors) {
+    document.documentElement.style.setProperty(i, colors[i])
+  }
+})
+
 
 function keyboardShortCuts(updatePreview, htmlEditor, cssEditor, jsEditor) {
     document.addEventListener("keyup", (e) => {
@@ -3525,11 +3722,13 @@ stop.addEventListener("click", function() {
 });
 timer.displayDate();
 
-const consoleOutput = document.querySelector(".output-console");
+
 const consoleClose = document.querySelector(".out-close");
 const error = document.querySelector(".console-label");
 const consoleBtnITag = document.querySelector(".opc");
-let __isConsoleClosed = false;
+const closeConsole = document.querySelector(".to-close");
+const fullscreen = document.querySelector(".to-fullscreen");
+const exitFullscreen = document.querySelector(".exit-fullscreen");
 
 class ProxyConsole {
   constructor(
@@ -3541,15 +3740,20 @@ class ProxyConsole {
 
     consoleCont,
     logElement,
-   
+    consoleBar,
+    consoleInput
   ) {
-    (this.consoleClosed = true),
-      (this.errorElement = error),
-      (this.consoleText = consoleText),
-      (this.consoleElement = consoleElement),
-      (this.consoleCont = consoleCont),
-      
-      (this.logElement = logElement);
+    this.consoleClosed = true;
+    this.errorElement = error;
+    this.consoleText = consoleText;
+    this.consoleElement = consoleElement;
+    this.consoleCont = consoleCont;
+    this.logElement = logElement;
+    this.consoleBar = consoleBar;
+    this.consoleInput = consoleInput;
+    this.dashes = "---------------------------------------";
+    this.word = "console.log( (89 * 78) / (64 % 6) - (90 + 120) )";
+    this.time = 0;
   }
   printToConsole(e) {
     const message = !e.data.error
@@ -3575,10 +3779,14 @@ class ProxyConsole {
       this.updateErrorCount();
       const mess = x.data.message;
       const language = x.lang;
-      const val = this.consoleElement.getValue();
       const lineNo = x.data.lineNumber;
       const colNo = x.data.columnNumber;
-      const errorOutput = `\n[${language.toUpperCase()}] ${mess} \n\t\t\t\t at main(${lineNo}:${colNo})`;
+
+      const errorOutput = `\n${
+        this.dashes
+      }\n[${language.toUpperCase()}] ${mess} \n\t\t\t\t at main(${lineNo}:${colNo})\n${
+        this.dashes
+      }`;
 
       // updates the  console.
 
@@ -3603,35 +3811,26 @@ class ProxyConsole {
       // gets response from iframe.
       const mess = x.data.message;
       const language = x.lang;
-      const val = this.consoleElement.getValue();
       // formats console output
-      const consoleOutput = `\n[${language.toUpperCase()}] ${mess}`;
+      const consoleOutput = `\n${
+        this.dashes
+      }\n[${language.toUpperCase()}] ${mess}`;
 
       // updates the console.
       // check if user wants to preserve the logs...
       if (this.logElement.checked) {
-        this.updateErrorCount();
         this.consoleElement.replaceRange(
           consoleOutput,
           CodeMirror.Pos(this.consoleElement.lastLine() + 1)
         );
       } else if (!this.logElement.checked) {
         this.consoleElement.getDoc().setValue(consoleOutput);
-
-        this.errorElement.setAttribute("data-error", `${0}`);
-        this.updateErrorCount();
-
-     
-        this.errorElement.textContent = `${1}`;
       }
 
       // checks if console is opened and scrolls it into view.
       if (!this.consoleClosed) {
         this.consoleElement.setCursor(this.consoleElement.lastLine(), 3);
       }
-      // sets the error count.
-      let eCount = parseInt(this.errorElement.getAttribute("data-error"));
-      this.errorElement.textContent = `${eCount}`;
     } else if (x && y.data.clear) {
       // clears console
       this.clearProxyConsole();
@@ -3644,37 +3843,70 @@ class ProxyConsole {
   updateErrorCount() {
     let eCount = parseInt(this.errorElement.getAttribute("data-error"));
     const errorCount = ++eCount;
- ;
+    let consoleBError = parseInt(this.consoleBar.getAttribute("data-label"));
+    consoleBError++;
     this.errorElement.setAttribute("data-error", `${errorCount}`);
+    consoleBError > 1
+      ? consoleBar.setAttribute("data-label", `${consoleBError} errors.`)
+      : consoleBar.setAttribute("data-label", `${consoleBError} error.`);
   }
   clearProxyConsole() {
     let eCount = parseInt(this.errorElement.getAttribute("data-error"));
-    const cleared = `/* Console was cleared. */`;
+    const cleared = `# Console was cleared.`;
 
     this.consoleElement.getDoc().setValue(cleared);
     this.errorCount = 0;
     this.errorElement.setAttribute("data-error", `${0}`);
+    this.consoleBar.setAttribute("data-label", "0 errors");
     this.errorElement.textContent = `${0}`;
 
     console.clear();
   }
   hideConsole() {
-    this.consoleCont.style.animation = "consoleIn .3s ease-in-out  forwards";
-    // this.consoleCont.style.animation = "none";
-    // this.consoleCont.style.willChange = "none";
+    this.consoleCont.classList.add("is_minimised");
 
     this.consoleClosed = true;
   }
   showConsole() {
-    this.consoleCont.style.animation = "consoleOut .3s ease-in-out  forwards";
+    this.consoleCont.classList.remove("is_minimised");
     requestAnimationFrame(() => {
-      // this.consoleCont.style.animation = "none";
-      // this.consoleCont.style.willChange = "none";
       setTimeout(() => {
         this.consoleElement.setCursor(this.consoleElement.lastLine(), 3);
       }, 500);
     });
     this.consoleClosed = false;
+  }
+  evaluateConsoleInput() {
+    function consoleEval(x) {
+      return preview.contentWindow.Function(
+        '"use strict"; return (' + x + ")"
+      )();
+    }
+    this.consoleElement.replaceRange(
+      `\n${this.dashes}\n'>>>'\t${this.consoleInput.value}`,
+      CodeMirror.Pos(this.consoleElement.lastLine() + 1)
+    );
+    try {
+      consoleEval(`console.log(${this.consoleInput.value})`);
+    } catch (e) {
+      let error = e.message.split("\n")[0];
+      this.consoleElement.replaceRange(
+        `\n${this.dashes}\n'<<<'\t${error}`,
+        CodeMirror.Pos(this.consoleElement.lastLine() + 1)
+      );
+      this.consoleElement.setCursor(this.consoleElement.lastLine(), 3);
+    }
+
+    this.consoleInput.value = "";
+  }
+  typeWrite() {
+    if (this.time < this.word.length) {
+      let msg = this.word.charAt(this.time);
+      let recent = this.consoleInput.getAttribute("placeholder") + msg;
+      this.consoleInput.setAttribute("placeholder", recent);
+      this.time++;
+      setTimeout(() => this.typeWrite(), 90);
+    }
   }
 }
 
@@ -3684,7 +3916,9 @@ const proxyConsole = new ProxyConsole(
   consoleBtn,
   consoleEditor,
   consoleOutput,
-  preserveLog
+  preserveLog,
+  consoleBar,
+  consoleInput
 );
 
 window.addEventListener("message", function(e) {
@@ -3697,25 +3931,37 @@ clearConsole.addEventListener("click", () => {
 });
 
 consoleBtn.addEventListener("click", () => {
-  !__isConsoleClosed
-    ? (function() {
-        consoleBtnITag.innerText = "visibility";
-        proxyConsole.showConsole();
-        __isConsoleClosed = true;
-        consoleBtn.setAttribute("data-label", "Close debug console");
-      })()
-    : (function() {
-        consoleBtnITag.innerText = "visibility_off";
-        proxyConsole.hideConsole();
-        __isConsoleClosed = false;
-        consoleBtn.setAttribute("data-label", "Open debug console");
-      })();
+  consoleBtnITag.innerText = "visibility";
+  proxyConsole.showConsole();
+  proxyConsole.typeWrite();
 });
 
-// consoleClose.addEventListener("click", () => {
-//   consoleBtnITag.innerText = "visibility_off";
-//   proxyConsole.hideConsole();
-// });
+closeConsole.addEventListener("click", () => {
+  consoleBtnITag.innerText = "visibility_off";
+  consoleOutput.style.transition =
+    "transform .4s cubic-bezier(.38,.39,.28,.95)";
+  proxyConsole.hideConsole();
+  consoleOutput.style.height = "66.66%";
+});
+
+consoleInput.addEventListener("focus", updatePreview, {
+  once: true
+});
+consoleInput.addEventListener("keypress", e => {
+  if (e.keyCode === 13) {
+    proxyConsole.evaluateConsoleInput();
+  }
+});
+
+fullscreen.addEventListener("click", e => {
+  consoleOutput.style.height = "100%";
+  consoleOutput.style.transition = "height .4s cubic-bezier(.38,.39,.28,.95)";
+});
+
+exitFullscreen.addEventListener("click", e => {
+  consoleOutput.style.height = "66.66%";
+  consoleOutput.style.transition = "height .4s cubic-bezier(.38,.39,.28,.95)";
+});
 
 function exportToZip() {
   const getHTMLDist = HtmlCompile(htmlEditor, csse.html);
@@ -3828,4 +4074,4 @@ function exportToZip() {
 
 //# sourceMappingURL=maps/utils.js.map
 
-//# sourceMappingURL=maps/editor-one.js.map
+//# sourceMappingURL=maps/app.bundle.one.js.map
