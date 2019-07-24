@@ -9,6 +9,9 @@
   -moz-osx-font-smoothing: grayscale;
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
   line-height: 1.3375rem;
+  -moz-box-shadow: inset 7px 0 12px -6px #000;
+  -webkit-box-shadow: inset 7px 0 12px -6px #000;
+  box-shadow: inset 7px 0 12px -6px #000;
 }
 
 .cm-s-monokai div.CodeMirror-selected {

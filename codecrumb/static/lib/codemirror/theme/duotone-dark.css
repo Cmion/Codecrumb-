@@ -16,6 +16,9 @@ CodeMirror template by Jan T. Sott (https://github.com/idleberg), adapted by Bra
     color: #6c6783;
       -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -moz-box-shadow: inset 7px 0 12px -6px #000;
+  -webkit-box-shadow: inset 7px 0 12px -6px #000;
+  box-shadow: inset 7px 0 12px -6px #000;
 }
 
 .cm-s-duotone-dark div.CodeMirror-selected {

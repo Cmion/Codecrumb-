@@ -1,0 +1,141 @@
+/* summer-code theme for codemirror */
+
+/* Color scheme */
+
+.cm-s-summer-code.CodeMirror {
+    background: transparent !important;
+
+    border: none;
+    font-size: 13px;
+    font-family: "Fira Code", cursive, monospace;
+    color: #566d75;
+    line-height: 1.3375rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-box-shadow: inset 7px 0 12px -6px #000;
+    -webkit-box-shadow: inset 7px 0 12px -6px #000;
+    box-shadow: inset 7px 0 12px -6px #000;
+}
+
+.cm-s-summer-code .CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, 0.037);
+}
+
+.cm-s-summer-code .cm-comment {
+    color: #6c6783;
+    font-style: italic;
+}
+
+.cm-s-summer-code div.CodeMirror-selected {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-summer-code.CodeMirror-focused div.CodeMirror-selected {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-summer-code .CodeMirror-line::selection,
+.cm-s-summer-code .CodeMirror-line>span::selection,
+.cm-s-summer-code .CodeMirror-line>span>span::selection {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-summer-code .CodeMirror-line::-moz-selection,
+.cm-s-summer-code .CodeMirror-line>span::-moz-selection,
+.cm-s-summer-code .CodeMirror-line>span>span::-moz-selection {
+    background: rgba(45, 50, 74, 0.3);
+}
+
+.cm-s-summer-code .cm-keyword,
+.cm-s-summer-code .cm-property {
+    color: #cb4b16;
+}
+
+.cm-s-summer-code .cm-atom {
+    color: #2fb8ac;
+}
+
+.cm-s-summer-code .cm-number {
+    color: #ff8000;
+}
+
+.cm-s-summer-code .cm-node,
+.cm-s-summer-code .cm-tag {
+    color: #5967ff;
+}
+
+.cm-s-summer-code .cm-string {
+    color: #2fb8ac;
+    color: #dc322f;
+}
+
+.cm-s-summer-code .cm-variable,
+.cm-s-summer-code .cm-qualifier {
+    color: #5967ff;
+
+}
+
+.cm-s-summer-code .cm-def {
+    color: #5967ff;
+}
+.cm-s-summer-code .cm-meta {
+    color: #2fb8ac;
+}
+.cm-s-summer-code .cm-variable-2 {
+   
+    
+    color: #2fb8ac;
+}
+.cm-s-summer-code .cm-link {color: #fff700;}
+.cm-s-summer-code span.cm-type,
+.cm-s-summer-code .cm-operator {
+    color: #B2CCD6;
+
+}
+
+.cm-s-summer-code span.cm-builtin {
+    color: #82AAFF;
+}
+.cm-s-summer-code .cm-attribute {
+    color: #fff700;
+}
+
+/* Editor styling */
+
+.cm-s-summer-code pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.cm-s-summer-code .CodeMirror-gutters {
+    border: none;
+    border-right: 10px solid transparent;
+    background-color: transparent;
+}
+
+.cm-s-summer-code .CodeMirror-linenumber {
+    padding: 0;
+    color: #333a44;
+}
+
+.cm-s-summer-code .CodeMirror-guttermarker {
+    color: #1d75b3;
+}
+
+.cm-s-summer-code .CodeMirror-guttermarker-subtle {
+    color: #e0e2e5;
+}
+
+.cm-s-summer-code .CodeMirror-cursor {
+    width: auto;
+    border: 0;
+    background: rgba(155, 157, 162, 0.37);
+    z-index: 1;
+}
+
+.cm-s-summer-code .CodeMirror-matchingbracket {
+    /* outline: 1px solid grey; */
+    border-bottom: 2px solid #1d75b3;
+    color: white !important;
+}
