@@ -11,15 +11,23 @@
   "author": "CodeCrumb",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/runtime": "^7.5.4",
     "@types/gulp": "^4.0.6",
     "codemirror-colorpicker": "^1.9.50",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^5.0.3",
     "gulp-minify": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uncss": "^1.0.6"
   },
   "dependencies": {}
 }
