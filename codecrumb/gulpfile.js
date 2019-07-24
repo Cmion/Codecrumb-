@@ -3,19 +3,27 @@ const minify = require("gulp-minify");
 const concat = require("gulp-concat");
 const sourceMaps = require("gulp-sourcemaps");
 const cleanCss = require("gulp-clean-css");
-
+const htmlMin = require("gulp-htmlmin");
+const babel = require("gulp-babel");
+const autoPrefixer = require("gulp-autoprefixer");
+const unCss = require("gulp-uncss");
 
 gulp.task("copyHTML", function() {
-  return gulp.src("src/template/*.html").pipe(gulp.dest("templates"));
+  return gulp
+    .src("src/template/*.html")
+    .pipe(htmlMin())
+    .pipe(gulp.dest("templates"));
 });
 gulp.task("copyErrorHTML", function() {
   return gulp
     .src("src/template/errors/*.html")
+    .pipe(htmlMin())
     .pipe(gulp.dest("templates/errors"));
 });
 gulp.task("copyCSS", function() {
   return gulp
     .src("src/css/*.css")
+    .pipe(autoPrefixer())
     .pipe(cleanCss())
     .pipe(gulp.dest("static/css"));
 });
@@ -27,6 +35,7 @@ gulp.task("copyJS", function() {
       "src/js/error.js",
       "src/js/readMe.js"
     ])
+    // .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(gulp.dest("static/js"));
 });
 
@@ -132,6 +141,7 @@ gulp.task("readme", function() {
     ])
     .pipe(sourceMaps.init())
     .pipe(concat("readme-editor.js"))
+    .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(minify())
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/lib/codemirror/lib"));
@@ -220,23 +230,21 @@ gulp.task("joinEditor-one", function() {
     .src(["src/utils/define-mode.js", "src/js/app.js", "src/js/utils.js"])
     .pipe(sourceMaps.init())
     .pipe(concat("app.bundle.one.js"))
+    // .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/js"));
 });
 gulp.task("joinEditor-two", function() {
   return gulp
-    .src([
-      "src/utils/define-mode.js",
-      "src/js/app.two.js",
-      "src/js/utils.js"
-    ])
+    .src(["src/utils/define-mode.js", "src/js/app.two.js", "src/js/utils.js"])
     .pipe(sourceMaps.init())
     .pipe(concat("app.bundle.two.js"))
+    // .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/js"));
 });
 
-gulp.task("joinCrumbpage", function() {
+gulp.task("joinCrumb", function() {
   return gulp
     .src([
       "src/utils/define-mode.js",
@@ -245,7 +253,7 @@ gulp.task("joinCrumbpage", function() {
       "src/utils/deferred.js"
     ])
     .pipe(sourceMaps.init())
-    .pipe(concat("crumbpage.js"))
+    .pipe(concat("app.crumb.js"))
     .pipe(sourceMaps.write("maps/"))
     .pipe(gulp.dest("static/js"));
 });
@@ -257,17 +265,19 @@ gulp.task("jointheme", function() {
       "static/lib/codemirror/theme/dracula.css",
       "static/lib/codemirror/theme/duotone-dark.css",
       "static/lib/codemirror/theme/3024-night.css",
-      "static/lib/codemirror/theme/mdn-like.css",
+      "static/lib/codemirror/theme/solarized.css",
       "static/lib/codemirror/theme/monokai.css",
-      "static/lib/codemirror/theme/neo.css",
+      "static/lib/codemirror/theme/hopscotch.css",
+      "static/lib/codemirror/theme/console-code.css",
       "static/lib/codemirror/theme/seti.css",
-      "static/lib/codemirror/theme/material.css",
+      "static/lib/codemirror/theme/paraiso-dark.css",
       "static/lib/codemirror/theme/gruvbox-dark.css",
       "static/lib/codemirror/theme/liquibyte.css",
       "static/lib/codemirror/theme/the-matrix.css",
       "static/lib/codemirror/theme/midnight.css",
       "static/lib/codemirror/theme/andromeda.css",
-      "static/lib/codemirror/theme/material-ocean.css"
+      "static/lib/codemirror/theme/material-ocean.css",
+      "static/lib/codemirror/theme/summer-code.css"
     ])
     .pipe(sourceMaps.init())
     .pipe(concat("theme.css"))
@@ -302,7 +312,7 @@ gulp.task("concatUtils", function() {
 
 gulp.task(
   "copy",
-  gulp.series("copyJS", "joinEditor-one", "joinEditor-two", "joinCrumbpage")
+  gulp.series("copyJS", "joinEditor-one", "joinEditor-two", "joinCrumb")
 );
 
 gulp.task("watch-html", () => {
@@ -321,12 +331,10 @@ gulp.task("watch-css", function() {
   gulp.watch("src/css/**/*css", gulp.series("copyCSS"));
 });
 
-gulp.task("sass", function() {
+gulp.task("min", function() {
   return gulp
-    .src("src/css/**/*scss")
-    .pipe(sourceMaps.init())
+    .src("static/preview/console.js")
+    .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(minify())
-    .pipe(sourceMaps.write("../../../maps/"))
-    .pipe(gulp.dest("static/lib/transpilers/"));
+    .pipe(gulp.dest("static/preview/"));
 });
-

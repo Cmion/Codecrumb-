@@ -1,7 +1,339 @@
-/* toggle the settings button to use a preprocessor, like SCSS */
-body {
-  font-family: Helvetica;
-  color: #111111;
-  padding: 1.5em;
-  font-size: 1.5em;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body,
+.container {
+  height: 100vh;
+  width: 100vw;
+  /* 	background-image: url("http://127.0.0.1:8080/asset/dark-image/26img.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.17);
+  background-blend-mode: multiply;
+  justify-content: center;
+  font-family: "Quicksand";
+}
+.content-body,
+.root,
+.startup-content {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  /*   visibility: hidden; */
+}
+.timer-body,
+.greeter,
+.question,
+.todo-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+
+.time {
+  font-size: 200px;
+  color: white;
+  padding: 5px;
+  user-select: none;
+  letter-spacing: 3px;
+  position: relative;
+}
+.greeter {
+  font-size: 90px;
+  height: 70px;
+  font-size: 35px;
+  user-select: none;
+}
+.greeter span {
+  font-size: 70px;
+  padding: 6px;
+  line-height: 3rem;
+}
+.name {
+  color: white;
+  padding-left: 5px;
+  outline: none;
+}
+.name:focus,
+.name:focus + .name-dot {
+  border-bottom: 2px solid white;
+}
+.question {
+  margin-top: 10px;
+  user-select: none;
+}
+.question span {
+  font-size: 30px;
+
+  margin-bottom: 5px;
+}
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  color: white;
+  position: relative;
+}
+.todo .input {
+  padding: 7px;
+  font-size: 30px;
+  outline: none;
+  border: none;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid white;
+  display: flex;
+  align-items: center;
+  line-height: 4.5rem;
+  justify-content: center;
+  width: 700px;
+  position: absolute;
+  font-family: "Quicksand";
+  background: none;
+}
+.todo-text {
+  font-size: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1280px;
+  line-height: 2.5rem;
+}
+.todo-word {
+  font-size: 35px;
+  outline: none;
+  font-family: "Quicksand";
+  overflow: hidden;
+  white-space: nowrap;
+  color: white;
+}
+.todo-word:focus {
+  border-bottom: 2px solid white;
+}
+.name {
+  max-width: 600px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+span.name-dot {
+  color: white;
+  padding: 0;
+  padding-bottom: 6px;
+  padding-top: 6px;
+  margin: none;
+  overflow: hidden;
+  white-space: nowrap;
+  outline: none;
+}
+#close-todo {
+  -ms-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  visibility: hidden;
+}
+#close-todo::before {
+  content: "\f096";
+  font-family: fontAwesome;
+  font-size: 25px;
+  width: 2em;
+  display: inline-block;
+  font-weight: 400;
+  color: white;
+  cursor: pointer;
+}
+#close-todo:checked::before {
+  content: "\f14a";
+  font-family: fontAwesome;
+
+  display: inline-block;
+  font-weight: 400;
+  color: white;
+}
+.close {
+  padding: 5px;
+  margin-left: 5px;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  visibility: hidden;
+}
+.close span {
+  text-align: center;
+  font-weight: 100;
+  font-size: 25px;
+}
+.todo-text:hover .close,
+.todo-text:hover #close-todo {
+  visibility: visible;
+  transition: 0.3s;
+  transition-delay: 200ms;
+}
+.todo-block {
+  flex-flow: column;
+  align-items: center;
+  height: 100px;
+  font-family: "Raleway", "Montserat", sans-serif;
+}
+.today {
+  font-size: 20px;
+  padding: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.checked {
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+.hide {
+  /* 	transition: .4s; */
+  visibility: hidden;
+}
+.startup-content {
+  visibility: visible;
+  line-height: 6rem;
+}
+.welcome-greeting {
+  color: white;
+  font-size: 70px;
+}
+.welcome-question {
+  color: white;
+  font-size: 40px;
+}
+.welcome-name {
+  padding: 5px;
+  font-size: 40px;
+  outline: none;
+  border: none;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid white;
+  display: flex;
+  align-items: center;
+  line-height: 3rem;
+  justify-content: center;
+  width: 450px;
+  font-family: "Quicksand";
+  background: none;
+}
+.info {
+  color: white;
+  line-height: 3rem;
+  font-size: 18px;
+  padding: 4px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+.congrats {
+  font-size: 17px;
+  padding: 8px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  font-family: "Raleway", sans-serif;
+  border-radius: 3px;
+}
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 0.3;
+    visibility: visible;
+  }
+  /* 		70%{
+		 opacity: 0.4;
+  background: rgba(255,255,255,0.3);
+	} */
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes hailOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes hailIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  50% {
+    opacity: 0.3;
+    visibility: visible;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  /* 		70%{
+		 opacity: 0.4;
+  background: rgba(255,255,255,0.3);
+	} */
+  100% {
+    opacity: 1;
+    visibility: visible;
+    background: rgba(255, 255, 255, 0);
+  }
+}
+@media screen and (max-width: 900px) {
+  .greeter {
+    font-size: 40px;
+  }
+  .todo-word {
+    font-size: 25px;
+  }
+  .time {
+    font-size: 160px;
+  }
+  .greeter span {
+    font-size: 60px;
+  }
+  input {
+    width: 500px;
+  }
+  .name {
+    max-width: 400px;
+  }
+  .todo-text {
+    max-width: 700px;
+  }
 }

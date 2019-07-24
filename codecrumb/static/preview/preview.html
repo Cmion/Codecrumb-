@@ -24,7 +24,21 @@
         user-select: none;
         text-transform: capitalize;
       }
-      
+      @media screen and (max-width: 540px) {
+        .hello {
+          font-size: 20px;
+        }
+      }
+      @media screen and (max-width: 340px) {
+        .hello {
+          font-size: 16px;
+        }
+      }
+      @media screen and (max-width: 200px) {
+        .hello {
+          font-size: 14px;
+        }
+      }
     </style>
     <title>CodeCrumb</title>
   </head>
@@ -36,7 +50,11 @@
       const wordArray = [
         "Click ALT + R to run your code.",
         "Be the coder your linter says your are!.",
-        "Code your creativity in chunks, and let the bits speak!."
+        "add a library by selecting the wheel icon",
+        "Use ALT + A to beautify your code.",
+        "Think more, Code More",
+        "Run Es6 codes",
+        "Add an emoji by typing +emojiName+ & CTRL-Space"
       ];
       const hello = document.querySelector(".hello");
 

@@ -33,7 +33,7 @@ function getSecondsClock() {
   const date = new Date();
   if (date.getSeconds() === 0) {
     for (let i = 0; i < 60; i++) {
-      markThreeInnerTwo[i].style.stroke = "#626267";
+      markThreeInnerTwo[i].style.stroke = "#fff";
       markThreeOne.style.transform = `translate(20px, 20px)  rotate(${6}deg)`;
       //       markThreeTwo.style.transition = "0";
     }
@@ -41,9 +41,9 @@ function getSecondsClock() {
     //     markThreeTwo.style.transition = "1s cubic-bezier(0, 3, 0.58, 1)";
   }
   for (let i = 0; i < date.getSeconds() + 1; i++) {
-    markThreeInnerTwo[i].style.fill = "#fa0033";
+    markThreeInnerTwo[i].style.fill = "var(--accent-color)";
 
-    markThreeInnerTwo[i].style.stroke = "#fa0033";
+    markThreeInnerTwo[i].style.stroke = "var(--accent-color)";
     markThreeTwo.style.transform = `translate(20px, 20px) rotate(${6 * i}deg)`;
   }
   setTimeout(() => getSecondsClock(), 1000);

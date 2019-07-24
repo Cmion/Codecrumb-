@@ -16,22 +16,17 @@ if (userImg) {
   userImg.addEventListener("click", () => proImg.click());
 }
 
-const imageMenu = document.querySelector(".user-crumb img");
+const navigate = document.querySelector(".navigate");
 const userCrumbMenu = document.querySelector(".user-crumb-menu");
-let is_out = false;
-imageMenu.addEventListener("click", e => {
+const closeExplorer = document.querySelector(".close-explorer");
+navigate.addEventListener("click", e => {
+  e.preventDefault();
   userCrumbMenu.style.animation = "hoverin .1s linear forwards";
-  is_out = true;
 });
-// userCrumbMenu.style.animation = "hoverout .0000000005s linear forwards";
-// userCrumbMenu.style.animation = "hoverout .2s linear forwards";
-window.addEventListener("click", function(e) {
-  if (is_out) {
-    if (e.target != imageMenu && e.target != userCrumbMenu) {
-      userCrumbMenu.style.animation = "hoverout .1s linear forwards";
-      is_out = false;
-    }
-  }
+userCrumbMenu.style.animation = "hoverout .1s linear forwards";
+closeExplorer.addEventListener("click", e => {
+  e.preventDefault();
+  userCrumbMenu.style.animation = "hoverout .1s linear forwards";
 });
 
 if (fpInput) {

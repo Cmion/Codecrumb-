@@ -1,6 +1,6 @@
 /* codemirror colorview */
 .codemirror-colorview {
-  border: 1px solid #0f111a;
+  border: 1px solid var(--page-color);
   position: relative;
   display: inline-block;
   -webkit-box-sizing: border-box;
@@ -29,8 +29,8 @@
   width: 224px;
   z-index: 1000;
   display: inline-block;
-  border: 2px solid #0f111a;
-  background-color: rgba(19, 22, 31, 0.918);
+  border: 2px solid var(--page-color);
+  background-color: var(--editor-color);
   border-radius: 3px;
   -webkit-box-shadow: 0 0px 10px 2px rgba(0, 0, 0, 0.12);
           box-shadow: 0 0px 10px 2px rgba(0, 0, 0, 0.12);
@@ -41,7 +41,7 @@
     left: 7px;
     width: 0;
     height: 0;
-    font-family: "segoe ui", arial, helvetica, sans-serif;
+    font-family: "Poppins", arial, helvetica, sans-serif;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     display: none;
@@ -273,7 +273,7 @@
              -moz-user-select: text;
               -ms-user-select: text;
                   user-select: text;
-          border: 2px solid #0f111a;
+          border: 2px solid var(--page-color);
           border-radius: 2px; }
           .codemirror-colorpicker .colorpicker-body > .information > .information-item > .input-field input[type=number] {
             -webkit-appearance: none;
