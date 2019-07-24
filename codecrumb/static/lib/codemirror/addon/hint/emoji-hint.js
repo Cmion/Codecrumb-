@@ -12580,12 +12580,13 @@ function enhance(character) {
        list.push(` ${em.emoji} `);
  
      }
+     return {
+      list: list,
+      from: CodeMirror.Pos(cur.line, word.index),
+      to: CodeMirror.Pos(cur.line, (word.index + word[0].length))
+    };
    }
-       return {
-         list: list,
-         from: CodeMirror.Pos(cur.line, word.index),
-         to: CodeMirror.Pos(cur.line, (word.index + word[0].length))
-       };
+     
  });
   
 });

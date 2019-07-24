@@ -1,7 +1,7 @@
 .CodeMirror-simplescroll-horizontal div,
 .CodeMirror-simplescroll-vertical div {
   position: absolute;
-  background: rgba(19, 22, 31, 0.918);
+  background: var(--page-color);
   -moz-box-sizing: border-box;
   border: 1.3px solid rgba(108, 103, 131, 0.4);
   /* border-radius: 4px; */
@@ -15,7 +15,7 @@
 .CodeMirror-simplescroll-vertical {
   position: absolute;
   z-index: 6;
-  background: rgba(18, 21, 31, .5)
+  background: var(--editor-color);
 }
 
 .CodeMirror-simplescroll-horizontal {

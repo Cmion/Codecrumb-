@@ -4,7 +4,7 @@
 }
 
 .CodeMirror-lint-tooltip {
-  background-color: #0f111a;
+  background-color: var(--page-color);
   border: none;
   border-radius: 2px;
   color: rgb(150, 147, 167);
