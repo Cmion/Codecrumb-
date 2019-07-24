@@ -190,7 +190,14 @@ const {
   consoleInput,
   resizeFrame,
   editorSkins,
-  consoleOutput
+  consoleOutput,
+  tabSize,
+  indentUnit,
+  linterCh,
+  activeLineCh,
+  autoCompleteCh,
+  footerLeft,
+  footerRight
 } = elementDeclaration();
 
 const csse = {
@@ -261,9 +268,7 @@ function crumbEditor(mode) {
         cm.foldCode(cm.getCursor());
       },
       "Alt-f": "findPersistent",
-      "Ctrl-Enter": function () {
-        updatePreview();
-      },
+      "Ctrl-Enter":updatePreview,
       "Alt-A": function () {
         prettify(htmlEditor, cssEditor, jsEditor);
       },
@@ -311,7 +316,7 @@ const cssEditor = CodeMirror.fromTextArea(cssArea, crumbEditor("css"));
 const jsEditor = CodeMirror.fromTextArea(jsArea, crumbEditor("javascript"));
 
 const consoleEditor = CodeMirror.fromTextArea(consoleText, {
-  theme: "neo",
+  theme: "console-code",
 
   readOnly: true,
   lineWrapping: true,
@@ -436,7 +441,7 @@ function setPreload(bool, path = false, e = false) {
     document.addEventListener("DOMContentLoaded", function (e) {
       setTimeout(() => {
         alertModal.style.animation = "alertModal .15s linear forwards";
-      }, 5000);
+      }, 2500);
     });
     unsavedDraft.addEventListener("click", function (e) {
       e.preventDefault();
@@ -618,7 +623,7 @@ function printError(x) {
     const language = x.lang;
 
     const lineNo = x.data[0].lineNumber;
-    const dashes = "---------------------------------------";
+    const dashes = "-----------------------------------------";
 
     const errorOutput = `\n${dashes}\n[${language.toUpperCase()}] ${mess} \n\t\t\t\t at line ${lineNo}\n${dashes}`;
 
@@ -652,25 +657,26 @@ function printError(x) {
 
     outnum.textContent = `${errorCount}`;
   }
-  // else if (!x){
-  //   consoleBar.setAttribute("data-label", "0");
-  //   outnum.textContent = "0";
-  //   outnum.setAttribute("data-error", "0")
-  // }
 }
-
 submitLib.addEventListener("click", () => {
   updatePreview();
 });
-
-crumbName.crumb.addEventListener("change", function (e) {
-
+crumbName.crumb.addEventListener("blur", e => {
+  if(e.target.value === "" || e.target.value.length < 1){
+    e.target.value = "Unnamed Crumb"
+  }
 });
-crumbName.addEventListener("keypress", e => {
+crumbName.crumb.addEventListener("keypress", e => {
 
   if (e.keyCode === 13) {
-    crumbName.blur();
+    if(e.target.value === "" || e.target.value.length < 1){
+      e.target.value = "Unnamed Crumb"
+    }
+    crumbName.crumb.blur();
   }
+});
+crumbName.addEventListener("submit", e => {
+  e.preventDefault()
 });
 
 run.addEventListener("click", e => {
@@ -680,14 +686,44 @@ run.addEventListener("click", e => {
 
   //console.log(JSON.parse(p))
 });
+
 function __setEditorPreset__(type, value) {
   if (localStorage.__defineEditorPresets__) {
     const x = JSON.parse(localStorage.__defineEditorPresets__);
     localStorage.setItem(
       "__defineEditorPresets__",
-      JSON.stringify({ ...x, [type]: value })
+      JSON.stringify({
+        ...x,
+        [type]: value
+      })
     );
-  }
+  }else if (!localStorage.__defineEditorPresets__) {
+      let __defineEditorPresets__ = {
+        skin: "darkplus",
+        layout: "left",
+        colorPicker: "default",
+        linter: true,
+        autoComplete: true,
+        runDelayTimeout: 2000,
+        tab: 2,
+        indent: 2,
+        fontLigatures: true,
+        activeLine: false
+      };
+      localStorage.setItem(
+        "__defineEditorPresets__",
+        JSON.stringify(__defineEditorPresets__)
+      );
+
+      const x = JSON.parse(localStorage.__defineEditorPresets__);
+      localStorage.setItem(
+        "__defineEditorPresets__",
+        JSON.stringify({
+          ...x,
+          [type]: value
+        })
+      );
+    }
 }
 settingButtons(
   htmlEditor,
@@ -866,6 +902,13 @@ function elementDeclaration() {
   const resizeFrame = document.querySelector(".frame-in");
   const editorSkins = document.querySelector("#editor-skin");
   const consoleOutput = document.querySelector(".output-console");
+  const tabSize = document.querySelector(".tab-size");
+  const indentUnit = document.querySelector(".indent-unit");
+  const linterCh = document.querySelector("#linter-check");
+  const activeLineCh = document.querySelector("#active-line");
+  const autoCompleteCh = document.querySelector("#complete");
+  const footerLeft = document.querySelector(".footer-left");
+  const footerRight = document.querySelector(".footer-right");
 
   return {
     htmlArea,
@@ -956,7 +999,14 @@ function elementDeclaration() {
     consoleInput,
     resizeFrame,
     editorSkins,
-    consoleOutput
+    consoleOutput,
+    tabSize,
+    indentUnit,
+    linterCh,
+    activeLineCh,
+    autoCompleteCh,
+    footerLeft,
+    footerRight
   };
 }
 
@@ -1465,7 +1515,7 @@ function returnStates() {
 function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
   // data is converted to a blob;
   // strictly frontend.
-  const consoleJs = window.origin + "/static/preview/console.js";
+  const consoleJs = window.location.origin + "/static/preview/console.js";
 
   const otherScript = [consoleJs];
 
@@ -1495,8 +1545,6 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
     );
   }
 
-  const defUrl = getBlobURL(defCss, "text/css");
-  const cssURL = getBlobURL(css, "text/css");
   const jsURL = getBlobURL(js, "text/javascript");
 
   const externalCss = cssExt.value.split("\n").reduce(function(links, url) {
@@ -1518,33 +1566,27 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
     return script + (src ? "\n <script src='" + src + "'></script>" : "");
   }, "");
 
-  const source = `
-
-<!DOCTYPE html>
+  const source = `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        ${externalMeta}
-        ${externalCss}
+        ${externalMeta || ""}
+        ${externalCss || ""}
         <title>CodeCrumb - ${crumbName.crumb.value}</title>
     </head>
-    ${miscScript}
+    ${miscScript || ""}
     <body>
     <style>
-      ${defCss}
+      ${defCss || ""}
       ${css || ""}
     </style>
         ${html || ""}
     </body>
-
-    ${externalJs}
+    ${externalJs || ""}
     <script id="codecrumb-script" src="${jsURL || ""}"></script>
-
-    </html>
-
-    `;
+    </html>`;
 
   return getBlobURL(source, "text/html");
 }
@@ -1800,7 +1842,7 @@ function animate() {
       mode.addEventListener("click", e => {
         e.preventDefault();
         const cog = mode.firstChild;
-        cog.style.color = "#fa0033";
+        cog.style.color = "#568af2";
         toggleLanguageSettings();
         isCog = true;
       });
@@ -1828,33 +1870,11 @@ function animate() {
 
   window.addEventListener("load", function() {
     // eslint-disable-next-line no-undef
-    loader.firstElementChild.style.animation = "none";
-    loader.firstElementChild.style.willChange = "none";
+    // loader.firstElementChild.style.animation = "none";
+    // loader.firstElementChild.style.willChange = "none";
     loader.classList.add("load-off");
-    loader.style.display = "none";
+    // loader.style.display = "none";
   });
-
-  (function() {
-    if (!localStorage.__defineEditorPresets__) {
-      let __defineEditorPresets__ = {
-        skin: "dark",
-        editorStyle: "left",
-        colorPicker: "default",
-        linter: true,
-        autoComplete: true,
-        autoRunDelay: 2000,
-        tabSize: 2,
-        indentUnit: 2,
-        fontLigature: true,
-        preserveLog: true,
-        activeLine: true
-      };
-      localStorage.setItem(
-        "__defineEditorPresets__",
-        JSON.stringify(__defineEditorPresets__)
-      );
-    }
-  })();
 }
 
 // class for tab selection!!!!.
@@ -1873,11 +1893,12 @@ class tabOptions {
     eBorder = "0",
     eBorderColor = "transparent",
     eBorderStyle = "solid",
-    codeHeadBg = "transparent",
+    codeHeadBg = "var(--page-color)",
     codeHeadBorder = "none",
     editorTab = "flex",
     containerHeight = "100vh",
-    codeHeadDisplay = "flex"
+    codeHeadDisplay = "flex",
+    tabStyleBorder = "none"
   ) {
     this.codeOrder = codeOrder;
     this.previewOrder = previewOrder;
@@ -1898,8 +1919,9 @@ class tabOptions {
 
     this.editorTab = editorTab;
     this.borderRight = "7px";
-    (this.containerHeight = containerHeight),
-      (this.codeHeadDisplay = codeHeadDisplay);
+    this.tabStyleBorder = tabStyleBorder;
+    this.containerHeight = containerHeight;
+    this.codeHeadDisplay = codeHeadDisplay;
   }
   changeView() {
     const pens = [htmlPen, cssPen, jsPen];
@@ -1946,8 +1968,11 @@ class tabOptions {
       head.style.background = this.codeHeadBg;
       head.style.borderBottom = this.codeHeadBorder;
       head.style.display = this.codeHeadDisplay;
+      //handles codehead border for tabstyle editor view.
+      head.style.borderTop = this.tabStyleBorder;
+      codeHead[0].style.borderTop = "2px solid var(--editor-color)"
     });
-
+      
     // defines editors display flex/hidden;
     Array.from(editorTab).forEach(eTab => {
       eTab.style.display = this.editorTab;
@@ -1981,7 +2006,10 @@ tabStyleFullView.addEventListener("change", fullScreenPreview);
 //full-view
 function fullScreenPreview() {
   resetSplitPane();
-
+  footerLeft.style.order = "1";
+  footerRight.style.order = "2";
+  footerLeft.style.flexFlow = "row"
+  footerRight.style.flexFlow = "row";
   const tabbed = new tabOptions(
     2,
     1,
@@ -2000,10 +2028,11 @@ function fullScreenPreview() {
     "0 solid #13161f",
     "none",
     "calc(100vh - 90px)",
+    "none",
     "none"
   );
   tabbed.changeView();
-  __setEditorPreset__('editorStyle', "full-view");
+  __setEditorPreset__('layout', "full-view");
 }
 
 //right
@@ -2016,6 +2045,10 @@ function tabStyleRight() {
   resizes.forEach(resize => {
     resize.style.display = "block";
   });
+  footerLeft.style.order = "2";
+  footerRight.style.order = "1";
+  footerLeft.style.flexFlow = "row-reverse"
+  footerRight.style.flexFlow = "row-reverse";
   jsPen.classList.add("pen-active");
   code.style.display = "inline";
   htmlPen.classList.add("pen-active");
@@ -2034,11 +2067,12 @@ function tabStyleRight() {
     "none",
     "none",
     "none",
-    "#0f111a",
-    "2px solid #13161f",
+    "var(--page-color)",
+    "2px solid var(--editor-color)",
     "none",
     "calc(100vh - 90px)",
-    "flex"
+    "flex",
+    "none"
   );
   tabbed.changeView();
 
@@ -2046,7 +2080,7 @@ function tabStyleRight() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("editorStyle", "right");
+   __setEditorPreset__("layout", "right");
 }
 
 //left
@@ -2062,6 +2096,10 @@ function tabStyleLeft() {
   code.style.display = "inline";
   htmlPen.classList.add("pen-active");
   cssPen.classList.add("pen-active");
+  footerLeft.style.order = "1";
+  footerRight.style.order = "2";
+  footerLeft.style.flexFlow = "row"
+  footerRight.style.flexFlow = "row";
   const tabbed = new tabOptions(
     1,
     3,
@@ -2076,11 +2114,12 @@ function tabStyleLeft() {
     "none",
     "none",
     "none",
-    "#0f111a",
-    "2px solid #13161f",
+    "var(--page-color)",
+    "2px solid var(--editor-color)",
     "none",
     "calc(100vh - 90px)",
-    "flex"
+    "flex",
+    "none"
   );
   tabbed.changeView();
 
@@ -2088,7 +2127,7 @@ function tabStyleLeft() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("editorStyle", "left");
+   __setEditorPreset__("layout", "left");
 }
 
 //tab
@@ -2096,7 +2135,7 @@ function tabStyleDefault() {
   resetSplitPane();
   resizePaneX([".code-pen", ".editor-preview"], [44, 56]);
   const resizes = [htmlResize, cssResize, jsResize];
-
+  footerLeft.style.order = "1";
   const tabs = [htmlTab, cssTab, jsTab];
   resizes.forEach(resize => {
     resize.style.display = "none";
@@ -2106,7 +2145,10 @@ function tabStyleDefault() {
     const attr = tab.getAttribute("data-tab");
     if (tab.classList.contains("active") && attr === "html") {
       jsPen.classList.remove("pen-active");
-
+      footerLeft.style.order = "1";
+      footerRight.style.order = "2";
+      footerLeft.style.flexFlow = "row"
+      footerRight.style.flexFlow = "row";
       cssPen.classList.remove("pen-active");
     } else if (tab.classList.contains("active") && attr === "css") {
       jsPen.classList.remove("pen-active");
@@ -2130,26 +2172,30 @@ function tabStyleDefault() {
       "absolute",
       "row",
       "0",
-      "transparent",
+      "var(--page-color)",
       "solid",
-      "transparent",
+      "var(--page-color)",
       "none",
       "flex",
       "calc(100vh - 130px)",
-      "flex"
+      "flex",
+      "2px solid var(--editor-color)"
     );
     tabbed.changeView();
   });
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("editorStyle", "default");
+   __setEditorPreset__("layout", "column");
 }
 
 //top
 function tabStyleTop() {
   resetSplitPane();
-
+  footerLeft.style.order = "1";
+  footerRight.style.order = "2";
+  footerLeft.style.flexFlow = "row"
+  footerRight.style.flexFlow = "row";
   resetTransition();
   const resizes = [htmlResize, cssResize, jsResize];
   resizes.forEach(resize => {
@@ -2171,13 +2217,14 @@ function tabStyleTop() {
     "relative",
     "column",
     "5px",
-    "#0f111a",
+    "var(--page-color)",
     "solid",
-    "#0f111a",
+    "var(--page-color)",
     "none",
     "none",
     "calc(100vh - 90px)",
-    "flex"
+    "flex",
+    "2px solid var(--editor-color)"
   );
   tabbed.changeView();
   //splitCodePaneResizeX([150, 150, 150], 'horizontal')
@@ -2187,7 +2234,7 @@ function tabStyleTop() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("editorStyle", "top");
+   __setEditorPreset__("layout", "top");
 }
 
 resizeHeight(33.33);
@@ -2226,9 +2273,9 @@ function resizeHeight(height) {
   function resizeMe(e) {
     e.preventDefault();
 
-    resize.style.transition = "0.3s";
-    resizeOne.style.transition = "0.3s";
-    resizeTwo.style.transition = "0.3s";
+    resize.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeOne.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeTwo.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     resize.style.height = `calc(${MAX}% - 80px)`;
     resizeOne.style.height = `${MIN}px`;
@@ -2252,9 +2299,9 @@ function resizeHeight(height) {
   function normalizeMe(e) {
     e.preventDefault();
 
-    resize.style.transition = "0.3s";
-    resizeOne.style.transition = "0.3s";
-    resizeTwo.style.transition = "0.3s";
+    resize.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeOne.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeTwo.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     resize.style.height = `${height}%`;
     resizeOne.style.height = `${height}%`;
@@ -2276,9 +2323,9 @@ function resizeHeight(height) {
   function resizeMeOne(e) {
     e.preventDefault();
 
-    resize.style.transition = "0.3s";
-    resizeOne.style.transition = "0.3s";
-    resizeTwo.style.transition = "0.3s";
+    resize.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeOne.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeTwo.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     resize.style.height = `${MIN}px`;
     resizeOne.style.height = `calc(${MAX}% - 80px)`;
@@ -2299,9 +2346,9 @@ function resizeHeight(height) {
   function resizeMeTwo(e) {
     e.preventDefault();
 
-    resize.style.transition = "0.3s";
-    resizeOne.style.transition = "0.3s";
-    resizeTwo.style.transition = "0.3s";
+    resize.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeOne.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
+    resizeTwo.style.transition = "height 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     resize.style.height = `${MIN}px`;
     resizeOne.style.height = `${MIN}px`;
@@ -2349,9 +2396,9 @@ function resizeWidth() {
   function resizeMe(e) {
     e.preventDefault();
 
-    htmlPen.style.transition = "0.3s";
-    cssPen.style.transition = "0.3s";
-    jsPen.style.transition = "0.3s";
+    htmlPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    cssPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    jsPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     htmlPen.style.width = `${MAX}%`;
     cssPen.style.width = `${MIN}%`;
@@ -2369,9 +2416,9 @@ function resizeWidth() {
   function normalizeMe(e) {
     e.preventDefault();
 
-    htmlPen.style.transition = "0.3s";
-    cssPen.style.transition = "0.3s";
-    jsPen.style.transition = "0.3s";
+    htmlPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    cssPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    jsPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     htmlPen.style.width = `${ORIGINAL}%`;
     cssPen.style.width = `${ORIGINAL}%`;
@@ -2392,9 +2439,9 @@ function resizeWidth() {
 
   function resizeMeOne(e) {
     e.preventDefault();
-    htmlPen.style.transition = "0.3s";
-    cssPen.style.transition = "0.3s";
-    jsPen.style.transition = "0.3s";
+    htmlPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    cssPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    jsPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     htmlPen.style.width = `${MIN}%`;
     cssPen.style.width = `${MAX}%`;
@@ -2413,9 +2460,9 @@ function resizeWidth() {
 
   function resizeMeTwo(e) {
     e.preventDefault();
-    htmlPen.style.transition = "0.3s";
-    cssPen.style.transition = "0.3s";
-    jsPen.style.transition = "0.3s";
+    htmlPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    cssPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
+    jsPen.style.transition = "width 0.4s cubic-bezier(.38, .39, .28, .95)";
 
     htmlPen.style.width = `${MIN}%`;
     cssPen.style.width = `${MIN}%`;
@@ -2473,7 +2520,7 @@ function resizePaneX(el, size) {
   gutterHori.style.order = "2";
   Split(el, {
     sizes: size,
-    minSize: [200, 200],
+    minSize: [375, 375],
     direction: "horizontal",
     gutter: function(index, direction) {
       // gutter = document.querySelector('.resize-both')
@@ -2525,7 +2572,7 @@ function resetSplitPane() {
 // call function for default tab
 //splitCodePaneResizeY([41, 41, 41], "vertical")
 resizePaneX([".code-pen", ".editor-preview"], [44, 56]);
-
+const consoleCode = document.querySelector(".cm-s-console-code");
 const resizeBoth = document.querySelector(".resize-both");
 preview.contentWindow.onresize = function() {
   resizeFrame.innerHTML = `${this.innerWidth}px &times; ${this.innerHeight}px`;
@@ -2538,7 +2585,21 @@ preview.contentWindow.onresize = function() {
        consoleInput.style.fontSize = "0.65rem";
     } else {
     consoleInput.style.fontSize = "0.95rem";
+
   }
+ 
+    if(consoleOutput.offsetWidth <= 565){
+     
+        consoleCode.style.fontSize = "11.5px"
+
+    }else if(consoleOutput.offsetWidth <= 400){
+     
+        consoleCode.style.fontSize = "9.5px"
+
+    }else{
+      consoleCode.style.fontSize = "13.5px"
+    }
+
 };
 
 preview.addEventListener("load", () => {
@@ -2555,6 +2616,20 @@ preview.addEventListener("load", () => {
     }else{
       consoleInput.style.fontSize = "0.95rem";
     }
+    
+   
+    if(consoleOutput.offsetWidth <= 565){
+     
+      consoleCode.style.fontSize = "11.5px"
+
+  }else if(consoleOutput.offsetWidth <= 400){
+   
+      consoleCode.style.fontSize = "9.5px"
+
+  }else{
+    consoleCode.style.fontSize = "13.5px"
+  }
+
   };
 });
 resizeBoth.addEventListener("mousedown", () => {
@@ -2564,6 +2639,8 @@ resizeBoth.addEventListener("mousedown", () => {
 resizeBoth.addEventListener("mouseup", () => {
   resizeFrame.parentElement.style.opacity = "0";
 });
+
+
 
 function showHints(editor) {
   CodeMirror.registerGlobalHelper(
@@ -2693,12 +2770,27 @@ function hint() {
   showHints(cssEditor);
   showHints(jsEditor);
 
+  jsEditor.on("inputRead", function (e, cm) {
+    if (!cm.text[0].match(/[\s()\[\]{}\-\+\=\?\<\|\~\/;:>,]/) && cm.origin === "+input") {
+      jsEditor.showHint({
+        completeSingle: false,
+        alignWithWord: true,
+        closeOnUnfocus: true,
+        closeOnBackspace: true
+      });
+    }
+  }, {
+    passive: true
+  });
+
   editors.forEach(editor => {
     editor.setOption("extrakeys", {
       "Ctrl-Q": function (cm) {
         cm.foldCode(cm.getCursor());
       },
-
+      "Ctrl-K": function (cm, event) {
+        cm.state.colorpicker.popup_color_picker();
+      },
       "Alt-f": "findPersistent",
 
       "Ctrl-S": function () {
@@ -2710,9 +2802,7 @@ function hint() {
         }
       },
 
-      "Ctrl-Enter": function () {
-        updatePreview();
-      },
+      "Ctrl-Enter": updatePreview,
       "Alt-J": function () {
         beautifySingleFile(jsEditor, csse.js);
       },
@@ -2734,21 +2824,12 @@ function hint() {
     });
     editor.setOption("markEmmetAbbreviation", true);
 
-    editor.on("keypress", function (e) {
-      if (e.keyCode != 13) {
-        editor.showHint({
-          completeSingle: false,
-          alignWithWord: true,
-          closeOnUnfocus: true,
-          closeOnBackspace: true
-        });
-      }
-    });
+
     editor.on("cursorActivity", (cm) => {
       CodeMirror.commands.autocomplete = function (cm) {
         cm.showHint({
           hint: CodeMirror.hint.emoji,
-          completeSingle: false,
+          completeSingle: true,
           alignWithWord: true
         });
       };
@@ -2761,15 +2842,94 @@ function colorPicker() {
   const editors = [htmlEditor, cssEditor];
   editors.forEach(editor => {
     editor.setOption("colorpicker", {
-      mode: "edit",
-
-
+      mode: "edit"
     });
   });
 }
 colorPicker();
 
+(function predefinedSettings() {
+  let localPresets = localStorage.__defineEditorPresets__;
+  if (localStorage.__defineEditorPresets__) {
+    const presets = JSON.parse(localPresets);
+    const editors = [htmlEditor, cssEditor, jsEditor];
+    // change skin color:
+    changeEditorSkin(presets.skin);
+    // change tab size => indent unit => linter => autoComplete => colorpicker => activeLine.
+    editors.forEach(x => {
+      x.setOption("tabSize", presets.tab);
+      x.setOption("indentUnit", presets.indent);
+      x.setOption("styleActiveLine", presets.activeLine);
+      x.setOption("colorpicker", {
+        mode: 'edit',
+        type: presets.colorPicker
+      });
+      x.setOption("lint", presets.linter);
+      if (presets.autoComplete) {
+        hint()
+      } else {
+        x.setOption(
+          "markEmmetAbbreviation",
+          false
+        );
 
+        x.on("keypress", function () {
+          x.closeHint();
+        });
+        x.closeHint();
+      }
+    });
+    // change editor layout type
+    // checking for types
+    switch (presets.layout) {
+      case "left":
+        tabStyleLeft();
+        tabStyleLeftE.checked = true;
+        break;
+      case "top":
+        tabStyleTop();
+        tabStyleTopE.checked = true;
+        break;
+      case "column":
+        tabStyleDefault();
+        tabStyleTabE.checked = true;
+        break;
+      case "right":
+        tabStyleRight();
+        tabStyleRightE.checked = true;
+        break;
+      case "full-view":
+        fullScreenPreview();
+        tabStyleFullView.checked = true;
+        break;
+      default:
+        null
+
+    }
+    // font-ligatures
+    const cm = Array.from(document.querySelectorAll(".CodeMirror pre"));
+    presets.fontLigature ? cm.forEach(x => x.style.fontVariantLigatures = "contextual") : cm.forEach(x => x.style.fontVariantLigatures = "none")
+
+
+
+    // handle ui changes
+    const handleSelectUI = (item, selectEl) => {
+      const ts = selectEl.namedItem(item);
+      selectEl.selectedIndex = ts.index;
+    }
+    const handleCheckUI = (value, checkEl) => {
+      checkEl.checked = value
+    }
+    handleSelectUI(`${presets.tab}`, tabSize);
+    handleSelectUI(`${presets.indent}`, indentUnit);
+    handleSelectUI(`${presets.colorPicker}`, colorPickerType);
+    handleSelectUI(`${presets.skin}`, editorSkins);
+    handleCheckUI(presets.activeLine, activeLineCh);
+    handleCheckUI(presets.linter, linterCh);
+    handleCheckUI(presets.autocomplete, autoCompleteCh);
+    handleCheckUI(presets.fontLigatures, fontLigatures);
+  }
+})();
 /* eslint-disable no-console */
 function settingButtons(
   htmlEditor,
@@ -2783,7 +2943,6 @@ function settingButtons(
   keymaps
 ) {
   let delay;
-  let runDelayTimeout = 2000;
   // const editors = [htmlEditor, cssEditor, jsEditor];
   // toggles checkboxs and set their values;
   const checkbox = document.querySelectorAll('input[type="checkbox"]');
@@ -2838,11 +2997,9 @@ function settingButtons(
               cm.foldCode(cm.getCursor());
             },
 
-            "Alt-f": "findPersistent",
+            "Alt-F": "findPersistent",
 
-            "Ctrl-Enter": function () {
-              updatePreview();
-            },
+            "Ctrl-Enter": updatePreview,
 
             "Alt-A": function () {
               prettify(htmlEditor, cssEditor, jsEditor);
@@ -2896,7 +3053,11 @@ function settingButtons(
           editor.on("inputRead", function () {
             requestAnimationFrame(() => {
               clearTimeout(delay);
-              delay = setTimeout(updatePreview, runDelayTimeout);
+              delay = setTimeout(updatePreview, localStorage.__defineEditorPresets__ ? (function () {
+                let x =
+                  JSON.parse(localStorage.__defineEditorPresets__);
+                return x.runDelayTimeout
+              })() : 2000);
             });
             console.clear();
           });
@@ -2906,7 +3067,7 @@ function settingButtons(
           editor.on("inputRead", function () {
             requestAnimationFrame(() => {
               clearTimeout(delay);
-              delay = setTimeout(null, runDelayTimeout);
+              delay = setTimeout(null, 2000);
             });
           });
         });
@@ -2991,16 +3152,16 @@ function settingButtons(
 
   //tab size
 
-  const tabSize = document.querySelector(".tab-size");
+
 
   tabSize.addEventListener("change", changeTabSize);
 
   function changeTabSize() {
     const cmTab = document.querySelector(".tab-num");
     const selectedTab = parseInt(this.selectedOptions[0].value, 10);
-    htmlEditor.setOption("indentUnit", selectedTab);
-    cssEditor.setOption("indentUnit", selectedTab);
-    jsEditor.setOption("indentUnit", selectedTab);
+    htmlEditor.setOption("tabSize", selectedTab);
+    cssEditor.setOption("tabSize", selectedTab);
+    jsEditor.setOption("tabSize", selectedTab);
     cmTab.textContent = `${selectedTab}`;
     __setEditorPreset__("tabSize", selectedTab);
   }
@@ -3008,7 +3169,7 @@ function settingButtons(
 
   // indent unit
 
-  const indentUnit = document.querySelector(".indent-unit");
+
 
   // event listener for user option to select indent unit.
   indentUnit.addEventListener("change", indentToggled);
@@ -3018,7 +3179,7 @@ function settingButtons(
     htmlEditor.setOption("indentUnit", indented);
     cssEditor.setOption("indentUnit", indented);
     jsEditor.setOption("indentUnit", indented);
-__setEditorPreset__("indentUnit", indented);
+    __setEditorPreset__("indentUnit", indented);
   }
 
 
@@ -3153,10 +3314,10 @@ __setEditorPreset__("indentUnit", indented);
         cm.style.fontVariantLigatures = "none"
       }
     })
-    if(fontLigatures.checked){
-      __setEditorPreset__("fontLigature", true);
-    }else{
-      __setEditorPreset__("fontLigature", false);
+    if (fontLigatures.checked) {
+      __setEditorPreset__("fontLigatures", true);
+    } else {
+      __setEditorPreset__("fontLigatures", false);
     }
   })
 
@@ -3173,13 +3334,13 @@ __setEditorPreset__("indentUnit", indented);
         type: colorPickerType.selectedOptions[0].value
       });
     });
-    __setEditorPreset__("skin", colorPickerType.selectedOptions[0].value);
+    __setEditorPreset__("colorPicker", colorPickerType.selectedOptions[0].value);
   })
   autoRunDelay.addEventListener("keypress", function (e) {
     if (e.keyCode === 13) {
       runDelayTimeout = parseInt(this.value, 10);
       autoRunDelay.blur();
-      __setEditorPreset__("autoRunDelay", parseInt(this.value, 10));
+      __setEditorPreset__("runDelayTimeout", parseInt(this.value, 10));
     }
   })
 
@@ -3195,16 +3356,24 @@ function changeEditorSettings(
   sizes,
   keymaps
 ) {
-  const fontSize = sizes.namedItem(editorSettings.fSize);
-  const font = sizes.namedItem(editorSettings.font.split(",")[0]);
-  const theme = cmDark.namedItem(editorSettings.theme);
 
-  const keymap = keymaps.namedItem(editorSettings.keymap);
 
-  font ? fontFm.options.selectedIndex = font.index : null
-  fontSize ? sizes.options.selectedIndex = fontSize.index : null;
-  cmDark.options.selectedIndex = theme.index;
-  keymaps.options.selectedIndex = keymap.index;
+  //checks if custom font matches the predef one
+  fontFm.namedItem(editorSettings.font.split(",")[0]) ?
+    (fontFm.options.selectedIndex = fontFm.namedItem(
+      editorSettings.font.split(",")[0]
+    ).index) :
+    null;
+
+  // checks if custom fontsize matched the predef one
+  sizes.namedItem(editorSettings.fSize) ?
+    (sizes.options.selectedIndex = sizes.index) :
+    null;
+
+  // checks if theme exists
+  cmDark.namedItem(editorSettings.theme) ? cmDark.options.selectedIndex = cmDark.namedItem(editorSettings.theme).index : null
+  // checks if keymap exists
+  keymaps.namedItem(editorSettings.keymap) ? keymaps.options.selectedIndex = keymaps.namedItem(editorSettings.keymap).index : null
 
   const themeFSize = document.querySelectorAll(".CodeMirror");
   const k = Array.from(themeFSize);
@@ -3222,7 +3391,6 @@ function changeEditorSettings(
       .map(a => a.trim())
       .join(", ");
     fontFmCustom.value = `${x}`;
-
   });
 
   const editors = [htmlEditor, cssEditor, jsEditor];
@@ -3281,8 +3449,6 @@ function handleFooterLnCol() {
 }
 handleFooterLnCol();
 toggleLinter.addEventListener("click", () => {
-  const linterCh = document.querySelector("#linter-check");
-  console.log(linterITag, linterCh.checked);
   if (linterCh.checked) {
     toggleLinter.setAttribute("data-label", "Linter: off");
     linterITag.innerText = "clear";
@@ -3298,6 +3464,11 @@ toggleLinter.addEventListener("click", () => {
 
 
 editorSkins.addEventListener("change", (e) => {
+  changeEditorSkin(editorSkins.selectedOptions[0].value);
+  __setEditorPreset__("skin", editorSkins.selectedOptions[0].value);
+})
+
+function changeEditorSkin(skinType) {
   const skins = {
     dark: {
       "--editor-color": "rgba(19, 22, 31, 1)",
@@ -3328,62 +3499,72 @@ editorSkins.addEventListener("change", (e) => {
       "--settings-border-2": "rgba(38, 44, 63, 0.801)",
       "--textarea-bg": "rgba(20, 24, 29, 0.361)",
       "--textarea-border": "rgba(116, 124, 148, 0.7)"
+    },
+    palenight: {
+      "--editor-color": "#282d3d",
+      "--page-color": "#1a1e2a",
+      "--def-color": "rgba(108, 103, 131, 0.61)",
+      "--def-color-solid": "rgba(108, 103, 131, 1)",
+      "--settings-color": "#aaa",
+      "--def-bg": "#141822",
+      "--light": "white",
+      "--light-solid": "#ddd",
+      "--light-solid-2": "#ccc",
+      "--svg-fill": "#6c6783",
+      "--settings-border-2": "rgba(38, 44, 63, 0.801)",
+      "--textarea-bg": "rgba(20, 24, 29, 0.361)",
+      "--textarea-border": "rgba(116, 124, 148, 0.7)"
     }
   };
-  const value = editorSkins.selectedOptions[0].value;
-  const colors = skins[value];
+
+  const colors = skins[skinType];
   let i;
   for (i in colors) {
     document.documentElement.style.setProperty(i, colors[i])
   }
-})
 
-
-function keyboardShortCuts(updatePreview, htmlEditor, cssEditor, jsEditor) {
-    document.addEventListener("keyup", (e) => {
-        // console.log(e)
-
-        if (e.altKey && e.keyCode == 80) {
-
-
-            editorMenuMain.style.animation = "blink-in .2s ease-in-out";
-            editorMenuMain.style.display = "flex";
-        }
-        if (e.altKey && e.keyCode == 82) {
-            // ALT + R
-            // console.log(e.code);
-            updatePreview()
-        }
-        if (e.altKey && e.keyCode == 84) {
-            //alt - t
-            tabStyleTop();
-            tabStyleTopE.checked = true;
-        }
-        if (e.altKey && e.keyCode == 78) {
-            //alt - n
-            tabStyleDefault();
-            tabStyleTabE.checked = true;
-        }
-        if (e.altKey && e.keyCode == 77) {
-            //alt-m
-            tabStyleRight();
-            tabStyleRightE.checked = true;
-        }
-        if (e.altKey && e.keyCode == 76) {
-            //alt-l
-            tabStyleLeft();
-            tabStyleLeftE.checked = true;
-
-        }
-        if (e.altKey && e.keyCode == 79) {
-            //alt-o
-            fullScreenPreview();
-            tabStyleFullView.checked = true;
-        }
-
-
-    });
 }
+function keyboardShortCuts(updatePreview, htmlEditor, cssEditor, jsEditor) {
+  document.addEventListener("keyup", e => {
+    // console.log(e)
+
+    if (e.altKey && e.keyCode == 80) {
+      editorMenuMain.style.animation = "blink-in .2s ease-in-out";
+      editorMenuMain.style.display = "flex";
+    }
+    if (e.altKey && e.keyCode == 82) {
+      // ALT + R
+      // console.log(e.code);
+      updatePreview();
+    }
+    if (e.altKey && e.keyCode == 84) {
+      //alt - t
+      tabStyleTop();
+      tabStyleTopE.checked = true;
+    }
+    if (e.altKey && e.keyCode == 78) {
+      //alt - n
+      tabStyleDefault();
+      tabStyleTabE.checked = true;
+    }
+    if (e.altKey && e.keyCode == 77) {
+      //alt-m
+      tabStyleRight();
+      tabStyleRightE.checked = true;
+    }
+    if (e.altKey && e.keyCode == 76) {
+      //alt-l
+      tabStyleLeft();
+      tabStyleLeftE.checked = true;
+    }
+    if (e.altKey && e.keyCode == 79) {
+      //alt-o
+      fullScreenPreview();
+      tabStyleFullView.checked = true;
+    }
+  });
+}
+
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 
@@ -3590,7 +3771,7 @@ class Timer {
     this.running = false;
     this.isActive = false;
     this.stopwatch.textContent = "00:00:00";
-    this.stopwatch.style.color = "#ffffff";
+    this.stopwatch.style.color = "rgba(108,103,131,0.61)";
   }
   getBreakTime(seconds) {
     if (this.isActive) {
@@ -3722,7 +3903,6 @@ stop.addEventListener("click", function() {
 });
 timer.displayDate();
 
-
 const consoleClose = document.querySelector(".out-close");
 const error = document.querySelector(".console-label");
 const consoleBtnITag = document.querySelector(".opc");
@@ -3751,7 +3931,7 @@ class ProxyConsole {
     this.logElement = logElement;
     this.consoleBar = consoleBar;
     this.consoleInput = consoleInput;
-    this.dashes = "---------------------------------------";
+    this.dashes = "-----------------------------------------";
     this.word = "console.log( (89 * 78) / (64 % 6) - (90 + 120) )";
     this.time = 0;
   }
@@ -3782,9 +3962,7 @@ class ProxyConsole {
       const lineNo = x.data.lineNumber;
       const colNo = x.data.columnNumber;
 
-      const errorOutput = `\n${
-        this.dashes
-      }\n[${language.toUpperCase()}] ${mess} \n\t\t\t\t at main(${lineNo}:${colNo})\n${
+      const errorOutput = `\n# ${mess} \n\t\t\t\t at main(${lineNo}:${colNo})\n${
         this.dashes
       }`;
 
@@ -3810,19 +3988,19 @@ class ProxyConsole {
     } else if (x && y.data.console) {
       // gets response from iframe.
       const mess = x.data.message;
-      const language = x.lang;
       // formats console output
-      const consoleOutput = `\n${
-        this.dashes
-      }\n[${language.toUpperCase()}] ${mess}`;
 
+      const consoleOutput = `\n${mess}\n${this.dashes}`;
       // updates the console.
       // check if user wants to preserve the logs...
       if (this.logElement.checked) {
-        this.consoleElement.replaceRange(
-          consoleOutput,
-          CodeMirror.Pos(this.consoleElement.lastLine() + 1)
-        );
+        const ll = this.consoleElement.lastLine() + 1;
+
+        this.consoleElement.replaceRange(consoleOutput, CodeMirror.Pos(ll));
+
+        if (consoleOutput.split("\n").length > 15) {
+          this.consoleElement.foldCode(ll);
+        }
       } else if (!this.logElement.checked) {
         this.consoleElement.getDoc().setValue(consoleOutput);
       }
@@ -3883,7 +4061,7 @@ class ProxyConsole {
       )();
     }
     this.consoleElement.replaceRange(
-      `\n${this.dashes}\n'>>>'\t${this.consoleInput.value}`,
+      `\n${this.dashes}\n#! \t${this.consoleInput.value}`,
       CodeMirror.Pos(this.consoleElement.lastLine() + 1)
     );
     try {
@@ -3891,7 +4069,7 @@ class ProxyConsole {
     } catch (e) {
       let error = e.message.split("\n")[0];
       this.consoleElement.replaceRange(
-        `\n${this.dashes}\n'<<<'\t${error}`,
+        `\n${this.dashes}\n# \t${error}`,
         CodeMirror.Pos(this.consoleElement.lastLine() + 1)
       );
       this.consoleElement.setCursor(this.consoleElement.lastLine(), 3);
@@ -3948,7 +4126,7 @@ consoleInput.addEventListener("focus", updatePreview, {
   once: true
 });
 consoleInput.addEventListener("keypress", e => {
-  if (e.keyCode === 13) {
+  if (e.keyCode === 13 && e.target.value.length) {
     proxyConsole.evaluateConsoleInput();
   }
 });
