@@ -1,256 +1,237 @@
 {% extends 'errors/layout.html' %} {% block meta %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/error.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='css/error.css')}}">
 {% endblock %} {% block body %} {% block otherHeader %}
 {{ super() }}
 {% endblock %}
 <div class="container">
   <div class="error-body">
     <div class="error-container">
-      <span class=" error-span error-left">4</span>
+      <span class="error-span error-left">4</span>
       <div class="clock-mille">
-        <svg viewBox="0 0 40 40" id="svg-three" stroke="#fa0033">
-          <circle
-            fill="rgba(0, 0, 0, 0.1)"
-            stroke="#fa0033"
-            stroke-width=".02"
-            stroke-miterlimit="10"
-            cx="30"
-            cy="30"
-            r="15"
-            style="transform: translate(-10px, -10px)"
-          />
+        <svg viewBox="0 0 40 40" id="svg-three" stroke="var(--accent-color)">
+          <circle fill="rgba(0, 0, 0, 0.1)" stroke="var(--accent-color)" stroke-width=".02" stroke-miterlimit="10" cx="30" cy="30" r="15" style="transform: translate(-10px, -10px)"/>
           <g class="marks mark-three">
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
           </g>
         </svg>
         <svg viewBox="-12.5 -12.5 65 65" id="svg-three-one">
           <g class="marks mark-three-inner-one">
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
           </g>
         </svg>
 
         <svg viewBox="-30 -30 100 100" id="svg-three-two">
-          <circle
-            cx="3"
-            cy="3"
-            r="1.5"
-            stroke="#fa0033"
-            stroke-width="0.5"
-            fill="rgba(108, 103, 131, 0.6)"
-            style="transform: translate(17px, 17px)"
-            class="center-cy"
-          ></circle>
+          <circle cx="3" cy="3" r="1.5" stroke="var(--accent-color)" stroke-width="0.5" fill="var(--light)" style="transform: translate(17px, 17px)" class="center-cy"></circle>
           <g>
-            <line
-              x1="12"
-              y1="0"
-              x2="2"
-              y2="0"
-              stroke="#fa0033"
-              stroke-width="0.3"
-              class="seconds-hand"
-              style=""
-            >
-              <animatetransform
-                attributeName="transform"
-                attributeType="XML"
-                type="rotate"
-                dur="60s"
-                repeatCount="indefinite"
-              />
+            <line x1="12" y1="0" x2="2" y2="0" stroke="var(--accent-color)" stroke-width="0.3" class="seconds-hand">
+            
+              <animatetransform attributeName="transform" attributeType="XML" type="rotate" dur="60s" repeatCount="indefinite"/>
             </line>
           </g>
           <g class="marks mark-three-inner-two">
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
-            <line x1="15" y1="0" x2="16" y2="0" />
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
+            <line x1="15" y1="0" x2="16" y2="0"/>
           </g>
         </svg>
       </div>
-      <span class=" error-span error-right">4</span>
+      <span class="error-span error-right">4</span>
     </div>
     <div class="error-txt">
-      <span class="txt"
-        >Oops!!! Sorry the page you requested is a
-        <span class="lost">lost scroll</span>.</span
-      >
+      <span class="txt">Oops!!! Sorry the page you requested is a
+        <span class="lost">lost scroll</span>.</span>
     </div>
   </div>
 </div>
+<script>
+    const navigate = document.querySelector(".navigate");
+    const userCrumbMenu = document.querySelector(".user-crumb-menu");
+    const closeExplorer = document.querySelector(".close-explorer")
+    navigate.addEventListener("click", e => {
+      e.preventDefault();
+      userCrumbMenu.style.animation = "hoverin .1s linear forwards";
+    });
+
+    closeExplorer.addEventListener("click", e => {
+      e.preventDefault()
+      userCrumbMenu.style.animation = "hoverout .1s linear forwards";
+
+    });
+  </script>
 <script src="{{url_for('static', filename='js/error.js')}}"></script>
 {% endblock%}
