@@ -41,7 +41,7 @@ class LoginForm(FlaskForm):
 
     username = StringField(
         "Username / Email",
-        validators=[DataRequired(message="These field cannot be empty"), Length(min=2)], render_kw={"placeholder": "Username"}
+        validators=[DataRequired(message="These field cannot be empty"), Length(min=2)]
     )
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     submit = SubmitField("Sign in")

@@ -30,7 +30,8 @@ def register():
         newUser = User(username=username, email=email, password=hashed)
         db.session.add(newUser)
         db.session.commit()
-        flash("Account created Successfully")
+        flash("Your account has been created Successfully.")
+        flash("please sign in to continue.")
         return redirect(url_for("oauth.login"))
 
     return render_template("register.html", register=register, title=title)
@@ -71,7 +72,8 @@ def login():
                     redirect(nextPage) if nextPage else redirect(url_for("main.editor"))
                 )
             else:
-                flash("Login unsuccessful!\nPlease check username or password")
+                flash("Login unsuccessful!")
+                flash("Please check the username or password")
 
     # if current_user.is_authenticated:
     #     return redirect(url_for('editor'))
@@ -113,7 +115,7 @@ def account():
             current_user.username = personal.username.data.lower()
             current_user.email = personal.email.data.lower()
             db.session.commit()
-            flash("Your Profile has been updated succesfully")
+            flash("Your profile has been updated succesfully")
             return redirect(url_for("oauth.account"))
         elif request.method == "GET":
             personal.username.data = current_user.username
@@ -139,7 +141,7 @@ def account():
 
         if deletePassword.validate_on_submit():
             user = User.query.get(current_user.id)
-            if bcrypt.check_password_hash(user.password, deletePassword.password.data):
+            if bcrypt.check_password_hash(user.password, deletePassword.pass_w.data):
 
                 crumbs = Crumbs.query.filter_by(userId=user.id).all()
 
