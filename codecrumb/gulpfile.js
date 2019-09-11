@@ -9,15 +9,11 @@ const autoPrefixer = require("gulp-autoprefixer");
 const unCss = require("gulp-uncss");
 
 gulp.task("copyHTML", function() {
-  return gulp
-    .src("src/template/*.html")
-    .pipe(htmlMin())
-    .pipe(gulp.dest("templates"));
+  return gulp.src("src/template/*.html").pipe(gulp.dest("templates"));
 });
 gulp.task("copyErrorHTML", function() {
   return gulp
     .src("src/template/errors/*.html")
-    .pipe(htmlMin())
     .pipe(gulp.dest("templates/errors"));
 });
 gulp.task("copyCSS", function() {
@@ -28,15 +24,17 @@ gulp.task("copyCSS", function() {
     .pipe(gulp.dest("static/css"));
 });
 gulp.task("copyJS", function() {
-  return gulp
-    .src([
-      "src/js/account.js",
-      "src/js/login.js",
-      "src/js/error.js",
-      "src/js/readMe.js"
-    ])
-    // .pipe(babel({ presets: ["@babel/preset-env"] }))
-    .pipe(gulp.dest("static/js"));
+  return (
+    gulp
+      .src([
+        "src/js/account.js",
+        "src/js/login.js",
+        "src/js/error.js",
+        "src/js/readMe.js"
+      ])
+      // .pipe(babel({ presets: ["@babel/preset-env"] }))
+      .pipe(gulp.dest("static/js"))
+  );
 });
 
 // concats codemirror css files into a single file.
@@ -199,7 +197,7 @@ gulp.task("xternJs", function() {
     .src([
       "static/lib/tools/splitjs/split.min.js",
       "static/lib/tools/colorpicker/colorpicker.min.js",
-      "static/lib/tools/xtern/moment.js"
+      "static/lib/tools/xtern/esprima.js"
     ])
     .pipe(sourceMaps.init())
     .pipe(concat("xtern.js"))
@@ -226,22 +224,26 @@ gulp.task("prettier", function() {
 
 // concats the mainjs and its utils into a single file
 gulp.task("joinEditor-one", function() {
-  return gulp
-    .src(["src/utils/define-mode.js", "src/js/app.js", "src/js/utils.js"])
-    .pipe(sourceMaps.init())
-    .pipe(concat("app.bundle.one.js"))
-    // .pipe(babel({ presets: ["@babel/preset-env"] }))
-    .pipe(sourceMaps.write("maps/"))
-    .pipe(gulp.dest("static/js"));
+  return (
+    gulp
+      .src(["src/utils/define-mode.js", "src/js/app.js", "src/js/utils.js"])
+      .pipe(sourceMaps.init())
+      .pipe(concat("app.bundle.one.js"))
+      // .pipe(babel({ presets: ["@babel/preset-env"] }))
+      .pipe(sourceMaps.write("maps/"))
+      .pipe(gulp.dest("static/js"))
+  );
 });
 gulp.task("joinEditor-two", function() {
-  return gulp
-    .src(["src/utils/define-mode.js", "src/js/app.two.js", "src/js/utils.js"])
-    .pipe(sourceMaps.init())
-    .pipe(concat("app.bundle.two.js"))
-    // .pipe(babel({ presets: ["@babel/preset-env"] }))
-    .pipe(sourceMaps.write("maps/"))
-    .pipe(gulp.dest("static/js"));
+  return (
+    gulp
+      .src(["src/utils/define-mode.js", "src/js/app.two.js", "src/js/utils.js"])
+      .pipe(sourceMaps.init())
+      .pipe(concat("app.bundle.two.js"))
+      // .pipe(babel({ presets: ["@babel/preset-env"] }))
+      .pipe(sourceMaps.write("maps/"))
+      .pipe(gulp.dest("static/js"))
+  );
 });
 
 gulp.task("joinCrumb", function() {
