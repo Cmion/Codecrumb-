@@ -31,34 +31,57 @@ from codecrumb.crumbs.utils import (
     save_pseudo,
 )
 from codecrumb.model import Anonymous_Crumbs, Crumbs, User
+from codecrumb.oauth.forms import Search
 
 set_crumb = Blueprint("set_crumb", __name__)
 
 
-@set_crumb.route("/dashboard/crumbs")
+@set_crumb.route("/dashboard/crumbs", methods=["GET", "POST"])
 @login_required
 def crumbs():
+    search = Search()
+    
+    title = "Your Crumbs"
+    page = request.args.get("page", 1, int)
+    crumb = (
+        Crumbs.query.filter_by(userId=current_user.id)
+        .order_by(Crumbs.date_created.desc())
+        .paginate(page=page, per_page=6)
+    )
 
-    if current_user.is_authenticated:
-        title = "Your Crumbs"
-        page = request.args.get("page", 1, int)
-        crumb = (
+    imageFile = url_for("static", filename="profile-images/" + current_user.image)
+    if search.validate_on_submit():
+        name = search.byname.data
+        match = re.match(f"{name}*", name)
+        print(match)
+        crumbs = (
             Crumbs.query.filter_by(userId=current_user.id)
             .order_by(Crumbs.date_created.desc())
             .paginate(page=page, per_page=6)
         )
 
-        imageFile = url_for("static", filename="profile-images/" + current_user.image)
-        return render_template(
-            "crumb.html",
-            title=title,
-            image=imageFile,
-            crumbs=crumb,
-            json=json,
-            json_response=json_response,
-        )
-    else:
-        return redirect(url_for("main.editor"))
+        for crumb in crumbs.items:
+            if crumb.crumbName == name:
+                return render_template(
+                    "crumb.html",
+                    title=f"Search - {name}",
+                    image=imageFile,
+                    crumbs=crumb,
+                    json=json,
+                    json_response=json_response,
+                    search=search
+                )
+        # return redirect(url_for("main.editor"))
+    return render_template(
+        "crumb.html",
+        title=title,
+        image=imageFile,
+        crumbs=crumb,
+        json=json,
+        json_response=json_response,
+        search=search
+    )
+
 
 
 @set_crumb.route("/user/dashboard/crumbs/delete", methods=["GET", "POST"])
@@ -341,3 +364,4 @@ def export_crumb():
     response = request.get_json()
     receive_export(response)
     return make_response(jsonify({"request": response.get("url")}), 200)
+ 
