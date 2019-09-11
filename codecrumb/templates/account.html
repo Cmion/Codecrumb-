@@ -1,8 +1,17 @@
 {% extends 'layout.html' %} {% block meta %}
 
-<link rel="stylesheet" href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='css/snippet-theme.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='css/account.css')}}">
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/snippet-theme.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/account.css')}}"
+/>
 
 <script src="{{url_for('static', filename='lib/codemirror/lib/vendor-min.js')}}"></script>
 <script src="{{url_for('static', filename='lib/tools/linters/linters.js')}}"></script>
@@ -21,7 +30,11 @@
           <div class="form-group-one">
             <div class="image-change">
               {{ personal.hidden_tag() }}
-              <img class="user-image" src="{{ image }}" alt="{{ current_user.username }}">
+              <img
+                class="user-image"
+                src="{{ image }}"
+                alt="{{ current_user.username }}"
+              />
               <div class="image-over"></div>
               <i class="material-icons pro-img-icon">add_a_photo</i>
               {{personal.picture(class="pro-img")}}
@@ -35,7 +48,9 @@
               </span>
               <span class="username">{{ current_user.username }}</span>
               <span>Joined on</span>
-              <span>{{ current_user.dateCreated.strftime("%A %d, %B %Y") }}.</span>
+              <span
+                >{{ current_user.dateCreated.strftime("%A %d, %B %Y") }}.</span
+              >
               <span>{{ crumbSaved }} Crumbs Saved.</span>
             </div>
           </div>
@@ -208,7 +223,8 @@
               </li>
               <li>
                 Use bracket <span>[]</span> to specify attribute.
-                <span class="eg">e.g</span><span>img[src="./me.png" data-img=1]</span>.
+                <span class="eg">e.g</span
+                ><span>img[src="./me.png" data-img=1]</span>.
               </li>
               <li>
                 Use parenthesis <span>{}</span> to add text/string.
@@ -243,7 +259,12 @@
             </ul>
           </div>
           <div class="snippet-input">
-            <input type="hidden" name="snippets-info" value="{{ snippets }}" id="snippets">
+            <input
+              type="hidden"
+              name="snippets-info"
+              value="{{ snippets }}"
+              id="snippets"
+            />
             <textarea name="snippet" id="snippet-code"> </textarea>
           </div>
           <div class="snippet-note">

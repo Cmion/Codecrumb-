@@ -1,8 +1,17 @@
 {% extends 'layout.html' %} {% block meta%}
 
-<link rel="stylesheet" href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='lib/codemirror/theme/theme.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='css/readME.css')}}">
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/theme/theme.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/readME.css')}}"
+/>
 
 {% endblock %} {% block body %}
 <div class="pseudocode-container">
@@ -28,7 +37,7 @@
       </div>
       <div class="demo-body"><textarea name="" id="demo"></textarea></div>
     </section>
-    <input type="hidden" name="pseudo" value="{{ toJson }}" id="pseudo-data">
+    <input type="hidden" name="pseudo" value="{{ toJson }}" id="pseudo-data" />
   </section>
 </div>
 
