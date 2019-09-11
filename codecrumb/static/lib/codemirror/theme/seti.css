@@ -134,3 +134,11 @@
   border-bottom: 2px solid #55b5db;
   color: white !important;
 }
+
+/* Editor styling */
+
+.cm-s-seti pre {
+  padding: 1.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

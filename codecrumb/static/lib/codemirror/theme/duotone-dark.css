@@ -130,3 +130,9 @@ CodeMirror template by Jan T. Sott (https://github.com/idleberg), adapted by Bra
     border-bottom: 2px solid #6a51e6;
     color: white !important;
 }
+
+.cm-s-duotone-dark pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

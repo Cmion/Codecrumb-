@@ -14,7 +14,7 @@
     -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
-  line-height: 1.3375rem;
+  line-height: 1.5rem;
   color: rgba(233, 237, 237, 1);
   	-moz-box-shadow: inset 7px 0 12px -6px #000;
     -webkit-box-shadow: inset 7px 0 12px -6px #000;
@@ -52,4 +52,9 @@
 .cm-s-midnight .CodeMirror-matchingbracket {
   border-bottom: 2px solid #AE81FF;
   color: white !important;
+}
+.cm-s-midnight pre {
+  padding: 1.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

@@ -15,18 +15,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14.5px;
-  font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
-  line-height: 1.3375rem;
-  color:  #b9b6b0;
+  font-family: "fira code", monospace;
+  line-height: 1.35rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   -moz-box-shadow: inset 7px 0 12px -6px #000;
   -webkit-box-shadow: inset 7px 0 12px -6px #000;
   box-shadow: inset 7px 0 12px -6px #000;
+  color: #566d75;
 }
 
 
 
 
 
+.cm-s-paraiso-dark pre {
+  padding: 1.5px;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
 
 .cm-s-paraiso-dark div.CodeMirror-selected {
   background: rgba(45, 50, 74, 0.3)
@@ -66,7 +73,8 @@
 }
 
 .cm-s-paraiso-dark span.cm-comment {
-  color: #e96ba8;
+  color: #6c6783;
+  font-style: italic;
 }
 
 .cm-s-paraiso-dark span.cm-atom {
@@ -115,8 +123,8 @@
 }
 
 .cm-s-paraiso-dark span.cm-error {
-  background: #ef6155;
-  color: #8d8687;
+
+  color: #5c0202;
 }
 
 .cm-s-paraiso-dark .CodeMirror-activeline-background {

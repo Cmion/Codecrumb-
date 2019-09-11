@@ -98,3 +98,11 @@
 .cm-s-hopscotch .CodeMirror-activeline-background {
     background: #302020;
 }
+
+/* Editor styling */
+
+.cm-s-hopscotch pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

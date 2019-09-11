@@ -34,6 +34,11 @@
     border: none;
     padding-right: 0.8em;
 }
+.cm-s-the-matrix  pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 .cm-s-the-matrix .CodeMirror-guttermarker {}
 
@@ -49,7 +54,7 @@
 }
 
 .cm-s-the-matrix span.cm-keyword {
-    color: #008803;
+    color: #cb4b16;
     font-weight: bold;
 }
 

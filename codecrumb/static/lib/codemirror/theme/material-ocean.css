@@ -1,178 +1,101 @@
-/*
+/* material-ocean theme for codemirror */
 
-    Name:       material-ocean
-    Author:     Simeon Akpanudo (http://github.com/cmion)
-
-    Original material-ocean color scheme by Simeon Akpanudo (https://github.com/cmion/material-ocean-syntax)
-
-*/
-/* @import url("../../../css/font.css"); */
+/* Color scheme */
 
 .cm-s-material-ocean.CodeMirror {
     background-color: transparent !important;
-    color: rgb(152, 155, 170) !important;
-    border: none;
-    font-size: 14.5px;
-      -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-    font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
-    line-height: 1.3375rem;
-   
-}
-
-
-.cm-s-material-ocean .CodeMirror-gutters {
-    color: #fff;
-
-    background-color: transparent;
-    border: none;
-    padding-right: 5px;
-}
-
-.cm-s-material-ocean .CodeMirror-cursor {
-    border-left: 2px solid #ffaf38;
-}
-
-.cm-s-material-ocean .CodeMirror-linenumber {
-    color: #41475e;
-}
-
-.cm-s-material-ocean div.CodeMirror-selected {
-    background: rgba(45, 50, 74, 0.3);
-}
-
-.cm-s-material-ocean.CodeMirror-focused div.CodeMirror-selected {
-    background: rgba(45, 50, 74, 0.3);
-}
-
-.cm-s-material-ocean .CodeMirror-line::selection,
-.cm-s-material-ocean .CodeMirror-line>span::selection,
-.cm-s-material-ocean .CodeMirror-line>span>span::selection {
-    background: rgba(45, 50, 74, 0.3);
-}
-
-.cm-s-material-ocean .CodeMirror-line::-moz-selection,
-.cm-s-material-ocean .CodeMirror-line>span::-moz-selection,
-.cm-s-material-ocean .CodeMirror-line>span>span::-moz-selection {
-    background: rgba(45, 50, 74, 0.3);
-}
-
-.cm-s-material-ocean span.cm-comment {
-    font-style: italic;
-    color: #464B5D
-}
-
-.cm-s-material-ocean span.cm-string,
-.cm-s-material-ocean span.cm-string-2 {
-    color: #C3E88D;
-
-
-}
-
-.cm-s-material-ocean span.cm-number {
-    color: #F78C6C;
-}
-
-.cm-s-material-ocean span.cm-variable {
-    color: #FFCB6B;
-}
-
-.cm-s-material-ocean span.cm-variable-2 {
-    color: #F78C6C;
-}
-
-.cm-s-material-ocean span.cm-def {
-    color: #8F93A2;
-
-}
-
-
-.cm-s-material-ocean span.cm-error {
-    border-bottom: 2px dotted #89DDFF;
-}
-.cm-s-material-ocean span.cm-invalidchar {
-    border-bottom: 2px dotted #FF5370;
-}
-.cm-s-material-ocean span.cm-operator {
-    color: #89DDFF;
-}
-
-.cm-s-material-ocean span.cm-keyword {
-    color: #89DDFF;
-    font-style: italic;
-}
-
-.cm-s-material-ocean span.cm-atom {
-    color: #B2CCD6;
-
-}
-
-.cm-s-material-ocean span.cm-meta {
-    color: #f07178;
-}
-
-.cm-s-material-ocean span.cm-tag {
-    color:  #FF5370;
-
-}
-
-.cm-s-material-ocean span.cm-attribute {
-    color: #C792EA;
-    font-style: italic
-}
-
-.cm-s-material-ocean span.cm-qualifier {
-    color: #FFCB6B;
-    font-style: italic;
-}
-
-.cm-s-material-ocean span.cm-property {
-    color: rgb(207, 151, 245);
-
-}
-
-.cm-s-material-ocean span.cm-variable-3 {
-    color: #FFCB6B;
-}
-
-.cm-s-material-ocean span.cm-type {
-    color: #B2CCD6;
-
-}
-
-.cm-s-material-ocean span.cm-builtin {
-    color: #82AAFF;
-}
-
-.cm-s-material-ocean .CodeMirror-activeline-background {
-    background: rgba(255, 255, 255, 0.037);
-}
-
-.cm-s-material-ocean .CodeMirror-matchingbracket {
-    /* outline: 1px solid grey; */
-    border-bottom: 2px solid #ff2e59;
-    color: white !important;
-}
-
-
-
-.CodeMirror-matchingtag {
-    background: #2d324a
-}
-
-
-
-
-
-.cm-s-material-ocean .cm-hr {
-    color: #FFCB6B;
-}
-
-.cm-s-material-ocean .cm-link {
-    color: #F07178;
-    font-style: italic
-}
-.cm-s-material-ocean span.cm-bracket {
-    color: #89DDFF;
   
-}
+    border: none;
+    font-size: 14px;
+    font-family: "Fira Code", cursive, monospace;
+    color: #566d75;
+    line-height: 1.3375rem;
+  }
+  
+  .cm-s-material-ocean .cm-comment {
+    color: #75787b;
+    font-style: italic; 
+  }
+  
+  .cm-s-material-ocean div.CodeMirror-selected {
+  background: rgba(45, 50, 74, 0.3);
+  }
+  
+  .cm-s-material-ocean.CodeMirror-focused div.CodeMirror-selected {
+  background: rgba(45, 50, 74, 0.3);
+  }
+  
+  .cm-s-material-ocean .CodeMirror-line::selection,
+  .cm-s-material-ocean .CodeMirror-line>span::selection,
+  .cm-s-material-ocean .CodeMirror-line>span>span::selection {
+  background: rgba(45, 50, 74, 0.3);
+  }
+  
+  .cm-s-material-ocean .CodeMirror-line::-moz-selection,
+  .cm-s-material-ocean .CodeMirror-line>span::-moz-selection,
+  .cm-s-material-ocean .CodeMirror-line>span>span::-moz-selection {
+  background: rgba(45, 50, 74, 0.3);
+  }
+  
+  .cm-s-material-ocean .cm-keyword,
+  .cm-s-material-ocean .cm-property {
+    color: #1d75b3;
+  }
+  
+  .cm-s-material-ocean .cm-atom,
+  .cm-s-material-ocean .cm-number {
+    color: #75438a;
+  }
+  
+  .cm-s-material-ocean .cm-node,
+  .cm-s-material-ocean .cm-tag {
+    color: #9c3328;
+  }
+  
+  .cm-s-material-ocean .cm-string {
+    color: #b35e14;
+  }
+  
+  .cm-s-material-ocean .cm-variable,
+  .cm-s-material-ocean .cm-qualifier {
+    color: #047d65;
+  }
+  
+  
+  /* Editor styling */
+  
+  .cm-s-material-ocean pre {
+    padding: 1.5px;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-gutters {
+    border: none;
+    border-right: 10px solid transparent;
+    background-color: transparent;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-linenumber {
+    padding: 0;
+    color: #e0e2e5;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-guttermarker {
+    color: #1d75b3;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-guttermarker-subtle {
+    color: #e0e2e5;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-cursor {
+    width: auto;
+    border: 0;
+    background: rgba(155, 157, 162, 0.37);
+    z-index: 1;
+  }
+  
+  .cm-s-material-ocean .CodeMirror-matchingbracket {
+    /* outline: 1px solid grey; */
+    border-bottom: 2px solid #1d75b3;
+    color: white !important;
+  }

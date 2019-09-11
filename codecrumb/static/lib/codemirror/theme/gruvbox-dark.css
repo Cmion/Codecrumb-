@@ -120,3 +120,11 @@ span.cm-atom {
 .cm-s-gruvbox-dark span.cm-tag {
     color: #fe8019;
 }
+
+/* Editor styling */
+
+.cm-s-gruvbox-dark pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

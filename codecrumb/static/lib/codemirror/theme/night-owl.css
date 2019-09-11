@@ -174,3 +174,11 @@
   color: #89DDFF;
 
 }
+
+/* Editor styling */
+
+.cm-s-night-owl pre {
+  padding: 1.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -144,3 +144,9 @@
   border-bottom: 2px solid #ff2e20;
   color: white !important;
 }
+
+.cm-s-monokai pre {
+  padding: 1.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

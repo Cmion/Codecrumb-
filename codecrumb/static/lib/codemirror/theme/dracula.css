@@ -131,3 +131,10 @@
   border-bottom: 2px solid #ff79c6;
   color: white !important;
 }
+/* Editor styling */
+
+.cm-s-dracula pre {
+  padding: 1.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

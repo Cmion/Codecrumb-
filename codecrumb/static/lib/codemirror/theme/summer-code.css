@@ -48,7 +48,8 @@
 
 .cm-s-summer-code .cm-keyword,
 .cm-s-summer-code .cm-property {
-    color: #cb4b16;
+    color: #5967ff;
+   
 }
 
 .cm-s-summer-code .cm-atom {
@@ -66,30 +67,36 @@
 
 .cm-s-summer-code .cm-string {
     color: #2fb8ac;
-    color: #dc322f;
+    
+    color: #ffffff;
 }
 
 .cm-s-summer-code .cm-variable,
 .cm-s-summer-code .cm-qualifier {
     color: #5967ff;
+    color: #82AAFF;
+    color: #dc322f;
 
 }
 
 .cm-s-summer-code .cm-def {
-    color: #5967ff;
+    color: #fff700;
+    color: #B2CCD6;
 }
 .cm-s-summer-code .cm-meta {
     color: #2fb8ac;
 }
 .cm-s-summer-code .cm-variable-2 {
    
-    
+    /* #fded02; */
     color: #2fb8ac;
+    color: #e6de02;
 }
 .cm-s-summer-code .cm-link {color: #fff700;}
 .cm-s-summer-code span.cm-type,
 .cm-s-summer-code .cm-operator {
     color: #B2CCD6;
+    color: #c080ff;
 
 }
 
@@ -97,7 +104,7 @@
     color: #82AAFF;
 }
 .cm-s-summer-code .cm-attribute {
-    color: #fff700;
+    color: #B2CCD6;
 }
 
 /* Editor styling */

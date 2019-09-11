@@ -2,12 +2,12 @@
 	background-color: transparent;
 	border: none;
 	font-size: 14.5px;
-	font-family: consolas, cursive, monospace, 'source code pro', sans-serif;
-	line-height: 1.3375rem;
-	color: rgba(233, 237, 237, 1);
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-moz-box-shadow: inset 7px 0 12px -6px #000;
+	font-family: "fira code", monospace;
+	line-height: 1.35rem;
+	color: #566d75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-box-shadow: inset 7px 0 12px -6px #000;
     -webkit-box-shadow: inset 7px 0 12px -6px #000;
     box-shadow: inset 7px 0 12px -6px #000;
 
@@ -37,7 +37,7 @@
 	padding-right: 0.8em;
 }
 
-.cm-s-liquibyte .CodeMirror-gutter-elt div {
+.cm-s-liquibyte + .CodeMirror-gutter-elt div {
 	font-size: 1.2em;
 }
 
@@ -165,4 +165,9 @@
 
 .CodeMirror-matchingtag {
 	background: #2d324a
+}
+.cm-s-liquibyte pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

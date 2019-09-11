@@ -124,3 +124,11 @@ background: rgba(45, 50, 74, 0.3);
     border-bottom: 2px solid #fded02;
     color: white !important;
 }
+
+/* Editor styling */
+
+.cm-s-3024-night pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

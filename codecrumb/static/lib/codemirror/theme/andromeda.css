@@ -181,3 +181,9 @@
    color:#89DDFF;
   
 }
+
+.cm-s-andromeda pre {
+    padding: 1.5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
