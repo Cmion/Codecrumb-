@@ -5,7 +5,7 @@ from wtforms import PasswordField, StringField, SubmitField, TextField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 from codecrumb import bcrypt
-from codecrumb.model import User
+from codecrumb.model import User,Crumbs
 
 
 class RegistrationForm(FlaskForm):
@@ -119,3 +119,10 @@ class deleteForm(FlaskForm):
         ):
 
             raise ValidationError(f"Incorrect password")
+
+class Search(FlaskForm):
+    byname = StringField("name", render_kw={"placeholder": "Search by name..."})
+
+    search = SubmitField("Search")
+
+
