@@ -102,6 +102,66 @@ modes[JSModes.JSX] = {
 };
 
 /* eslint-disable no-console */
+
+const loopProtect = ({ code, timeout }) => {
+  let m = [];
+  const prefix = "$THIS_IS_CC_LOOP_PROTECT_VARIABLE";
+  const loopVariable = "\nconst %d = Date.now();\n";
+  let loopStr =
+    "\n\tif((Date.now() - %d) > " +
+    timeout +
+    "){\n\tthrow new RangeError(`Potential infinite loop prevented,\n if you want the loop to iterate a little longer, \n use the custom panel in the settings panel to change the duration\nnote: these page might not be responsive if the duration is or more than 2000ms\n`);\n}\n";
+  let loopID = 0;
+  // esprima's AST is used to parse the script
+
+  // These infinite loop prevention method uses the insertion method
+  // it inserts checks into any loop
+  // the checks contains a timestamp and once the time stamp is exceeded the loop breaks.
+  try {
+    esprima.parseScript(
+      code,
+      {
+        tolerant: true,
+        jsx: true,
+        range: true
+      },
+      function(node) {
+        switch (node.type) {
+          case "DoWhileStatement":
+          case "ForStatement":
+          case "ForInStatement":
+          case "WhileStatement":
+          case "ForOfStatement":
+            let p = loopStr;
+            let e = "";
+            let range = 1 + node.body.range[0];
+            if (node.body.type !== "BlockStatement") {
+              p = "{" + p;
+              e = "\n}";
+              --range;
+            }
+            m.push({ pos: range, str: p.replace("%d", prefix + loopID) });
+            m.push({ pos: node.body.range[1], str: e });
+            m.push({
+              pos: node.range[0],
+              str: loopVariable.replace("%d", prefix + loopID)
+            });
+            loopID++;
+            break;
+          default:
+            break;
+        }
+      }
+    );
+
+    m.sort((x, y) => y.pos - x.pos).forEach(n => {
+      code = code.slice(0, n.pos) + n.str + code.slice(n.pos);
+    });
+
+    return code;
+  } catch (e) {}
+};
+
 function HtmlCompile(editor, mode) {
   const d = deferred();
 
@@ -248,6 +308,7 @@ function CSSCompile(editor, mode) {
   } else if (mode === CSSModes.STYLUS) {
     editor.setOption("mode", modes.stylus.tdMimeType);
     stylus(editor.getValue()).render(function(err, result) {
+      console.log(err);
       if (err) {
         error = {
           lang: "STYLUS",
@@ -297,6 +358,9 @@ function CSSCompile(editor, mode) {
 }
 
 function JSCompile(editor, mode) {
+  let infiniteLoopTimeout =
+    JSON.parse(localStorage.getItem("__defineEditorPresets__")).loopTimeout ||
+    1000;
   let userCode = editor.getValue();
   const d = deferred();
   let error;
@@ -322,8 +386,12 @@ function JSCompile(editor, mode) {
         ]
       };
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
@@ -344,8 +412,12 @@ function JSCompile(editor, mode) {
         ]
       };
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
@@ -378,8 +450,12 @@ function JSCompile(editor, mode) {
           ]
         };
       }
-      d.resolve({
+      const code = loopProtect({
         code: userCode.outputText,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     } catch (e) {}
@@ -409,14 +485,18 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
   } else if (mode === JSModes.JSX) {
     editor.setOption("mode", modes.jsx.tdMimeType);
-    
+
     try {
       prettier.format(userCode, {
         parser: "babylon",
@@ -441,8 +521,12 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }

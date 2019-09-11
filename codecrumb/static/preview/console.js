@@ -1,6 +1,62 @@
 "use strict";
 
-function _typeof4(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof4 = function _typeof4(obj) { return typeof obj; }; } else { _typeof4 = function _typeof4(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof4(obj); }
+function _typeof8(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof8 = function _typeof8(obj) { return typeof obj; }; } else { _typeof8 = function _typeof8(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof8(obj); }
+
+function _typeof7(obj) {
+  if (typeof Symbol === "function" && _typeof8(Symbol.iterator) === "symbol") {
+    _typeof7 = function _typeof7(obj) {
+      return _typeof8(obj);
+    };
+  } else {
+    _typeof7 = function _typeof7(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof8(obj);
+    };
+  }
+
+  return _typeof7(obj);
+}
+
+function _typeof6(obj) {
+  if (typeof Symbol === "function" && _typeof7(Symbol.iterator) === "symbol") {
+    _typeof6 = function _typeof6(obj) {
+      return _typeof7(obj);
+    };
+  } else {
+    _typeof6 = function _typeof6(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof7(obj);
+    };
+  }
+
+  return _typeof6(obj);
+}
+
+function _typeof5(obj) {
+  if (typeof Symbol === "function" && _typeof6(Symbol.iterator) === "symbol") {
+    _typeof5 = function _typeof5(obj) {
+      return _typeof6(obj);
+    };
+  } else {
+    _typeof5 = function _typeof5(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof6(obj);
+    };
+  }
+
+  return _typeof5(obj);
+}
+
+function _typeof4(obj) {
+  if (typeof Symbol === "function" && _typeof5(Symbol.iterator) === "symbol") {
+    _typeof4 = function _typeof4(obj) {
+      return _typeof5(obj);
+    };
+  } else {
+    _typeof4 = function _typeof4(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof5(obj);
+    };
+  }
+
+  return _typeof4(obj);
+}
 
 function _typeof3(obj) {
   if (typeof Symbol === "function" && _typeof4(Symbol.iterator) === "symbol") {
@@ -128,7 +184,7 @@ function _arrayWithoutHoles(arr) {
       if (str.length > 200) {
         return "# Your log is too long for these console, please use the browser console instead.";
       } else {
-        return `"${str.join("\n")}"`;
+        return '"'.concat(str.join("\n"), '"');
       }
     }
 
@@ -146,6 +202,10 @@ function _arrayWithoutHoles(arr) {
 
     if (type === "[object Number]") {
       return "" + o;
+    }
+
+    if (type === "[object Date]") {
+      return '"'.concat(o.toString(), '"');
     }
 
     if (type === "[object Array]") {
@@ -178,9 +238,10 @@ function _arrayWithoutHoles(arr) {
       var _tot = "".concat(typeString, "{\n").concat(String(o.outerHTML), "\n}");
 
       return _tot.split("\n").length > 50 ? "# Your log is too long for these console, please use the browser console instead." : _tot;
-    }
+    } // allows object to go four level deep
 
-    var newBuffer = buffer + "  ";
+
+    var newBuffer = buffer + "    ";
 
     if (type.match(/Event+/gi)) {
       var x = [],
@@ -200,7 +261,7 @@ function _arrayWithoutHoles(arr) {
       return "".concat(typeString, " {\n").concat(y.join(",\n"), "\n}");
     }
 
-    if (buffer.length / 2 < 2) {
+    if (buffer.length / 4 < 4) {
       var _x = [],
           _y = [];
 

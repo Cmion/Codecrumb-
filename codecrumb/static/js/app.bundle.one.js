@@ -197,7 +197,8 @@ const {
   activeLineCh,
   autoCompleteCh,
   footerLeft,
-  footerRight
+  footerRight,
+  loopTimeout
 } = elementDeclaration();
 
 const csse = {
@@ -342,15 +343,34 @@ consoleEditor.setSize("100%", "100%");
 
 (function () {
   // html default value
-  const htmlDefValue = `<!-- Every code written here is placed within the body tag -->\n<div class=\"foo\" bar=\"baz\">I am inside a body tag!. ⚡</div>\n`;
+  const htmlDefValue = `<!-- Every code written here is placed within the body tag -->
+  <div class=\"foo\" bar=\"baz\">Hello World</div>`;
   htmlEditor.setOption("value", htmlDefValue);
 
   // css default value
-  const cssDefValue = `/* toggle the settings button to use a preprocessor, like SCSS */\nbody {\n  font-family: Helvetica;\n  color: #111111;\n  padding: 1.5em;\n  font-size: 1.5em;\n}\n`;
+  const cssDefValue = `/* toggle the settings button to use a preprocessor, like SCSS */
+  body {
+    font-family: "Raleway", sans-serif;
+    color: #222222;
+    font-size: 2em;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffffff 0%, #6284ff 50%, #ff0000 100%)
+  }
+  .foo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }`;
   cssEditor.setOption("value", cssDefValue);
 
   // javascript default value
-  const jsDefValue = `/* Click the Console button to view your logs */\nconst codeCrumb = x => {\n  console.log("Hey "+ x + ", Press Alt-R or Click Run to Preview your code.");\n};\ncodeCrumb(\"Programmer\");\n`;
+  const jsDefValue = `/* Click the Console button to view your logs */
+  const codeCrumb = x => {
+     console.log("Hey "+ x + ", Press Alt-R or Click Run to Preview your code.");
+    };
+    codeCrumb("Programmer");`;
   jsEditor.setOption("value", jsDefValue);
 
   consoleEditor.setOption("value", "# Your logs will appear here.... ");
@@ -690,13 +710,18 @@ run.addEventListener("click", e => {
 function __setEditorPreset__(type, value) {
   if (localStorage.__defineEditorPresets__) {
     const x = JSON.parse(localStorage.__defineEditorPresets__);
+    if(!x.type){
+      const addType = {...x, [type]: value};
+      localStorage.setItem(
+        "__defineEditorPresets__", JSON.stringify(addType))
+    }else{
     localStorage.setItem(
       "__defineEditorPresets__",
       JSON.stringify({
         ...x,
         [type]: value
       })
-    );
+    )}
   }else if (!localStorage.__defineEditorPresets__) {
       let __defineEditorPresets__ = {
         skin: "darkplus",
@@ -708,7 +733,8 @@ function __setEditorPreset__(type, value) {
         tab: 2,
         indent: 2,
         fontLigatures: true,
-        activeLine: false
+        activeLine: false,
+        loopTimeout: 1000
       };
       localStorage.setItem(
         "__defineEditorPresets__",
@@ -909,6 +935,7 @@ function elementDeclaration() {
   const autoCompleteCh = document.querySelector("#complete");
   const footerLeft = document.querySelector(".footer-left");
   const footerRight = document.querySelector(".footer-right");
+  const loopTimeout = document.querySelector("#loop-timeout");
 
   return {
     htmlArea,
@@ -1006,7 +1033,8 @@ function elementDeclaration() {
     activeLineCh,
     autoCompleteCh,
     footerLeft,
-    footerRight
+    footerRight,
+    loopTimeout
   };
 }
 
@@ -1089,6 +1117,66 @@ function jsPenState(editor, mode) {
 }
 
 /* eslint-disable no-console */
+
+const loopProtect = ({ code, timeout }) => {
+  let m = [];
+  const prefix = "$THIS_IS_CC_LOOP_PROTECT_VARIABLE";
+  const loopVariable = "\nconst %d = Date.now();\n";
+  let loopStr =
+    "\n\tif((Date.now() - %d) > " +
+    timeout +
+    "){\n\tthrow new RangeError(`Potential infinite loop prevented,\n if you want the loop to iterate a little longer, \n use the custom panel in the settings panel to change the duration\nnote: these page might not be responsive if the duration is or more than 2000ms\n`);\n}\n";
+  let loopID = 0;
+  // esprima's AST is used to parse the script
+
+  // These infinite loop prevention method uses the insertion method
+  // it inserts checks into any loop
+  // the checks contains a timestamp and once the time stamp is exceeded the loop breaks.
+  try {
+    esprima.parseScript(
+      code,
+      {
+        tolerant: true,
+        jsx: true,
+        range: true
+      },
+      function(node) {
+        switch (node.type) {
+          case "DoWhileStatement":
+          case "ForStatement":
+          case "ForInStatement":
+          case "WhileStatement":
+          case "ForOfStatement":
+            let p = loopStr;
+            let e = "";
+            let range = 1 + node.body.range[0];
+            if (node.body.type !== "BlockStatement") {
+              p = "{" + p;
+              e = "\n}";
+              --range;
+            }
+            m.push({ pos: range, str: p.replace("%d", prefix + loopID) });
+            m.push({ pos: node.body.range[1], str: e });
+            m.push({
+              pos: node.range[0],
+              str: loopVariable.replace("%d", prefix + loopID)
+            });
+            loopID++;
+            break;
+          default:
+            break;
+        }
+      }
+    );
+
+    m.sort((x, y) => y.pos - x.pos).forEach(n => {
+      code = code.slice(0, n.pos) + n.str + code.slice(n.pos);
+    });
+
+    return code;
+  } catch (e) {}
+};
+
 function HtmlCompile(editor, mode) {
   const d = deferred();
 
@@ -1235,6 +1323,7 @@ function CSSCompile(editor, mode) {
   } else if (mode === CSSModes.STYLUS) {
     editor.setOption("mode", modes.stylus.tdMimeType);
     stylus(editor.getValue()).render(function(err, result) {
+      console.log(err);
       if (err) {
         error = {
           lang: "STYLUS",
@@ -1284,6 +1373,9 @@ function CSSCompile(editor, mode) {
 }
 
 function JSCompile(editor, mode) {
+  let infiniteLoopTimeout =
+    JSON.parse(localStorage.getItem("__defineEditorPresets__")).loopTimeout ||
+    1000;
   let userCode = editor.getValue();
   const d = deferred();
   let error;
@@ -1309,8 +1401,12 @@ function JSCompile(editor, mode) {
         ]
       };
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
@@ -1331,8 +1427,12 @@ function JSCompile(editor, mode) {
         ]
       };
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
@@ -1365,8 +1465,12 @@ function JSCompile(editor, mode) {
           ]
         };
       }
-      d.resolve({
+      const code = loopProtect({
         code: userCode.outputText,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     } catch (e) {}
@@ -1396,14 +1500,18 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
   } else if (mode === JSModes.JSX) {
     editor.setOption("mode", modes.jsx.tdMimeType);
-    
+
     try {
       prettier.format(userCode, {
         parser: "babylon",
@@ -1428,8 +1536,12 @@ function JSCompile(editor, mode) {
       };
       // eslint-disable-next-line no-console
     } finally {
-      d.resolve({
+      const code = loopProtect({
         code: userCode,
+        timeout: parseInt(infiniteLoopTimeout, 10)
+      });
+      d.resolve({
+        code: code,
         error
       });
     }
@@ -1515,7 +1627,7 @@ function returnStates() {
 function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
   // data is converted to a blob;
   // strictly frontend.
-  const consoleJs = window.location.origin + "/static/preview/console.js";
+  const consoleJs = window.location.origin + "/static/preview/console-min.js";
 
   const otherScript = [consoleJs];
 
@@ -1527,19 +1639,8 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
     return URL.createObjectURL(blob);
   };
 
-  const defCss = `
-\nbody{
-    font-family: Helvetica, Arial, sans-serif;
-    background: white;
-}
-    `;
-
   // eslint-disable-next-line no-undef
-  if (mode == JSModes.BABEL) {
-    otherScript.push(
-      window.origin + "/static/lib/transpilers/babel-polyfill.min.js"
-    );
-  } else if (mode == JSModes.JSX) {
+  if (mode == JSModes.BABEL || mode == JSModes.JSX) {
     otherScript.push(
       window.origin + "/static/lib/transpilers/babel-polyfill.min.js"
     );
@@ -1567,26 +1668,30 @@ function getPreview({ html, css, js, meta, cssExt, jsExt, mode }) {
   }, "");
 
   const source = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        ${externalMeta || ""}
-        ${externalCss || ""}
-        <title>CodeCrumb - ${crumbName.crumb.value}</title>
-    </head>
-    ${miscScript || ""}
-    <body>
-    <style>
-      ${defCss || ""}
-      ${css || ""}
-    </style>
-        ${html || ""}
-    </body>
-    ${externalJs || ""}
-    <script id="codecrumb-script" src="${jsURL || ""}"></script>
-    </html>`;
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    ${externalMeta || ""}
+    ${externalCss || ""}
+    <title>CodeCrumb - ${crumbName.crumb.value}</title>
+</head>
+${miscScript || ""}
+<body>
+  <style>
+    body{
+      font-family: Helvetica, Arial, sans-serif;
+      background: white;
+    }
+    ${css || ""}
+  </style>
+      ${html || ""}
+
+  ${externalJs || ""}
+  <script id="codecrumb-script" src="${jsURL || ""}"></script>
+</body>
+</html>`;
 
   return getBlobURL(source, "text/html");
 }
@@ -2771,7 +2876,7 @@ function hint() {
   showHints(jsEditor);
 
   jsEditor.on("inputRead", function (e, cm) {
-    if (!cm.text[0].match(/[\s()\[\]{}\-\+\=\?\<\|\~\/;:>,]/) && cm.origin === "+input") {
+    if (!cm.text[0].match(/[\s()\[\]{}\-\+\=\?\<\|\~\/;:>,(.+\d)]/) && cm.origin === "+input") {
       jsEditor.showHint({
         completeSingle: false,
         alignWithWord: true,
@@ -2928,6 +3033,8 @@ colorPicker();
     handleCheckUI(presets.linter, linterCh);
     handleCheckUI(presets.autocomplete, autoCompleteCh);
     handleCheckUI(presets.fontLigatures, fontLigatures);
+    loopTimeout.value = presets.loopTimeout;
+    autoRunDelay.value = presets.runDelayTimeout;
   }
 })();
 /* eslint-disable no-console */
@@ -3338,10 +3445,34 @@ function settingButtons(
   })
   autoRunDelay.addEventListener("keypress", function (e) {
     if (e.keyCode === 13) {
-      runDelayTimeout = parseInt(this.value, 10);
+      const runDelayTimeout = parseInt(this.value, 10) > 10000 ? 10000 : parseInt(this.value, 10);
+      autoRunDelay.value = "" + runDelayTimeout;
       autoRunDelay.blur();
-      __setEditorPreset__("runDelayTimeout", parseInt(this.value, 10));
+      __setEditorPreset__("runDelayTimeout", runDelayTimeout);
     }
+  })
+
+  autoRunDelay.addEventListener("change", function () {
+
+    const runDelayTimeout = parseInt(this.value, 10);
+    autoRunDelay.blur();
+    __setEditorPreset__("runDelayTimeout", runDelayTimeout);
+
+  });
+  loopTimeout.addEventListener("keypress", function (e) {
+    if (e.keyCode === 13) {
+      const lt = parseInt(this.value, 10) > 5000 ? 5000 : parseInt(this.value, 10);
+      loopTimeout.value = "" + lt;
+      loopTimeout.blur();
+      __setEditorPreset__("loopTimeout", lt);
+    }
+  })
+  loopTimeout.addEventListener("change", function () {
+
+    const lt = parseInt(this.value, 10);
+    loopTimeout.blur();
+    __setEditorPreset__("loopTimeout", lt);
+
   })
 
 }
@@ -3412,8 +3543,8 @@ function handleFooterLnCol() {
       const cur = editor.getCursor();
       let ln = cur.line;
       let col = cur.ch;
-      edLn.innerText = `${ln}`;
-      edCh.innerText = `${col}`;
+      edLn.innerText = `${ln + 1}`;
+      edCh.innerText = `${col + 1}`;
       if (editor === htmlEditor) {
         editorMode.style.opacity = "1";
         editorMode.innerText = `${csse.html}`;
@@ -3501,8 +3632,8 @@ function changeEditorSkin(skinType) {
       "--textarea-border": "rgba(116, 124, 148, 0.7)"
     },
     palenight: {
-      "--editor-color": "#282d3d",
-      "--page-color": "#1a1e2a",
+      "--editor-color": "#212733",
+      "--page-color": "#1a1f28",
       "--def-color": "rgba(108, 103, 131, 0.61)",
       "--def-color-solid": "rgba(108, 103, 131, 1)",
       "--settings-color": "#aaa",
@@ -3826,13 +3957,6 @@ class Timer {
     }`;
     this.beBackTime.style.color = "#fff";
   }
-  displayDate() {
-    const dateItem = document.querySelector(".balance-date");
-
-    // eslint-disable-next-line no-undef
-    const date = moment().format("dddd, MMMM Do, YYYY");
-    dateItem.textContent = date;
-  }
 }
 
 // create a instance of timer
@@ -3901,7 +4025,7 @@ stop.addEventListener("click", function() {
   timer.stopTimer();
   __startTimer = true;
 });
-timer.displayDate();
+
 
 const consoleClose = document.querySelector(".out-close");
 const error = document.querySelector(".console-label");
@@ -3962,7 +4086,7 @@ class ProxyConsole {
       const lineNo = x.data.lineNumber;
       const colNo = x.data.columnNumber;
 
-      const errorOutput = `\n# ${mess} \n\t\t\t\t at main(${lineNo}:${colNo})\n${
+      const errorOutput = `\n# ${mess} \n#\t\t\t\t at main(${lineNo}:${colNo})\n${
         this.dashes
       }`;
 

@@ -1,741 +1,435 @@
 "use strict";
 
-var _createClass = (function() {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+var _slicedToArray = (function() {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+    try {
+      const $THIS_IS_CC_LOOP_PROTECT_VARIABLE0 = Date.now();
+      for (
+        var _i = arr[Symbol.iterator](), _s;
+        !(_n = (_s = _i.next()).done);
+        _n = true
+      ) {
+        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE0 > 5000) {
+          throw new RangeError(`Potential infinite loop prevented,
+ if you want the loop to iterate a little longer, 
+ use the custom panel in the settings panel to change the duration
+note: these page might not be responsive if the duration is or more than 2000ms
+`);
+        }
+        _arr.push(_s.value);
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
     }
+    return _arr;
   }
-  return function(Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
+  return function(arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError(
+        "Invalid attempt to destructure non-iterable instance"
+      );
+    }
   };
 })();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+var _extends =
+  Object.assign ||
+  function(target) {
+    const $THIS_IS_CC_LOOP_PROTECT_VARIABLE2 = Date.now();
+    for (var i = 1; i < arguments.length; i++) {
+      if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE2 > 5000) {
+        throw new RangeError(`Potential infinite loop prevented,
+ if you want the loop to iterate a little longer, 
+ use the custom panel in the settings panel to change the duration
+note: these page might not be responsive if the duration is or more than 2000ms
+`);
+      }
+      var source = arguments[i];
+      const $THIS_IS_CC_LOOP_PROTECT_VARIABLE1 = Date.now();
+      for (var key in source) {
+        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE1 > 5000) {
+          throw new RangeError(`Potential infinite loop prevented,
+ if you want the loop to iterate a little longer, 
+ use the custom panel in the settings panel to change the duration
+note: these page might not be responsive if the duration is or more than 2000ms
+`);
+        }
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    const $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 = Date.now();
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 > 5000) {
+        throw new RangeError(`Potential infinite loop prevented,
+ if you want the loop to iterate a little longer, 
+ use the custom panel in the settings panel to change the duration
+note: these page might not be responsive if the duration is or more than 2000ms
+`);
+      }
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
   }
 }
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError(
-      "this hasn't been initialised - super() hasn't been called"
-    );
-  }
-  return call && (typeof call === "object" || typeof call === "function")
-    ? call
-    : self;
-}
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect;
+var _Reactstrap = Reactstrap,
+  Collapse = _Reactstrap.Collapse,
+  Nav = _Reactstrap.Nav,
+  NavbarBrand = _Reactstrap.NavbarBrand,
+  NavbarToggler = _Reactstrap.NavbarToggler,
+  NavItem = _Reactstrap.NavItem,
+  NavLink = _Reactstrap.NavLink,
+  Container = _Reactstrap.Container,
+  Navbar = _Reactstrap.Navbar,
+  ListGroup = _Reactstrap.ListGroup,
+  ListGroupItem = _Reactstrap.ListGroupItem,
+  Button = _Reactstrap.Button,
+  ModalHeader = _Reactstrap.ModalHeader,
+  ModalBody = _Reactstrap.ModalBody,
+  Modal = _Reactstrap.Modal,
+  FormGroup = _Reactstrap.FormGroup,
+  Label = _Reactstrap.Label,
+  Input = _Reactstrap.Input,
+  Form = _Reactstrap.Form;
+var _ReactTransitionGroup = ReactTransitionGroup,
+  CSSTransition = _ReactTransitionGroup.CSSTransition,
+  TransitionGroup = _ReactTransitionGroup.TransitionGroup;
+var _ReactRedux = ReactRedux,
+  Provider = _ReactRedux.Provider,
+  useDispatch = _ReactRedux.useDispatch,
+  useSelector = _ReactRedux.useSelector,
+  connect = _ReactRedux.connect;
+var _Redux = Redux,
+  createStore = _Redux.createStore,
+  combineReducers = _Redux.combineReducers,
+  compose = _Redux.compose;
+var _PropTypes = PropTypes,
+  func = _PropTypes.func,
+  object = _PropTypes.object;
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError(
-      "Super expression must either be null or a function, not " +
-        typeof superClass
-    );
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
+// types
+
+var initState = {
+  items: [
+    {
+      id: uuid(),
+      name: "Eba"
+    },
+    {
+      id: uuid(),
+      name: "Milk"
+    },
+    {
+      id: uuid(),
+      name: "Egg"
+    },
+    {
+      id: uuid(),
+      name: "Yam"
     }
-  });
-  if (superClass)
-    Object.setPrototypeOf
-      ? Object.setPrototypeOf(subClass, superClass)
-      : (subClass.__proto__ = superClass);
-}
+  ]
+};
+var types = {
+  GET_ITEMS: "GET_ITEMS",
+  ADD_ITEM: "ADD_ITEM",
+  DELETE_ITEM: "DELETE_ITEM"
+};
 
-/* jshint esversion: 9 */
+// reducers
+var itemReducer = function itemReducer() {
+  var state =
+    arguments.length > 0 && arguments[0] !== undefined
+      ? arguments[0]
+      : initState;
+  var action = arguments[1];
 
-var Time = (function(_React$Component) {
-  _inherits(Time, _React$Component);
+  switch (action.type) {
+    case types.GET_ITEMS:
+      return _extends({}, state);
+    case types.ADD_ITEM:
+      return _extends({}, state, {
+        items: [action.payload].concat(_toConsumableArray(state.items))
+      });
 
-  function Time() {
-    _classCallCheck(this, Time);
-
-    var _this = _possibleConstructorReturn(
-      this,
-      (Time.__proto__ || Object.getPrototypeOf(Time)).call(this)
-    );
-
-    _this.state = {
-      time: {}
-    };
-    return _this;
+    case types.DELETE_ITEM:
+      return _extends({}, state, {
+        items: state.items.filter(function(item) {
+          return item.id !== action.payload;
+        })
+      });
+    default:
+      return state;
   }
+};
 
-  _createClass(Time, [
-    {
-      key: "showTime",
-      value: function showTime() {
-        var _this2 = this;
+// actions
+var getItems = function getItems() {
+  return {
+    type: "GET_ITEMS"
+  };
+};
+var deleteItem = function deleteItem(id) {
+  return {
+    type: "DELETE_ITEM",
+    payload: id
+  };
+};
+var addItem = function addItem(item) {
+  return {
+    type: "ADD_ITEM",
+    payload: item
+  };
+};
 
-        var time = new Date();
-        var hour =
-          time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
-        var mins =
-          time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();
+// store
+var rootReducer = combineReducers({ items: itemReducer });
+var store = createStore(
+  rootReducer,
+  compose(
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
+);
 
-        this.setState({
-          time: {
-            hour: hour,
-            min: mins
-          }
-        });
+var ItemModal = function ItemModal() {
+  var _useState = useState(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    modal = _useState2[0],
+    toggleModal = _useState2[1];
 
-        requestAnimationFrame(function() {
-          setTimeout(function() {
-            return _this2.showTime();
-          }, 1000);
-        });
-      }
-    },
-    {
-      key: "componentDidMount",
-      value: function componentDidMount() {
-        this.showTime();
-      }
-    },
-    {
-      key: "render",
-      value: function render() {
-        return React.createElement(
-          "div",
-          { className: "timer-body" },
-          React.createElement(
-            "span",
-            { className: "time" },
-            this.state.time.hour,
-            ":",
-            this.state.time.min
-          )
-        );
-      }
+  var _useState3 = useState(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    name = _useState4[0],
+    setName = _useState4[1];
+
+  var dispatch = useDispatch();
+
+  var toggle = function toggle() {
+    toggleModal(!modal);
+  };
+
+  var handleName = function handleName(e) {
+    setName(e.target.value);
+  };
+
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    var regex = new RegExp(/[a-zA-Z0-9]/, "gi");
+    if (name.length && name.match(regex)) {
+      toggle();
+
+      var newItem = {
+        id: uuid(),
+        name: name
+      };
+      setName("");
+      dispatch(addItem(newItem));
     }
-  ]);
-
-  return Time;
-})(React.Component);
-
-var Greeter = (function(_React$Component2) {
-  _inherits(Greeter, _React$Component2);
-
-  function Greeter() {
-    _classCallCheck(this, Greeter);
-
-    var _this3 = _possibleConstructorReturn(
-      this,
-      (Greeter.__proto__ || Object.getPrototypeOf(Greeter)).call(this)
-    );
-
-    _this3.state = {
-      greeting: {}
-    };
-    return _this3;
-  }
-
-  _createClass(Greeter, [
-    {
-      key: "handleNameChange",
-      value: function handleNameChange() {
-        this.refs.username.setAttribute("contenteditable", "true");
-      }
-    },
-    {
-      key: "saveName",
-      value: function saveName(e) {
-        e.persist();
-
-        if (e.type == "keypress") {
-          if (e.key == "Enter") {
-            if (this.refs.username.innerText !== "") {
-              localStorage.setItem(
-                "userData",
-                JSON.stringify({ username: this.refs.username.innerText.su })
-              );
-
-              this.refs.username.blur();
-            }
-            if (localStorage.userData) {
-              var local = JSON.parse(localStorage.userData);
-              this.refs.username.innerText = local.username.split(" ")[0];
-            }
-            this.refs.username.blur();
-          }
-        } else if (e.type == "blur") {
-          if (this.refs.username.innerText !== "") {
-            localStorage.setItem(
-              "userData",
-              JSON.stringify({ username: this.refs.username.innerText })
-            );
-          }
-          if (localStorage.userData) {
-            var _local = JSON.parse(localStorage.userData);
-            this.refs.username.innerText = _local.username.split(" ")[0];
-          }
-        }
-      }
-    },
-    {
-      key: "render",
-      value: function render() {
-        return React.createElement(
-          "div",
-          { className: "greeter" },
+  };
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      Button,
+      { color: "dark", style: { marginBottom: "2rem" }, onClick: toggle },
+      "Add Item"
+    ),
+    React.createElement(
+      Modal,
+      { toggle: toggle, isOpen: modal },
+      React.createElement(
+        ModalHeader,
+        { toggle: toggle },
+        "Add to shopping list"
+      ),
+      React.createElement(
+        ModalBody,
+        null,
+        React.createElement(
+          Form,
+          { onSubmit: handleSubmit },
           React.createElement(
-            "span",
-            { className: "greeting" },
-            this.props.greeting.greetType,
-            ","
-          ),
-          React.createElement(
-            "span",
-            {
-              className: "name",
-              ref: "username",
-              spellCheck: "false",
-              onClick: this.handleNameChange.bind(this),
-              onBlur: this.saveName.bind(this),
-              onKeyPress: this.saveName.bind(this)
-            },
-            this.props.greeting.name
-          ),
-          React.createElement("span", { className: "name-dot" }, ".")
-        );
-      }
-    }
-  ]);
-
-  return Greeter;
-})(React.Component);
-
-var SetFocus = (function(_React$Component3) {
-  _inherits(SetFocus, _React$Component3);
-
-  function SetFocus(props) {
-    _classCallCheck(this, SetFocus);
-
-    var _this4 = _possibleConstructorReturn(
-      this,
-      (SetFocus.__proto__ || Object.getPrototypeOf(SetFocus)).call(this, props)
-    );
-
-    _this4.state = {
-      focus: []
-    };
-    return _this4;
-  }
-
-  _createClass(SetFocus, [
-    {
-      key: "componentWillMount",
-      value: function componentWillMount() {
-        var categories = [
-          "Congrats!",
-          "Way to go!",
-          "Nice!",
-          "Weldone",
-          "Go Pro!",
-          "Good Job!"
-        ];
-        this.setState({ focus: categories });
-      }
-    },
-    {
-      key: "hail",
-      value: function hail() {
-        var _this5 = this;
-
-        var hail = this.state.focus[
-          Math.floor(Math.random() * this.state.focus.length)
-        ];
-        this.refs.congrats.textContent = hail;
-        this.refs.congrats.style.animation = "hailIn .5s ease forwards";
-        requestAnimationFrame(function() {
-          setTimeout(function() {
-            _this5.refs.congrats.textContent = "";
-            _this5.refs.congrats.style.animation = "hailOut .5s ease forwards";
-          }, 2000);
-        });
-      }
-    },
-    {
-      key: "checkComp",
-      value: function checkComp() {
-        if (this.refs.closeTodo.checked) {
-          var local = localStorage.userTodo;
-          var todos = JSON.parse(local);
-          this.hail();
-          localStorage.setItem(
-            "userTodo",
-            JSON.stringify({ item: todos.item, done: true })
-          );
-          this.refs.todoWord.classList.add("checked");
-          this.refs.closeSpan.innerHTML = "&plus;";
-        } else {
-          var _local2 = localStorage.userTodo;
-          var _todos = JSON.parse(_local2);
-          this.refs.todoWord.classList.remove("checked");
-          this.refs.closeSpan.innerHTML = "&times;";
-          localStorage.setItem(
-            "userTodo",
-            JSON.stringify({ item: _todos.item, done: false })
-          );
-        }
-      }
-    },
-    {
-      key: "hideTodoWord",
-      value: function hideTodoWord() {
-        this.refs.question.classList.remove("hide");
-        this.refs.input.classList.remove("hide");
-        this.refs.todoBlock.classList.add("hide");
-        this.refs.todoWord.textContent = "";
-        this.refs.todoWord.classList.remove("checked");
-        localStorage.removeItem("userTodo");
-        this.refs.closeTodo.checked = false;
-      }
-    },
-    {
-      key: "setTodo",
-      value: function setTodo(x, bool) {
-        var item = {
-          item: x,
-          done: bool
-        };
-
-        localStorage.setItem("userTodo", JSON.stringify(item));
-      }
-    },
-    {
-      key: "getTodo",
-      value: function getTodo() {
-        var x = localStorage.getItem("userTodo");
-        return JSON.parse(x);
-      }
-    },
-    {
-      key: "showTodo",
-      value: function showTodo(len, todo) {
-        if (todo.item.length >= len) {
-          var text = todo.item.substring(0, len - 3);
-          var fullword = text + "...";
-          this.refs.todoWord.style.transition = ".4s ease-in";
-          this.refs.todoWord.innerText = fullword;
-        } else {
-          this.refs.todoWord.style.transition = ".4s ease-in";
-          this.refs.todoWord.innerText = todo.item + ".";
-        }
-      }
-    },
-    {
-      key: "checkExistingTodo",
-      value: function checkExistingTodo() {
-        var local = localStorage.userTodo;
-
-        if (local) {
-          var todos = JSON.parse(local);
-
-          this.refs.question.classList.add("hide");
-          this.refs.input.classList.add("hide");
-
-          this.refs.todoBlock.classList.remove("hide");
-          this.showTodo(67, todos);
-          if (todos.done == true) {
-            this.refs.todoWord.classList.add("checked");
-            this.refs.closeSpan.innerHTML = "&plus;";
-            this.refs.closeTodo.checked = true;
-          }
-        }
-      }
-    },
-    {
-      key: "componentDidMount",
-      value: function componentDidMount() {
-        this.checkExistingTodo();
-      }
-    },
-    {
-      key: "renderFocusText",
-      value: function renderFocusText(e) {
-        if (e.type == "keypress") {
-          if (e.key == "Enter") {
-            if (this.refs.input.value == "") return;
-            this.refs.input.classList.add("hide");
-            this.refs.todoBlock.classList.remove("hide");
-            this.refs.question.classList.add("hide");
-            this.setTodo(this.refs.input.value, false);
-            var todo = this.getTodo();
-            if (document.body.offsetWidth < 900) {
-              this.showTodo(67, todo);
-              this.refs.input.value = "";
-            } else {
-              this.showTodo(67, todo);
-              this.refs.input.value = "";
-            }
-          }
-        }
-      }
-    },
-    {
-      key: "updateFocusText",
-      value: function updateFocusText(e) {
-        if (e.key == "Enter") {
-          var local = localStorage.userTodo;
-          if (
-            this.refs.todoWord.innerText != "" &&
-            this.refs.todoWord.innerText != "."
-          ) {
-            if (local) {
-              var done = JSON.parse(local).done;
-              this.setTodo(this.refs.todoWord.innerText, done);
-              var todo = this.getTodo();
-              this.showTodo(67, todo);
-            }
-          } else {
-            this.refs.todoWord.innerText = JSON.parse(local).item;
-          }
-          this.refs.todoWord.blur();
-        }
-      }
-    },
-    {
-      key: "toggleEditMode",
-      value: function toggleEditMode(e) {
-        this.refs.todoWord.setAttribute("contenteditable", "true");
-      }
-    },
-    {
-      key: "render",
-      value: function render() {
-        return React.createElement(
-          "div",
-          null,
-          React.createElement(
-            "div",
-            { className: "question", ref: "question" },
+            FormGroup,
+            null,
+            React.createElement(Input, {
+              name: "name",
+              id: "name",
+              placeholder: "Add to shopping list item",
+              onChange: handleName,
+              value: name,
+              autoFocus: true
+            }),
             React.createElement(
-              "span",
+              Button,
+              {
+                block: true,
+                className: "btn btn-primary",
+                style: { marginTop: "2rem" }
+              },
+              "Add Item"
+            )
+          )
+        )
+      )
+    )
+  );
+};
+
+var AppNavbar = function AppNavbar() {
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    isOpen = _useState6[0],
+    setOpen = _useState6[1];
+
+  var toggle = function toggle() {
+    setOpen(!isOpen);
+  };
+
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      Navbar,
+      { color: "dark", dark: true, expand: "sm", className: "mb-5" },
+      React.createElement(
+        Container,
+        null,
+        React.createElement(NavbarBrand, { href: "#" }, "Shopping Brand"),
+        React.createElement(NavbarToggler, { onClick: toggle }),
+        React.createElement(
+          Collapse,
+          { isOpen: isOpen, navbar: true },
+          React.createElement(
+            Nav,
+            { className: "ml-auto", navbar: true },
+            React.createElement(
+              NavItem,
               null,
-              "What is your main focus for today ?"
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "todo" },
-            React.createElement("input", {
-              type: "text",
-              name: "input",
-              className: "input",
-              ref: "input",
-              spellCheck: "false",
-              autoFocus: true,
-              onKeyPress: this.renderFocusText.bind(this)
-            }),
+              React.createElement(NavLink, null, "Home")
+            ),
             React.createElement(
-              "div",
-              { className: "todo-block hide", ref: "todoBlock" },
-              React.createElement("span", { className: "today" }, "Today"),
+              NavItem,
+              null,
+              React.createElement(NavLink, null, "Github")
+            ),
+            React.createElement(
+              NavItem,
+              null,
+              React.createElement(NavLink, null, "Resource")
+            )
+          )
+        )
+      )
+    )
+  );
+};
+
+var ShoppingList = function ShoppingList(props) {
+  useEffect(function() {
+    props.getItems();
+  });
+
+  var items = props.item.items;
+
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      ListGroup,
+      null,
+      React.createElement(
+        TransitionGroup,
+        { className: "shopping-list" },
+        items.map(function(_ref) {
+          var id = _ref.id,
+            name = _ref.name;
+          return React.createElement(
+            CSSTransition,
+            { key: id, classNames: "fade", timeout: 500 },
+            React.createElement(
+              ListGroupItem,
+              null,
               React.createElement(
-                "span",
-                { className: "todo-text", ref: "todoText" },
-                React.createElement(
-                  "label",
-                  null,
-                  React.createElement("input", {
-                    type: "checkbox",
-                    ref: "closeTodo",
-                    id: "close-todo",
-                    onClick: this.checkComp.bind(this)
-                  })
-                ),
-                React.createElement("span", {
-                  className: "todo-word",
-                  ref: "todoWord",
-                  spellCheck: "false",
-                  onKeyPress: this.updateFocusText.bind(this),
-                  onClick: this.toggleEditMode.bind(this)
-                }),
-                React.createElement(
-                  "span",
-                  { className: "close" },
-                  React.createElement(
-                    "span",
-                    {
-                      className: "close-span",
-                      ref: "closeSpan",
-                      onClick: this.hideTodoWord.bind(this)
-                    },
-                    "\xD7"
-                  )
-                )
-              )
-            ),
-            React.createElement(
-              "span",
-              { className: "congrats hide", ref: "congrats" },
-              "Weldone!"
+                Button,
+                {
+                  className: "remove-btn",
+                  size: "sm",
+                  color: "danger",
+                  onClick: function onClick() {
+                    props.deleteItem(id);
+                  }
+                },
+                "\xD7"
+              ),
+              name
             )
-          )
-        );
-      }
-    }
-  ]);
+          );
+        })
+      )
+    )
+  );
+};
 
-  return SetFocus;
-})(React.Component);
-
-var Focus = (function(_React$Component4) {
-  _inherits(Focus, _React$Component4);
-
-  function Focus() {
-    _classCallCheck(this, Focus);
-
-    var _this6 = _possibleConstructorReturn(
-      this,
-      (Focus.__proto__ || Object.getPrototypeOf(Focus)).call(this)
-    );
-
-    _this6.state = {
-      greeting: {}
-    };
-    return _this6;
-  }
-
-  _createClass(Focus, [
-    {
-      key: "getGreeting",
-      value: function getGreeting() {
-        var time = new Date();
-        var hours = time.getHours();
-        if (localStorage.userData) {
-          var name = JSON.parse(localStorage.userData);
-          var splitName = name.username.split(" ")[0];
-
-          if (hours < 12) {
-            this.setState({
-              greeting: {
-                greetType: "Good Morning",
-                name: splitName
-              }
-            });
-          } else if (hours >= 12 && hours < 18) {
-            this.setState({
-              greeting: {
-                greetType: "Good Afternoon",
-                name: splitName
-              }
-            });
-          } else if (hours >= 18) {
-            this.setState({
-              greeting: {
-                greetType: "Good Evening",
-                name: splitName
-              }
-            });
-          }
-        }
-      }
-    },
-    {
-      key: "checkName",
-      value: function checkName() {
-        if (localStorage.userData) {
-          var name = JSON.parse(localStorage.userData);
-          var splitName = name.username.split(" ")[0];
-          var greetings = this.state.greeting.greetType;
-
-          this.setState({
-            greeting: {
-              greetType: greetings,
-              name: splitName
-            }
-          });
-        }
-      }
-    },
-    {
-      key: "changeBackground",
-      value: function changeBackground() {
-        var morning = [
-          "1img",
-          "2img",
-          "3img",
-          "7img",
-          "13img",
-          "14img",
-          "15img",
-          "16img",
-          "17img",
-          "24img",
-          "26img",
-          "27img",
-          "28img",
-          "30img",
-          "31img"
-        ];
-        var night = [
-          "4img",
-          "5img",
-          "6img",
-          "8img",
-          "9img",
-          "10img",
-          "11img",
-          "12img",
-          "18img",
-          "19img",
-          "20img",
-          "21img",
-          "22img",
-          "23img",
-          "25img",
-          "32img",
-          "33img"
-        ];
-        var time = new Date();
-        var hour = time.getHours();
-        if (hour < 18) {
-          var random = Math.floor(Math.random() * morning.length);
-          this.refs.container.style.transition = ".4s ease-in";
-          this.refs.container.style.backgroundImage =
-            "url('http://127.0.0.1:8080/asset/dark-image/" +
-            morning[random] +
-            ".jpg')";
-          this.refs.container.style.backgroundPosition = "center";
-          this.refs.container.style.backgroundSize = "cover";
-        } else if (hour > 18) {
-          var _random = Math.floor(Math.random() * night.length);
-          this.refs.container.style.transition = ".4s ease-in";
-          this.refs.container.style.backgroundImage =
-            "url('http://127.0.0.1:8080/asset/dark-image/" +
-            night[_random] +
-            ".jpg')";
-          this.refs.container.style.backgroundPosition = "center";
-          this.refs.container.style.backgroundSize = "cover";
-        }
-      }
-    },
-    {
-      key: "componentDidMount",
-      value: function componentDidMount() {
-        var _this7 = this;
-
-        this.changeBackground();
-        var local = localStorage.userData;
-        if (local && JSON.parse(local).username != "") {
-          this.refs.startupContent.style.visibility = "hidden";
-          this.refs.contentBody.classList.remove("hide");
-
-          this.checkName();
-        }
-        requestAnimationFrame(function() {
-          setTimeout(function() {
-            return _this7.getGreeting();
-          }, 0);
-        });
-      }
-    },
-    {
-      key: "componentWillMount",
-      value: function componentWillMount() {
-        var _this8 = this;
-
-        requestAnimationFrame(function() {
-          setTimeout(function() {
-            return _this8.getGreeting();
-          }, 0);
-        });
-        this.checkName();
-      }
-    },
-    {
-      key: "saveNewUser",
-      value: function saveNewUser(e) {
-        var _this9 = this;
-
-        if (e.key == "Enter") {
-          if (this.refs.welcome.value != "") {
-            localStorage.setItem(
-              "userData",
-              JSON.stringify({ username: this.refs.welcome.value })
-            );
-            this.refs.contentBody.style.animation =
-              "floatIn .3s ease-in  forwards 100ms";
-            this.refs.startupContent.style.animation =
-              "hailOut .2s ease-in  forwards";
-            requestAnimationFrame(function() {
-              setTimeout(function() {
-                return _this9.getGreeting();
-              }, 0);
-            });
-            this.checkName();
-          } else {
-            this.refs.info.textContent = "Name cannot be empty!.";
-            this.refs.info.style.animation = "hailIn .5s ease-in forwards";
-          }
-        }
-      }
-    },
-    {
-      key: "render",
-      value: function render() {
-        return React.createElement(
-          "div",
-          { className: "container", ref: "container" },
-          React.createElement(
-            "div",
-            { className: "startup-content", ref: "startupContent" },
-            React.createElement(
-              "span",
-              { className: "welcome-greeting" },
-              "Hello Welcome"
-            ),
-            React.createElement(
-              "span",
-              { className: "welcome-question" },
-              "What is your name ?"
-            ),
-            React.createElement("input", {
-              type: "text",
-              ref: "welcome",
-              className: "welcome-name",
-              autoFocus: true,
-              spellCheck: "false",
-              onKeyPress: this.saveNewUser.bind(this)
-            }),
-            React.createElement(
-              "span",
-              { ref: "info", className: "info hide" },
-              "Please click enter to save!."
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "content-body hide", ref: "contentBody" },
-            React.createElement(Time, null),
-            React.createElement(Greeter, { greeting: this.state.greeting }),
-            React.createElement(SetFocus, null)
-          )
-        );
-      }
-    }
-  ]);
-
-  return Focus;
-})(React.Component);
+ShoppingList.propTypes = {
+  getItems: func.isRequired,
+  deleteItem: func.isRequired,
+  item: object.isRequired
+};
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    item: state.items
+  };
+};
+var List = connect(
+  mapStateToProps,
+  { getItems: getItems, deleteItem: deleteItem }
+)(ShoppingList);
+var App = function App() {
+  return React.createElement(
+    "div",
+    { className: "App" },
+    React.createElement(AppNavbar, null),
+    React.createElement(
+      Container,
+      null,
+      React.createElement(ItemModal, null),
+      React.createElement(List, null)
+    )
+  );
+};
 
 ReactDOM.render(
-  React.createElement(Focus, null),
-  document.querySelector(".root")
+  React.createElement(
+    Provider,
+    { store: store },
+    React.createElement(App, null)
+  ),
+  document.querySelector("#root")
 );
