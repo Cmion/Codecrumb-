@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+<body>
+    {% block body %}
+    <div class="container">
+        <div class="logo">
+            <a href="{{url_for('main.editor')}}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><defs><style>.cls-1{stroke: none;}.cls-2{fill:none;}.cls-2{stroke:#568af2;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style></defs><title>CodeCrumb</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="ico-72"><line class="cls-2" x1="52.5" y1="57.5" x2="67.5" y2="57.5"/><rect class="cls-2" x="4.5" y="15.5" width="45" height="41" rx="6.27"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/></g></g></g></svg>
+            </a>
+
+        </div>
+        <div class="crumb-note">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <span>{{message}}</span>
+            {% endfor%}
+            {% endif %}
+            {% endwith %}
+
+        </div>
+        <div class="form-container">
+
+            <div class="login">
+                <span class="form-head">Sign In</span>
+                <form class="form" action="" method="POST">
+                    {{login.hidden_tag()}}
+
+                    <label class="label-outer">{{login.username.label(class="label")}} {{login.username}}</label>
+                    {% if login.username.errors %}
+                    {% for error in login.username.errors %}
+                    <span class="form-error">{{error}}</span>
+                    {% endfor %}
+                    {% endif %}
+
+                    <label class="label-outer">{{login.password.label(class="label")}} {{login.password}}</label>
+                    {% if login.password.errors %}
+                    {% for error in login.password.errors %}
+                    <span class="form-error">{{error}}</span>
+                    {% endfor %}
+                    {% endif %}
+                    <label type="submit" class="submit">
+                        <span></span> <span></span> <span></span> <span></span>
+                        {{login.submit(class="submit-btn")}}
+
+                    </label>
+                </form>
+                <div class="form-util">
+                    <a href="{{url_for('oauth.register')}}" class="sign-up-switch">Sign up</a>
+                    <a href="#">Reset Password</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <script src="{{url_for('static', filename='js/login.js')}}"></script> -->
+    {% endblock %}
+</body>

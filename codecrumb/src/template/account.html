@@ -1,0 +1,327 @@
+{% extends 'layout.html' %} {% block meta %}
+
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/snippet-theme.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/account.css')}}"
+/>
+
+<script src="{{url_for('static', filename='lib/codemirror/lib/vendor-min.js')}}"></script>
+<script src="{{url_for('static', filename='lib/tools/linters/linters.js')}}"></script>
+{% endblock %}
+
+<body>
+  {% block body %} {% block otherHeader %}
+  {{ super() }}
+  {% endblock %} {% block loader %}
+  {{ super() }}
+  {% endblock %}
+  <div class="container">
+    <div class="profile-settings">
+      <div class="profile-change">
+        <form action="" method="POST" enctype="multipart/form-data">
+          <div class="form-group-one">
+            <div class="image-change">
+              {{ personal.hidden_tag() }}
+              <img
+                class="user-image"
+                src="{{ image }}"
+                alt="{{ current_user.username }}"
+              />
+              <div class="image-over"></div>
+              <i class="material-icons pro-img-icon">add_a_photo</i>
+              {{personal.picture(class="pro-img")}}
+            </div>
+            <div class="name">
+              <span class="errors">
+                {% if personal.picture.errors %} {% for error in
+                personal.picture.errors %}
+                <span class="form-error">{{ error }}</span>
+                {% endfor %} {% endif %}
+              </span>
+              <span class="username">{{ current_user.username }}</span>
+              <span>Joined on</span>
+              <span
+                >{{ current_user.dateCreated.strftime("%A %d, %B %Y") }}.</span
+              >
+              <span>{{ crumbSaved }} Crumbs Saved.</span>
+            </div>
+          </div>
+
+          <div class="form-groups">
+            <span class="form-title">
+              <span class="ft-header">Edit Your Profile</span>
+              <span class="ft-personal">Personal information</span>
+            </span>
+            <div class="form-personal">
+              <div class="fp-group">
+                <div class="fp-wrapper">
+                  {{ personal.firstname }}
+                  {{personal.firstname.label(class="fp-labels")}}
+                </div>
+                <div class="fp-wrapper">
+                  {{ personal.lastname }}
+                  {{personal.lastname.label(class="fp-labels")}}
+                </div>
+              </div>
+
+              <div class="fp-group">
+                <span class="fp-errors">
+                  {% if personal.firstname.errors %} {% for error in
+                  personal.firstname.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+                <span class="fp-errors">
+                  {% if personal.lastname.errors %} {% for error in
+                  personal.lastname.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+              </div>
+
+              <div class="fp-group">
+                <div class="fp-wrapper">
+                  {{ personal.username }}
+                  {{personal.username.label(class="fp-labels")}}
+                </div>
+                <div class="fp-wrapper">
+                  {{ personal.email }}
+                  {{personal.email.label(class="fp-labels")}}
+                </div>
+              </div>
+              <div class="fp-group">
+                <span class="fp-errors">
+                  {% if personal.username.errors %} {% for error in
+                  personal.username.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+
+                <span class="fp-errors">
+                  {% if personal.email.errors %} {% for error in
+                  personal.email.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+              </div>
+              <div class="fp-group">
+                <div class="fp-wrapper">
+                  {{ personal.location }}
+                  {{personal.location.label(class="fp-labels")}}
+                </div>
+                <div class="fp-wrapper">
+                  {{ personal.github }}
+                  {{personal.github.label(class="fp-labels")}}
+                </div>
+              </div>
+              <div class="fp-group">
+                <span class="fp-errors">
+                  {% if personal.location.errors %} {% for error in
+                  personal.location.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+
+                <span class="fp-errors">
+                  {% if personal.github.errors %} {% for error in
+                  personal.github.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+              </div>
+
+              <div class="form-btn">
+                {{personal.submit(class="button")}}
+              </div>
+            </div>
+            <div class="form-password"></div>
+          </div>
+          <div class="border">
+            <span></span>
+          </div>
+        </form>
+
+        <form action="" method="POST">
+          {{ userPassword.hidden_tag() }}
+          <div class="form-groups-two">
+            <span class="form-title">
+              <span class="ft-personal">Change password</span>
+            </span>
+            <div class="form-personal">
+              <div class="fp-group">
+                <div class="fp-wrapper">
+                  {{ userPassword.password }}
+                  {{userPassword.password.label(class="fp-labels")}}
+                </div>
+                <div class="fp-wrapper">
+                  {{ userPassword.newPassword }}
+                  {{userPassword.newPassword.label(class="fp-labels")}}
+                </div>
+              </div>
+              <div class="fp-group">
+                <span class="fp-errors">
+                  {% if userPassword.password.errors %} {% for error in
+                  userPassword.password.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+                <span class="fp-errors">
+                  {% if userPassword.newPassword.errors %} {% for error in
+                  userPassword.newPassword.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+              </div>
+
+              <div class="fp-group">
+                <div class="fp-wrapper">
+                  {{ userPassword.confirmNewPassword }}
+                  {{userPassword.confirmNewPassword.label(class="fp-labels")}}
+                </div>
+              </div>
+              <div class="fp-group">
+                <span class="fp-errors">
+                  {% if userPassword.confirmNewPassword.errors %} {% for error
+                  in userPassword.confirmNewPassword.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+              </div>
+              <div class="form-btn">
+                {{userPassword.change(class="button")}}
+              </div>
+            </div>
+          </div>
+          <div class="border">
+            <span></span>
+          </div>
+        </form>
+        <div class="snippets">
+          <div class="snippet-header">
+            <span>Add custom code snippets</span>
+          </div>
+
+          <div class="snippet-note">
+            <span>Format:-</span>
+            <ul>
+              <li>Use Ctrl or Cmd E to expand snippets.</li>
+              <li>
+                Use hashtags <span>(#)</span> to specify tag id.
+                <span class="eg">e.g</span> <span>div#foo</span>.
+              </li>
+              <li>
+                Use dot <span>(.)</span> to specify tag class.
+                <span class="eg">e.g</span> <span>div.foo</span>.
+              </li>
+              <li>
+                Use bracket <span>[]</span> to specify attribute.
+                <span class="eg">e.g</span
+                ><span>img[src="./me.png" data-img=1]</span>.
+              </li>
+              <li>
+                Use parenthesis <span>{}</span> to add text/string.
+                <span class="eg">e.g</span>
+                <span>div{I'm bar}</span>
+              </li>
+              <li>
+                Use <span>></span> to specify or nest children.
+                <span class="eg">e.g</span> <span>div.foo>span.</span> span in a
+                child of <span>div</span>.
+              </li>
+              <li>
+                Use <span>+</span> to specify an element's sibling.
+                <span class="eg">e.g</span> <span>div+span+img</span>.
+              </li>
+              <li>
+                Use <span>*</span> to create multiple element.
+                <span class="eg">e.g</span> <span>li*3</span>. creates 3
+                <span>li</span>
+                tags.
+              </li>
+              <li>
+                You can use multiple dots <span>(.)</span> to create multiple
+                classes. <span class="eg">e.g</span>
+                <span>div.foo.bar.foobar.barfoo</span>.
+              </li>
+              <li>
+                For css properties, respresent data as a
+                <span>key : value </span>pair. <span class="eg">e.g</span>
+                <span>'myproperty': 'myvalue'</span>.
+              </li>
+            </ul>
+          </div>
+          <div class="snippet-input">
+            <input
+              type="hidden"
+              name="snippets-info"
+              value="{{ snippets }}"
+              id="snippets"
+            />
+            <textarea name="snippet" id="snippet-code"> </textarea>
+          </div>
+          <div class="snippet-note">
+            <ul>
+              <li>Code should be formatted in correct JSON format</li>
+              <li>Snippets should be formatted in already specified format</li>
+            </ul>
+          </div>
+          <div class="snippet-footer">
+            <button class="submit-snippet">Add Snippet</button>
+              <p class="response"></p>
+          </div>
+        </div>
+        <div class="border">
+          <span></span>
+        </div>
+
+        <div class="delete">
+          <div class="del-header">
+            <span>Delete Account</span>
+          </div>
+          <div class="delete-note">
+            <span>Note:-</span>
+            <ul>
+              <li>All your information will be deleted.</li>
+              <li>All your crumbs will be deleted.</li>
+              <li>Deleted account cannot be retrieved.</li>
+            </ul>
+          </div>
+          <div class="validate-owner">
+            <form method="POST">
+              {{ deletePassword.hidden_tag() }}
+              <div class="del-group">
+                <div class="del-wrapper">
+                  {{ deletePassword.pass_w }}
+                  {{deletePassword.pass_w.label(class="del-labels")}}
+                </div>
+                <span class="del-errors">
+                  {% if deletePassword.pass_w.errors %} {% for error in
+                  deletePassword.pass_w.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %} {% endif %}
+                </span>
+                <div class="delete-btn">
+                  {{deletePassword.delete(class="button")}}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{url_for('static', filename='js/account.js')}}"></script>
+  <!-- {% block otherScript %}
+  {{ super() }}
+  {% endblock %}  -->
+  {% endblock %}
+</body>

@@ -1,0 +1,171 @@
+/* Note fonts are order alphabetically according to their first letter */
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Fira_Sans/FiraSans-Regular.ttf");
+
+}
+
+
+
+
+@font-face {
+    font-family: 'Monoid';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/Monoid.ttf");
+
+}
+
+@font-face {
+    font-family: 'Menlo';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/Menlo-Regular.ttf");
+
+}
+@font-face {
+    font-family: 'Nasalization';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Nasalization/nasalization.ttf");
+
+}
+@font-face {
+    font-family: 'Neuropol X';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/neuropol\ x.ttf");
+
+}
+
+@font-face {
+    font-family: 'Inconsolata';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    src: url("../../static/lib/tools/fonts/Misc/Inconsolata.ttf");
+
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/FiraCode.ttf");
+
+}
+
+@font-face {
+    font-family: 'Monaco';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/Monaco.ttf");
+    src: url("../../static/lib/tools/fonts/Misc/Monaco.woff") format("woff");
+
+}
+
+@font-face {
+    font-family: 'FixedSys';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/FixedSys.ttf");
+
+}
+@font-face {
+    font-family: 'Hasklig';
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Hasklig/Hasklig-regular.otf");
+
+}
+@font-face {
+    font-family: 'Cartograph Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/cartograph-mono-cf.otf");
+
+}
+
+@font-face {
+    font-family: 'Dejavu Sans Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Deja_Vu_Sans/DejaVuSansMono.eot");
+    src: url("../../static/lib/tools/fonts/Deja_Vu_Sans/DejaVuSansMono.woff") format("woff"), url("../../static/lib/fonts/Deja_Vu_Sans/DejaVuSansMono.woff") format("truetype")
+}
+
+@font-face {
+    font-family: 'Camingo Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Camingo_Code/CamingoCode-Regular.eot");
+    src: url("../../static/lib/tools/fonts/Camingo_Code/CamingoCode-Regular.woff") format("woff"), url("../../static/lib/fonts/Camingo_Code/CamingoCode-Regular.ttf") format("truetype")
+}
+
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Roboto/Roboto-Regular.ttf");
+
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Lato/lato-Regular_01.eot");
+    src: url("../../static/lib/tools/fonts/Lato/lato-Regular_01.woff2") format("woff2"), url("../../static/lib/fonts/Lato/lato-Regular_01.woff") format("woff"), url("../../static/lib/fonts/Lato/lato-Regular_01.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'Montserrat';
+
+    src: url("../../static/lib/tools/fonts/Montserrat/Montserrat-Regular.ttf");
+
+}
+
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url("../../static/lib/tools/fonts/Open_Sans/OpenSans-Regular.ttf");
+
+}
+
+@font-face {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Raleway/Raleway-Regular.ttf");
+
+}
+
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Source_Code_Pro/SourceCodePro-Regular.ttf");
+
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/Quicksand-Regular.ttf");
+
+}
+
+@font-face {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../static/lib/tools/fonts/Misc/ProximaNova-Regular.otf");
+
+}

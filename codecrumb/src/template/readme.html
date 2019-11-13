@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% block meta%}
+
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/lib/vendor.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='lib/codemirror/theme/theme.css')}}"
+/>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/readME.css')}}"
+/>
+
+{% endblock %} {% block body %}
+<div class="pseudocode-container">
+  <header>
+    <div class="pseudo-name">Pseudocode: <span class="crumb-name"></span></div>
+    <div class="pseudo-toggle">
+      <button class="raw-toggler active">Raw</button>
+      <button class="compiled-toggler">Compiled</button>
+    </div>
+  </header>
+
+  <section class="pseudocode">
+    <main class="section-main">
+      <div class="raw-wrapper show-editor">
+        <textarea name="" id="raw" class=""></textarea>
+      </div>
+      <div class="compiled-wrapper"><textarea id="compiled"></textarea></div>
+    </main>
+    <section class="demo">
+      <div class="demo-header">
+        <span>Demo</span>
+        <span data-cl="Close demo" class="close-demo">&times;</span>
+      </div>
+      <div class="demo-body"><textarea name="" id="demo"></textarea></div>
+    </section>
+    <input type="hidden" name="pseudo" value="{{ toJson }}" id="pseudo-data" />
+  </section>
+</div>
+
+<script src="{{url_for('static', filename='lib/codemirror/lib/readme-editor-min.js')}}"></script>
+
+<script src="{{url_for('static', filename='js/readMe.js')}}"></script>
+{% endblock %}

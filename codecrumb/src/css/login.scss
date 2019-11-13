@@ -1,0 +1,367 @@
+@import url("../css/font.css");
+
+@mixin flexSize($dir, $vert) {
+  display: flex;
+  align-items: center;
+  justify-content: $vert;
+  flex-flow: $dir;
+}
+
+@mixin viewPort() {
+  height: 100vh;
+  width: 100vw;
+}
+
+$font-family: "Poppins",
+"Segoe UI",
+sans-serif;
+$login-color: #ddd;
+$login-primary-bg: rgba(116, 124, 148, 0.07);
+$login-btn-bg: #568af2;
+$login-bg: #090b10;
+
+body {
+  @include viewPort();
+  margin: 0;
+  color: $login-color;
+  padding: 0;
+  overflow: hidden;
+  font-family: $font-family;
+  background: $login-bg;
+}
+
+.container {
+  overflow: hidden;
+  background: $login-bg;
+  @include flexSize(column, center);
+  position: relative;
+  @include viewPort();
+}
+
+.form-container {
+  overflow: hidden;
+  background: $login-bg;
+  @include flexSize(column, center);
+  position: relative;
+  @include viewPort();
+
+}
+
+.logo {
+  user-select: none;
+  width: 100%;
+  background: $login-bg;
+  display: flex;
+  flex-flow: column;
+  min-height: 22vh;
+  align-items: center;
+  justify-content: center;
+
+  a {
+
+
+
+    svg {
+      height: 160px;
+      width: 160px;
+      fill: #444452;
+      margin-top: 30px;
+    }
+  }
+}
+
+.crumb-note {
+  padding: 10px;
+  height: 60px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+  // background: #0f111a;
+
+  span {
+    font-size: 16px;
+    // background: $login-primary-bg;
+    color: $login-btn-bg;
+    padding: 5px;
+  }
+}
+
+.login,
+.signup {
+  display: flex;
+  color: $login-color;
+  @include flexSize(column, flex-start);
+  align-items: flex-start;
+  position: absolute;
+  z-index: 40;
+
+  form {
+    @include flexSize(column, center);
+    padding: 5px;
+
+    .terms {
+      span {
+        font-weight: 300;
+        color: white;
+        padding: 7px;
+        font-size: 15px;
+
+        a {
+          color: $login-btn-bg;
+
+          &:hover {
+            color: rgba(108, 103, 131, 1);
+            transition: 0.3s ease-out;
+          }
+        }
+      }
+    }
+
+    .label-outer {
+      display: flex;
+      flex-flow: column;
+      font-size: 16px;
+      justify-content: space-between;
+      height: 55px;
+      width: 400px;
+
+      background: rgba(17, 19, 26, 0.7);
+      color: $login-color;
+      margin-top: 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      padding: 7px;
+
+      &:focus-within {
+        border: 2px solid $login-btn-bg;
+        border-radius: 4px;
+        background: ligthen($login-primary-bg, 10);
+      }
+
+      &:focus-within .label {
+        color: white;
+      }
+
+      .label {
+        padding: 5px;
+        color: rgba(108, 103, 131, 0.61);
+        user-select: none;
+      }
+
+      &:hover .label {
+        color: #fff;
+        transition: color 0.3s ease-out;
+      }
+
+      input {
+        flex-basis: 100%;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        height: 55px;
+        font-size: 16px;
+
+      }
+    }
+
+    .submit {
+      user-select: none;
+      height: 40px;
+      min-width: 147px;
+      margin-top: 15px;
+      border-radius: 5px;
+      position: relative;
+      background: $login-btn-bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;  
+      .submit-btn{
+        height: 40px;
+        min-width: 150px;
+        padding: 7px;
+        background: none;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        color: #111;
+        font-family: $font-family;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      span {
+        border-radius: 5px;
+      }
+
+      span:nth-child(1) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, $login-primary-bg, $login-btn-bg);
+
+      }
+
+      @keyframes animate-one {
+        0% {
+          transform: translateX(-100%);
+        }
+
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      span:nth-child(2) {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to left, $login-primary-bg, $login-btn-bg);
+
+      }
+
+      @keyframes animate-two {
+        0% {
+          transform: translateX(100%);
+        }
+
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      span:nth-child(3) {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background: linear-gradient(to bottom, $login-primary-bg, $login-btn-bg);
+
+        animation-delay: 1s;
+      }
+
+      @keyframes animate-three {
+        0% {
+          transform: translateY(-100%);
+        }
+
+        100% {
+          transform: translateY(100%);
+        }
+      }
+
+      span:nth-child(4) {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background: linear-gradient(to top, $login-primary-bg, $login-btn-bg);
+
+        animation-delay: 1s;
+      }
+
+      @keyframes animate-four {
+        0% {
+          transform: translateY(100%);
+        }
+
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+
+      &:hover {
+        background: $login-primary-bg;
+        color: $login-btn-bg;
+        transition: 0.3s ease-out;
+      }
+
+      &:hover .submit-btn {
+
+        color: $login-btn-bg;
+        transition: 0.3s ease-out;
+      }
+
+      &:hover span:nth-child(4) {
+
+        animation: animate-four 2s linear infinite;
+
+      }
+
+      &:hover span:nth-child(3) {
+
+        animation: animate-three 2s linear infinite;
+
+      }
+
+      &:hover span:nth-child(2) {
+
+        animation: animate-two 2s linear infinite;
+
+      }
+
+      &:hover span:nth-child(1) {
+
+        animation: animate-one 2s linear infinite;
+
+      }
+    }
+  }
+}
+
+.form-head {
+  padding: 10px;
+  font-size: 25px;
+  color: $login-btn-bg;
+}
+
+.form-util {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.form-util a {
+  text-decoration: none;
+  padding: 5px;
+  color: $login-color;
+  user-select: none;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.37);
+    transition: 0.3s ease-out;
+  }
+}
+
+.form-inactive {
+  visibility: hidden;
+
+  .form-util a:hover {
+    transition: none;
+  }
+}
+
+.form-error {
+  width: 400px !important;
+  background: transparent;
+  font-size: 14px;
+  padding: 5px;
+  color: $login-btn-bg
+}

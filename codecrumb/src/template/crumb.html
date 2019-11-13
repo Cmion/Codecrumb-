@@ -1,0 +1,148 @@
+{% extends 'layout.html' %} {% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/crumb.css')}}" />
+{% endblock %}
+
+<body>
+  {% block body %}  <div class="header">
+      <div class="logo">
+        <a href="{{ url_for('main.editor') }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><defs><style>.cls-1{stroke: none;}.cls-2{fill:none;}.cls-2{stroke:#568af2;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style></defs><title>CodeCrumb</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="ico-72"><line class="cls-2" x1="52.5" y1="57.5" x2="67.5" y2="57.5"/><rect class="cls-2" x="4.5" y="15.5" width="45" height="41" rx="6.27"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/><polyline class="cls-2" points="21.9 27.38 12.08 37.17 21.9 45.56"/><polyline class="cls-2" points="31.71 27.38 41.53 37.17 31.71 45.56"/><polyline class="cls-2" points="31.66 27.4 23.37 42.95 21.94 45.61"/></g></g></g></svg>
+        </a>
+        <a href="{{ url_for('main.editor') }}" class="new-editor"><i class="material-icons">code</i>Editor</a>
+      </div>
+      <div class="crumb-note">
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for
+        message in messages %}
+        <span>{{ message }}</span>
+        {% endfor%} {% endif %} {% endwith %}
+      </div>
+      <div class="new-cr">
+
+        <div class="user-crumb tab-menu-link">
+          {% if current_user.is_authenticated %}
+          <div class="user-crumb tab-menu-link" style="margin: 0">
+              <a href="" class="navigate tab-menu-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48" class="preview-explore">
+              <title>explore other pages</title>
+                <path d="M24 21.8c-1.21 0-2.2.99-2.2 2.2s.99 2.2 2.2 2.2c1.22 0 2.2-.99 2.2-2.2s-.98-2.2-2.2-2.2zM24 4C12.95 4 4 12.95 4 24c0 11.04 8.95 20 20 20s20-8.96 20-20c0-11.05-8.95-20-20-20zm4.38 24.38L12 36l7.62-16.38L36 12l-7.62 16.38z"/></svg>Explore</a>
+              <div class="user-crumb-menu">
+                <a href="" class="close-explorer"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="#ffffff">
+                  <title>Close</title>
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></a>
+                <a href="{{ url_for('oauth.account') }}" class="first">Dashboard</a>
+                <a href="{{ url_for('set_crumb.crumbs') }}">Your crumbs</a>
+  
+                <a href="{{ url_for('set_crumb.save') }}">New Crumb</a>
+                <a href="{{ url_for('oauth.logout') }}" class="logout">Logout</a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        <div class="tab-menu-link">
+            <img src="{{ image }}" alt="{{ current_user.username }}" class="user-crumb-img" height="35px" width="35px"/>
+        </div>
+      </div>
+    </div> {% if crumbs.total != 0 %}
+  <div class="search">
+    <form method="POST" action="">
+        {{search.hidden_tag()}}
+      <label>{{search.byname}}</label>
+      {{search.search}}
+    </form>
+  </div>
+  {% else %}
+  <div class="search">
+    <form>
+      <label
+        ><input
+          type="text"
+          class="disabled"
+          placeholder="Filter by name"
+          disabled
+      /></label>
+      <button type="submit" class="disabled" disabled>Search</button>
+    </form>
+  </div>
+  {% endif %}
+  <div class="container">
+    <div class="container__crumb">
+      {% if crumbs.total > 0 %} {% for crumb in crumbs.items %}
+
+      <div class="crumbs">
+        <div class="name">
+          <span>{{ crumb.crumbName }}</span>
+        </div>
+        <div class="thumbnail">
+          <input
+            type="hidden"
+            class="crumbSrc"
+            name="html"
+            value="{{ json.dumps(json_response(crumb, True)) }}"
+          />
+
+          <iframe
+            id="transcend-preview"
+            allow="midi; geolocation; microphone; camera; encrypted-media;"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups"
+            allowfullscreen=""
+            allowpaymentrequest=""
+            frameborder="0"
+            src=""
+            name="CodeCrumb"
+          >
+          </iframe>
+        </div>
+
+        <div class="select-btn">
+          <a
+            href="{{url_for('set_crumb.codecrumb', author=crumb.author.username, url=crumb.url)}}"
+            >Preview</a
+          >
+          <a href="#" class="">Export</a>
+          <a
+            href=""
+            data-confirm="Are you sure you want to delete this crumb?"
+            data-id="{{ crumb.id }}"
+            class="del-tag"
+            >Delete</a
+          >
+        </div>
+      </div>
+      {% endfor %}
+      <div class="deletefooter">
+        {% if crumbs.total != 0 %} {% for i in crumbs.iter_pages(left_edge=1,
+        right_edge=1, left_current=1, right_current=2) %} {% if i %} {% if
+        crumbs.page == i%}
+        <div class="del-del">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}" class="form-tag">{{
+            i
+          }}</a>
+        </div>
+        {% else %}
+        <div class="del-cancel">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}">{{ i }}</a>
+        </div>
+        {% endif %} {% else %}
+        <div class="del-cancel">
+          <a href="{{url_for('set_crumb.crumbs', page=i)}}">...</a>
+        </div>
+        {% endif %} {% endfor %} {% endif %}
+      </div>
+    </div>
+    {% elif crumbs.total == 0 %}
+    <div class="empty-crumb">
+      <span>Hey {{current_user.username.capitalize()}}, your Crumb is empty!</span>
+      <a href="{{ url_for('main.editor') }}" class="add_new"
+        >Create a new Crumb ?</a
+      >
+    </div>
+
+    {% endif %}
+  </div>
+  <script src="{{url_for('static', filename='js/prepro.js')}}"></script>
+  <script src="{{url_for('static', filename='lib/tools/xtern/esprima.js')}}"></script>
+  <script src="{{url_for('static', filename='js/app.crumb.js')}}"></script>
+  <!-- {% block otherScript %}
+  {{ super() }}
+  {% endblock %}  -->
+  {% endblock %}
+</body>

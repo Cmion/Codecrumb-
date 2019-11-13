@@ -1,0 +1,32 @@
+{% extends 'layout.html' %} {% block meta %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/error.css')}}" />
+{% endblock %} {% block body %} {% block otherHeader %}
+{{ super() }}
+{% endblock %}
+<div class="container">
+  <div class="error-response">
+    <div class="error-message">
+      <span class="error">500</span>
+      <div class="error-txt">
+        <span class="txt">Oops! Something went wrong</span>
+        <span class="txt">Please try again later while we work on it.</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    const navigate = document.querySelector(".navigate");
+    const userCrumbMenu = document.querySelector(".user-crumb-menu");
+    const closeExplorer = document.querySelector(".close-explorer")
+    navigate.addEventListener("click", e => {
+      e.preventDefault();
+      userCrumbMenu.style.animation = "hoverin .1s linear forwards";
+    });
+
+    closeExplorer.addEventListener("click", e => {
+      e.preventDefault()
+      userCrumbMenu.style.animation = "hoverout .1s linear forwards";
+
+    });
+  </script>
+{% endblock%}
