@@ -1,5 +1,5 @@
 ##
-src/
+migrations/
 __pycache__/
 ### OSX ###
 .DS_Store
@@ -11,4 +11,5 @@ node_modules/
 *.pyc
 *.env
 *.zip
+*.stackdump
 
