@@ -1,0 +1,164 @@
+/* toggle the settings button to use a preprocessor, like SCSS */
+body {
+  font-family: Helvetica;
+  color: #111111;
+  font-size: 1.5em;
+  background: white;
+  height: 100vh;
+
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+  overflow-x: hidden;
+}
+.foo {
+  display: flex;
+}
+.baz-link {
+  cursor: pointer;
+  background: slategray;
+  color: #fff;
+  border: none;
+  padding: 18px;
+  margin: 10px;
+  position: relative;
+  z-index: 1;
+	box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.3);
+}
+.baz-link::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.baz-one::after {
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 200ms ease-in;
+}
+.baz-one:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  color: white;
+}
+.baz-two::after {
+  transform-origin: left;
+  transform: scaleY(0);
+  transition: transform 200ms ease-in;
+}
+.baz-two:hover::after {
+  transform: scaleY(1);
+  transform-origin: right;
+  color: white;
+}
+.baz-three::after {
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 200ms ease-in;
+}
+.baz-three:hover::after {
+  transform: scaleY(1);
+  transform-origin: top;
+  color: white;
+}
+.baz-four::after {
+  transform-origin: left;
+  transform: scaleY(1);
+  transition: transform 200ms ease-in-out;
+}
+.baz-four:hover::after {
+  transform: scaleY(0);
+  transform-origin: left;
+  color: white;
+}
+.baz-five::after {
+  transform-origin: bottom left;
+  transform: scale(0);
+  transition: transform 200ms ease-in-out;
+}
+.baz-five:hover::after {
+  transform: scale(1);
+  transform-origin: top right;
+  color: white;
+}
+.card__body {
+  width: 700px;
+  height: 300px;
+  background-image: url("http://127.0.0.1:8080/asset/dark-image/3img.jpg");
+  background-position: center;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  border-radius: 2px;
+  position: relative;
+	box-shadow: 2px 5px 40px rgba(0, 0, 0, 0.6);
+}
+.card {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+.card span {
+  font-family: "Proxima Nova";
+  z-index: 1;
+  position: relative;
+  padding: 10px;
+}
+.first__text {
+  text-align: center;
+  width: 50%;
+}
+.first__text::before {
+  content: "";
+  background: rgba(112,128,144,0.67);
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1;
+  transform: scaleX(0.075);
+  transform-origin: left;
+  transition: transform 0.25s ease-in;
+}
+.card:hover .first__text::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.second__text {
+  font-size: 17px;
+  color: transparent;
+  line-height: 1.5rem;
+  position: relative;
+z-index: 1;
+  line-height: 40px;
+  margin: 0 15px;
+	transition: color 150ms ease-in 350ms;
+}
+.second__text::after {
+	content: "";
+  transform: scaleY(0);
+	height: 100%;
+	width: 100%;
+  background:  rgba(255,255,255,0.61);
+  position: absolute;
+  top: 0;
+  left: 0;
+	z-index: -1;
+	transform-origin: top;
+	transition: transform 250ms ease-in 250ms;
+}
+.card:hover .second__text::after {
+  transform: scaleY(1);
+}
+.card:hover .second__text{
+	color: #111;
+}
