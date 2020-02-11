@@ -13,7 +13,7 @@ var _slicedToArray = (function() {
         !(_n = (_s = _i.next()).done);
         _n = true
       ) {
-        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE0 > 5000) {
+        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE0 > 1000) {
           throw new RangeError(`Potential infinite loop prevented,
  if you want the loop to iterate a little longer, 
  use the custom panel in the settings panel to change the duration
@@ -53,7 +53,7 @@ var _extends =
   function(target) {
     const $THIS_IS_CC_LOOP_PROTECT_VARIABLE2 = Date.now();
     for (var i = 1; i < arguments.length; i++) {
-      if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE2 > 5000) {
+      if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE2 > 1000) {
         throw new RangeError(`Potential infinite loop prevented,
  if you want the loop to iterate a little longer, 
  use the custom panel in the settings panel to change the duration
@@ -63,7 +63,7 @@ note: these page might not be responsive if the duration is or more than 2000ms
       var source = arguments[i];
       const $THIS_IS_CC_LOOP_PROTECT_VARIABLE1 = Date.now();
       for (var key in source) {
-        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE1 > 5000) {
+        if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE1 > 1000) {
           throw new RangeError(`Potential infinite loop prevented,
  if you want the loop to iterate a little longer, 
  use the custom panel in the settings panel to change the duration
@@ -78,352 +78,810 @@ note: these page might not be responsive if the duration is or more than 2000ms
     return target;
   };
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    const $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 = Date.now();
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 > 5000) {
-        throw new RangeError(`Potential infinite loop prevented,
+var _templateObject = _taggedTemplateLiteral(
+    [
+      "\n\tposition: relative; \n\tdisplay: flex; \n\talign-items: center;\n\tcursor: pointer; \n\tbox-sizing: border-box;\n"
+    ],
+    [
+      "\n\tposition: relative; \n\tdisplay: flex; \n\talign-items: center;\n\tcursor: pointer; \n\tbox-sizing: border-box;\n"
+    ]
+  ),
+  _templateObject2 = _taggedTemplateLiteral(
+    ["\n\theight: 0;\n\twidth: 0;\n"],
+    ["\n\theight: 0;\n\twidth: 0;\n"]
+  ),
+  _templateObject3 = _taggedTemplateLiteral(
+    [
+      "\n\t0% {\n\t\tborder: ",
+      "px solid ",
+      ";\n\t}\n\t100% {\t\n\t\tborder: ",
+      "px solid ",
+      ";\n\t}\n"
+    ],
+    [
+      "\n\t0% {\n\t\tborder: ",
+      "px solid ",
+      ";\n\t}\n\t100% {\t\n\t\tborder: ",
+      "px solid ",
+      ";\n\t}\n"
+    ]
+  ),
+  _templateObject4 = _taggedTemplateLiteral(
+    [
+      "\n\twidth: ",
+      "px;\n\theight: ",
+      "px;\n\tborder-radius: ",
+      "px;\n\tbackground: ",
+      ";\n\tdisplay: flex;\n\talign-items: center;\n\tcursor: pointer;\n\tposition: relative;\n\tbox-sizing: border-box;\n\ttransition: ",
+      'ms cubic-bezier(0.75, 0, 0.5, 1);\n\t::before {\n\t\tcontent: "";\n\t\tposition: absolute;\n\t\theight: ',
+      "px;\n\t\twidth: ",
+      "px;\n\t\tbackground: ",
+      ";\n\t\tborder-radius: 50%;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tbox-sizing: border-box;\n\t\ttransform: ",
+      ";\n\ttransition: ",
+      'ms cubic-bezier(0.75, 0, 0.5, 1);\n\t}\n\t::after {\n\t\tcontent: "";\n\t\tposition: absolute;\n\t\theight: ',
+      "px;\n\t\twidth: ",
+      "px;\n\t\tborder-radius: 50%;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tleft: ",
+      "px;\n\t\tanimation: ",
+      " ",
+      "ms cubic-bezier(0.75, 0, 0.5, 1) forwards;\n\t\tbox-sizing: border-box;\n\t\ttransform: ",
+      ";\n\t\ttransition: ",
+      "ms cubic-bezier(0.75, 0, 0.5, 1);\n\t}\n\n"
+    ],
+    [
+      "\n\twidth: ",
+      "px;\n\theight: ",
+      "px;\n\tborder-radius: ",
+      "px;\n\tbackground: ",
+      ";\n\tdisplay: flex;\n\talign-items: center;\n\tcursor: pointer;\n\tposition: relative;\n\tbox-sizing: border-box;\n\ttransition: ",
+      'ms cubic-bezier(0.75, 0, 0.5, 1);\n\t::before {\n\t\tcontent: "";\n\t\tposition: absolute;\n\t\theight: ',
+      "px;\n\t\twidth: ",
+      "px;\n\t\tbackground: ",
+      ";\n\t\tborder-radius: 50%;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tbox-sizing: border-box;\n\t\ttransform: ",
+      ";\n\ttransition: ",
+      'ms cubic-bezier(0.75, 0, 0.5, 1);\n\t}\n\t::after {\n\t\tcontent: "";\n\t\tposition: absolute;\n\t\theight: ',
+      "px;\n\t\twidth: ",
+      "px;\n\t\tborder-radius: 50%;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tleft: ",
+      "px;\n\t\tanimation: ",
+      " ",
+      "ms cubic-bezier(0.75, 0, 0.5, 1) forwards;\n\t\tbox-sizing: border-box;\n\t\ttransform: ",
+      ";\n\t\ttransition: ",
+      "ms cubic-bezier(0.75, 0, 0.5, 1);\n\t}\n\n"
+    ]
+  ),
+  _templateObject5 = _taggedTemplateLiteral(
+    [
+      "\n\theight: 20px;\n\twidth: 45px;\n\tborder: none;\n\tbackground: #4b4c56;\n\tcolor: white;\n\tborder-radius: 1.5px;\n\toutline-color: #00ff89;\n\tpadding: 3px;\n\t:focus{\n\tborder: 1px solid #00ff89;\n}\n"
+    ],
+    [
+      "\n\theight: 20px;\n\twidth: 45px;\n\tborder: none;\n\tbackground: #4b4c56;\n\tcolor: white;\n\tborder-radius: 1.5px;\n\toutline-color: #00ff89;\n\tpadding: 3px;\n\t:focus{\n\tborder: 1px solid #00ff89;\n}\n"
+    ]
+  ),
+  _templateObject6 = _taggedTemplateLiteral(
+    [
+      "\n\tpadding: ",
+      ";\n\n\n\t\n\tbackground: none;\n\tborder-radius: 3px;\n\tcursor: pointer;\n\tfont-size: 15px;\n\tfont-family: ",
+      ";\n\t\tborder: 1.2px solid ",
+      ";\n\t\tcolor: ",
+      ";\n\t\ttransition: border ",
+      ";\n\t\tbox-shadow: 0px 7px 10px rgba(0, 0, 0, 0.3);\n\t:hover{\n\t\tborder: 1.2px solid ",
+      ";\n\t\tcolor: ",
+      ";\n\t\ttransition:  color ",
+      ", border ",
+      ";\n\t}\n\t:focus{\n\t\toutline-color: ",
+      "\n\n\t}\n"
+    ],
+    [
+      "\n\tpadding: ",
+      ";\n\n\n\t\n\tbackground: none;\n\tborder-radius: 3px;\n\tcursor: pointer;\n\tfont-size: 15px;\n\tfont-family: ",
+      ";\n\t\tborder: 1.2px solid ",
+      ";\n\t\tcolor: ",
+      ";\n\t\ttransition: border ",
+      ";\n\t\tbox-shadow: 0px 7px 10px rgba(0, 0, 0, 0.3);\n\t:hover{\n\t\tborder: 1.2px solid ",
+      ";\n\t\tcolor: ",
+      ";\n\t\ttransition:  color ",
+      ", border ",
+      ";\n\t}\n\t:focus{\n\t\toutline-color: ",
+      "\n\n\t}\n"
+    ]
+  );
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};
+  const $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 = Date.now();
+  for (var i in obj) {
+    if (Date.now() - $THIS_IS_CC_LOOP_PROTECT_VARIABLE3 > 1000) {
+      throw new RangeError(`Potential infinite loop prevented,
  if you want the loop to iterate a little longer, 
  use the custom panel in the settings panel to change the duration
 note: these page might not be responsive if the duration is or more than 2000ms
 `);
-      }
-      arr2[i] = arr[i];
     }
-    return arr2;
-  } else {
-    return Array.from(arr);
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
   }
+  return target;
 }
 
-var _React = React,
-  useState = _React.useState,
-  useEffect = _React.useEffect;
-var _Reactstrap = Reactstrap,
-  Collapse = _Reactstrap.Collapse,
-  Nav = _Reactstrap.Nav,
-  NavbarBrand = _Reactstrap.NavbarBrand,
-  NavbarToggler = _Reactstrap.NavbarToggler,
-  NavItem = _Reactstrap.NavItem,
-  NavLink = _Reactstrap.NavLink,
-  Container = _Reactstrap.Container,
-  Navbar = _Reactstrap.Navbar,
-  ListGroup = _Reactstrap.ListGroup,
-  ListGroupItem = _Reactstrap.ListGroupItem,
-  Button = _Reactstrap.Button,
-  ModalHeader = _Reactstrap.ModalHeader,
-  ModalBody = _Reactstrap.ModalBody,
-  Modal = _Reactstrap.Modal,
-  FormGroup = _Reactstrap.FormGroup,
-  Label = _Reactstrap.Label,
-  Input = _Reactstrap.Input,
-  Form = _Reactstrap.Form;
-var _ReactTransitionGroup = ReactTransitionGroup,
-  CSSTransition = _ReactTransitionGroup.CSSTransition,
-  TransitionGroup = _ReactTransitionGroup.TransitionGroup;
-var _ReactRedux = ReactRedux,
-  Provider = _ReactRedux.Provider,
-  useDispatch = _ReactRedux.useDispatch,
-  useSelector = _ReactRedux.useSelector,
-  connect = _ReactRedux.connect;
+function _taggedTemplateLiteral(strings, raw) {
+  return Object.freeze(
+    Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })
+  );
+}
+
 var _Redux = Redux,
   createStore = _Redux.createStore,
+  compose = _Redux.compose,
   combineReducers = _Redux.combineReducers,
-  compose = _Redux.compose;
-var _PropTypes = PropTypes,
-  func = _PropTypes.func,
-  object = _PropTypes.object;
+  applyMiddleware = _Redux.applyMiddleware;
+var _ReactRedux = ReactRedux,
+  Provider = _ReactRedux.Provider,
+  connect = _ReactRedux.connect;
+var _styled = styled,
+  keyframes = _styled.keyframes;
 
-// types
-
-var initState = {
-  items: [
-    {
-      id: uuid(),
-      name: "Eba"
-    },
-    {
-      id: uuid(),
-      name: "Milk"
-    },
-    {
-      id: uuid(),
-      name: "Egg"
-    },
-    {
-      id: uuid(),
-      name: "Yam"
-    }
-  ]
+var convert = function convert(unit, num) {
+  return unit === "px"
+    ? num
+    : unit === "em" || unit === "rem"
+    ? num * 16
+    : unit === "pt"
+    ? num * 1.33
+    : unit === "vmin"
+    ? num * 5.478333333333333
+    : unit === "vmax"
+    ? num * 7.886666666666667
+    : num;
 };
-var types = {
-  GET_ITEMS: "GET_ITEMS",
-  ADD_ITEM: "ADD_ITEM",
-  DELETE_ITEM: "DELETE_ITEM"
+var fromPercent = function fromPercent(num, percent) {
+  return (percent / 100) * num;
+};
+var getPercent = function getPercent(part, whole) {
+  return (part / whole) * 100;
+};
+
+// constants
+
+var getPasswordLength = "GET_PASSWORD_LENGTH";
+var sensitivity = "SET_SENSITIVITY";
+var generatedPassword = "GENERATED_PASSWORD";
+// actions
+
+var _getPasswordLengthAction = function _getPasswordLengthAction(payload) {
+  return {
+    type: getPasswordLength,
+    payload: payload
+  };
+};
+
+var _sensitivityAction = function _sensitivityAction(payload) {
+  return {
+    type: sensitivity,
+    payload: payload
+  };
+};
+
+var _generatedPasswordAction = function _generatedPasswordAction(payload) {
+  return {
+    type: generatedPassword,
+    payload: payload
+  };
 };
 
 // reducers
-var itemReducer = function itemReducer() {
+var passInitState = {
+  value: "20"
+};
+var passwordLengthReducer = function passwordLengthReducer() {
   var state =
     arguments.length > 0 && arguments[0] !== undefined
       ? arguments[0]
-      : initState;
+      : passInitState;
   var action = arguments[1];
 
   switch (action.type) {
-    case types.GET_ITEMS:
-      return _extends({}, state);
-    case types.ADD_ITEM:
-      return _extends({}, state, {
-        items: [action.payload].concat(_toConsumableArray(state.items))
-      });
+    case getPasswordLength:
+      return { value: action.payload };
+    default:
+      return state;
+  }
+};
 
-    case types.DELETE_ITEM:
-      return _extends({}, state, {
-        items: state.items.filter(function(item) {
-          return item.id !== action.payload;
-        })
+var sensitivityInitState = [
+  {
+    name: "LOWERCASE",
+    data: true
+  },
+  {
+    name: "UPPERCASE",
+    data: true
+  },
+  {
+    name: "NUMBER",
+    data: true
+  },
+  {
+    name: "SYMBOL",
+    data: true
+  }
+];
+var sensitivityReducer = function sensitivityReducer() {
+  var state =
+    arguments.length > 0 && arguments[0] !== undefined
+      ? arguments[0]
+      : sensitivityInitState;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case sensitivity:
+      return state.map(function(value) {
+        return value.name === action.payload.name
+          ? _extends({}, value, { data: !value.data })
+          : value;
       });
     default:
       return state;
   }
 };
 
-// actions
-var getItems = function getItems() {
-  return {
-    type: "GET_ITEMS"
-  };
+var generatedPasswordInitState = {
+  value: ""
 };
-var deleteItem = function deleteItem(id) {
-  return {
-    type: "DELETE_ITEM",
-    payload: id
-  };
-};
-var addItem = function addItem(item) {
-  return {
-    type: "ADD_ITEM",
-    payload: item
-  };
+var generatedPasswordReducer = function generatedPasswordReducer() {
+  var state =
+    arguments.length > 0 && arguments[0] !== undefined
+      ? arguments[0]
+      : generatedPasswordInitState;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case generatedPassword:
+      return { value: action.payload };
+
+    default:
+      return state;
+  }
 };
 
-// store
-var rootReducer = combineReducers({ items: itemReducer });
-var store = createStore(
-  rootReducer,
-  compose(
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+// middlewares
+
+var logMiddleware = function logMiddleware() {
+  return function(next) {
+    return function(action) {
+      console.log("ACTION " + action.type, action.payload);
+      next(action);
+    };
+  };
+};
+var middlewares = compose(applyMiddleware(logMiddleware));
+
+var rootReducer = combineReducers({
+  generatedPassword: generatedPasswordReducer,
+  sensitivity: sensitivityReducer,
+  passwordLength: passwordLengthReducer
+});
+
+var store = createStore(rootReducer, middlewares);
+
+// PASSWORD - CONTAINER
+var copyToClipboard = function copyToClipboard(value) {
+  var textarea = document.createElement("textarea");
+  if (!value) return;
+  textarea.value = value;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
+  alert("Password copied to clipboard!");
+};
+var PasswordBox = function PasswordBox(props) {
+  return React.createElement(
+    "div",
+    { className: "password--box" },
+    React.createElement("span", { className: "password--value" }, props.value),
+    React.createElement(
+      "span",
+      {
+        className: "clipboard",
+        onClick: function onClick() {
+          return copyToClipboard(props.value);
+        }
+      },
+      React.createElement("span", { className: "fa fa-clipboard icon" })
+    )
+  );
+};
+
+var mapPasswordStateToProps = function mapPasswordStateToProps(state) {
+  var value = state.generatedPassword.value;
+
+  return { value: value };
+};
+
+var Password = connect(mapPasswordStateToProps)(PasswordBox);
+
+var CheckBoxLabel = styled.default.label(_templateObject);
+var HiddenCheckbox = styled.default.input.attrs({ type: "checkbox" })(
+  _templateObject2
 );
+var tinyup = function tinyup(prop) {
+  return keyframes(
+    _templateObject3,
+    fromPercent(convert(prop.sizeUnit, prop.size), 48) / 6,
+    prop.uncheckedFrontColor,
+    fromPercent(convert(prop.sizeUnit, prop.size), 48) / 2,
+    prop.frontColor
+  );
+};
+var tinydown = function tinydown(prop) {
+  return keyframes(
+    _templateObject3,
+    fromPercent(convert(prop.sizeUnit, prop.size), 48) / 2,
+    prop.frontColor,
+    fromPercent(convert(prop.sizeUnit, prop.size), 48) / 6,
+    prop.uncheckedFrontColor
+  );
+};
+var CustomTiny = styled.default.span(
+  _templateObject4,
+  function(prop) {
+    return convert(prop.sizeUnit, prop.size);
+  },
+  function(prop) {
+    return parseInt(fromPercent(convert(prop.sizeUnit, prop.size), 14), 10);
+  },
+  function(prop) {
+    return fromPercent(convert(prop.sizeUnit, prop.size), 14);
+  },
+  function(prop) {
+    return prop.backColor;
+  },
+  function(prop) {
+    return prop.animate;
+  },
+  function(prop) {
+    return fromPercent(convert(prop.sizeUnit, prop.size), 60);
+  },
+  function(prop) {
+    return fromPercent(convert(prop.sizeUnit, prop.size), 60);
+  },
+  function(prop) {
+    return prop.sliderColor;
+  },
+  function(prop) {
+    return prop.checked
+      ? "translateX(" +
+          (convert(prop.sizeUnit, prop.size) -
+            fromPercent(convert(prop.sizeUnit, prop.size), 60)) +
+          "px)"
+      : "translateX(0)";
+  },
+  function(prop) {
+    return prop.animate;
+  },
+  function(prop) {
+    return fromPercent(convert(prop.sizeUnit, prop.size), 48);
+  },
+  function(prop) {
+    return fromPercent(convert(prop.sizeUnit, prop.size), 48);
+  },
+  function(prop) {
+    return (
+      (fromPercent(convert(prop.sizeUnit, prop.size), 60) -
+        fromPercent(convert(prop.sizeUnit, prop.size), 48)) /
+      2
+    );
+  },
+  function(prop) {
+    return prop.checked ? tinyup : tinydown;
+  },
+  function(prop) {
+    return prop.animate;
+  },
+  function(prop) {
+    return prop.checked
+      ? "translateX(" +
+          (convert(prop.sizeUnit, prop.size) -
+            fromPercent(convert(prop.sizeUnit, prop.size), 60)) +
+          "px)"
+      : "translateX(0)";
+  },
+  function(prop) {
+    return prop.animate;
+  }
+);
+var TinyCheckbox = function TinyCheckbox(_ref) {
+  var checked = _ref.checked,
+    classname = _ref.classname,
+    onClick = _ref.onClick,
+    onChange = _ref.onChange,
+    props = _objectWithoutProperties(_ref, [
+      "checked",
+      "classname",
+      "onClick",
+      "onChange"
+    ]);
 
-var ItemModal = function ItemModal() {
-  var _useState = useState(false),
-    _useState2 = _slicedToArray(_useState, 2),
-    modal = _useState2[0],
-    toggleModal = _useState2[1];
+  return React.createElement(
+    CheckBoxLabel,
+    { className: classname },
+    React.createElement(HiddenCheckbox, _extends({ checked: checked }, props)),
+    React.createElement(
+      CustomTiny,
+      _extends(
+        {
+          checked: checked
+        },
+        props,
+        {
+          onClick: onClick,
+          onChange: onChange
+        }
+      )
+    )
+  );
+};
+TinyCheckbox.defaultProps = {
+  checked: false,
+  size: 50,
+  frontColor: "#00ff89",
+  backColor: "#4b4c56",
+  sliderColor: "rgb(38, 42, 47)",
+  uncheckedBackColor: "rgba(119,127,153,0.67)",
+  uncheckedFrontColor: "rgba(255,255,255,0.2)",
+  sizeUnit: "px",
+  animate: 300,
+  classname: "label"
+};
 
-  var _useState3 = useState(""),
-    _useState4 = _slicedToArray(_useState3, 2),
-    name = _useState4[0],
-    setName = _useState4[1];
+var SensitivityContainer = function SensitivityContainer(props) {
+  return React.createElement(
+    "ul",
+    { className: "sensitivity", onClick: props.onClick },
+    props.children
+  );
+};
 
-  var dispatch = useDispatch();
+var SensitivityOptions = function SensitivityOptions(props) {
+  return React.createElement(
+    "li",
+    { className: "sensitivity--options" },
+    React.createElement("label", null, props.children)
+  );
+};
 
-  var toggle = function toggle() {
-    toggleModal(!modal);
-  };
-
-  var handleName = function handleName(e) {
-    setName(e.target.value);
-  };
-
-  var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-    var regex = new RegExp(/[a-zA-Z0-9]/, "gi");
-    if (name.length && name.match(regex)) {
-      toggle();
-
-      var newItem = {
-        id: uuid(),
-        name: name
-      };
-      setName("");
-      dispatch(addItem(newItem));
-    }
-  };
+var Input = styled.default.input.attrs({ type: "number" })(_templateObject5);
+var SensitivityBox = function SensitivityBox(props) {
+  console.log(props);
   return React.createElement(
     "div",
     null,
     React.createElement(
-      Button,
-      { color: "dark", style: { marginBottom: "2rem" }, onClick: toggle },
-      "Add Item"
+      SensitivityContainer,
+      null,
+      React.createElement(SensitivityOptions, null, "Password Length"),
+      React.createElement(Input, {
+        value: props.length,
+        onChange: function onChange(e) {
+          return props.getPasswordLengthAction(e.target.value);
+        }
+      })
     ),
     React.createElement(
-      Modal,
-      { toggle: toggle, isOpen: modal },
+      SensitivityContainer,
+      {
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "LOWERCASE" });
+        }
+      },
       React.createElement(
-        ModalHeader,
-        { toggle: toggle },
-        "Add to shopping list"
+        SensitivityOptions,
+        null,
+        "Include Lowercase Letters"
       ),
-      React.createElement(
-        ModalBody,
-        null,
-        React.createElement(
-          Form,
-          { onSubmit: handleSubmit },
-          React.createElement(
-            FormGroup,
-            null,
-            React.createElement(Input, {
-              name: "name",
-              id: "name",
-              placeholder: "Add to shopping list item",
-              onChange: handleName,
-              value: name,
-              autoFocus: true
-            }),
-            React.createElement(
-              Button,
-              {
-                block: true,
-                className: "btn btn-primary",
-                style: { marginTop: "2rem" }
-              },
-              "Add Item"
-            )
-          )
-        )
-      )
-    )
-  );
-};
-
-var AppNavbar = function AppNavbar() {
-  var _useState5 = useState(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    isOpen = _useState6[0],
-    setOpen = _useState6[1];
-
-  var toggle = function toggle() {
-    setOpen(!isOpen);
-  };
-
-  return React.createElement(
-    "div",
-    null,
+      React.createElement(TinyCheckbox, {
+        size: 35,
+        checked: props.lowercase.data,
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "LOWERCASE" });
+        }
+      })
+    ),
     React.createElement(
-      Navbar,
-      { color: "dark", dark: true, expand: "sm", className: "mb-5" },
+      SensitivityContainer,
+      {
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "UPPERCASE" });
+        }
+      },
       React.createElement(
-        Container,
+        SensitivityOptions,
         null,
-        React.createElement(NavbarBrand, { href: "#" }, "Shopping Brand"),
-        React.createElement(NavbarToggler, { onClick: toggle }),
-        React.createElement(
-          Collapse,
-          { isOpen: isOpen, navbar: true },
-          React.createElement(
-            Nav,
-            { className: "ml-auto", navbar: true },
-            React.createElement(
-              NavItem,
-              null,
-              React.createElement(NavLink, null, "Home")
-            ),
-            React.createElement(
-              NavItem,
-              null,
-              React.createElement(NavLink, null, "Github")
-            ),
-            React.createElement(
-              NavItem,
-              null,
-              React.createElement(NavLink, null, "Resource")
-            )
-          )
-        )
-      )
-    )
-  );
-};
-
-var ShoppingList = function ShoppingList(props) {
-  useEffect(function() {
-    props.getItems();
-  });
-
-  var items = props.item.items;
-
-  return React.createElement(
-    "div",
-    null,
+        "Include Uppercase Letters"
+      ),
+      React.createElement(TinyCheckbox, {
+        size: 35,
+        checked: props.uppercase.data,
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "UPPERCASE" });
+        }
+      })
+    ),
     React.createElement(
-      ListGroup,
-      null,
-      React.createElement(
-        TransitionGroup,
-        { className: "shopping-list" },
-        items.map(function(_ref) {
-          var id = _ref.id,
-            name = _ref.name;
-          return React.createElement(
-            CSSTransition,
-            { key: id, classNames: "fade", timeout: 500 },
-            React.createElement(
-              ListGroupItem,
-              null,
-              React.createElement(
-                Button,
-                {
-                  className: "remove-btn",
-                  size: "sm",
-                  color: "danger",
-                  onClick: function onClick() {
-                    props.deleteItem(id);
-                  }
-                },
-                "\xD7"
-              ),
-              name
-            )
-          );
-        })
-      )
+      SensitivityContainer,
+      {
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "NUMBER" });
+        }
+      },
+      React.createElement(SensitivityOptions, null, "Include Numbers"),
+      React.createElement(TinyCheckbox, {
+        size: 35,
+        checked: props.number.data,
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "NUMBER" });
+        }
+      })
+    ),
+    React.createElement(
+      SensitivityContainer,
+      {
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "SYMBOL" });
+        }
+      },
+      React.createElement(SensitivityOptions, null, "Include Symbols"),
+      React.createElement(TinyCheckbox, {
+        size: 35,
+        checked: props.symbol.data,
+        onClick: function onClick() {
+          return props.sensitivityAction({ name: "SYMBOL" });
+        },
+        uncheckedBackColor: "rgba(0, 0, 0, 0.3)"
+      })
     )
   );
 };
 
-ShoppingList.propTypes = {
-  getItems: func.isRequired,
-  deleteItem: func.isRequired,
-  item: object.isRequired
-};
-var mapStateToProps = function mapStateToProps(state) {
+var mapSensitivityStateToProps = function mapSensitivityStateToProps(state) {
+  var _state$sensitivity = _slicedToArray(state.sensitivity, 4),
+    lowercase = _state$sensitivity[0],
+    uppercase = _state$sensitivity[1],
+    number = _state$sensitivity[2],
+    symbol = _state$sensitivity[3];
+
+  var length = state.passwordLength.value;
+
   return {
-    item: state.items
+    length: length,
+    uppercase: uppercase,
+    lowercase: lowercase,
+    number: number,
+    symbol: symbol
   };
 };
-var List = connect(
-  mapStateToProps,
-  { getItems: getItems, deleteItem: deleteItem }
-)(ShoppingList);
-var App = function App() {
+
+var mapSensitivityDispatchToProps = function mapSensitivityDispatchToProps(
+  dispatch
+) {
+  return {
+    sensitivityAction: function sensitivityAction(payload) {
+      return dispatch(_sensitivityAction(payload));
+    },
+    getPasswordLengthAction: function getPasswordLengthAction(payload) {
+      return dispatch(_getPasswordLengthAction(payload));
+    }
+  };
+};
+var Sensitivity = connect(
+  mapSensitivityStateToProps,
+  mapSensitivityDispatchToProps
+)(SensitivityBox);
+
+var PrimaryButton = styled.default.button(
+  _templateObject6,
+  function(prop) {
+    return (
+      fromPercent(convert(prop.sizeUnit, prop.size), 41.66666666666667) +
+      "px " +
+      convert(prop.sizeUnit, prop.size) +
+      "px"
+    );
+  },
+  function(prop) {
+    return prop.fontFamily;
+  },
+  function(prop) {
+    return prop.hoverBorder;
+  },
+  function(prop) {
+    return prop.hoverBorder;
+  },
+  function(prop) {
+    return prop.transition;
+  },
+  function(prop) {
+    return prop.background;
+  },
+  function(prop) {
+    return prop.color;
+  },
+  function(prop) {
+    return prop.transition;
+  },
+  function(prop) {
+    return prop.transition;
+  },
+  function(prop) {
+    return prop.background;
+  }
+);
+
+PrimaryButton.defaultProps = {
+  size: 20,
+  background: "#5c8df6",
+  color: "#FFFFFF",
+  hoverBorder: "#454B57",
+  hoverBackground: "#93A0BA",
+  transition: "500ms ease-out",
+  fontFamily: "sans-serif"
+};
+
+PrimaryButton.PropTypes = {
+  size: PropTypes.number.isRequired,
+  background: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  hoverBackground: PropTypes.string,
+  hoverColor: PropTypes.string,
+  transition: PropTypes.string,
+  fontFamily: PropTypes.string
+};
+
+var generatePassword = function generatePassword(
+  length,
+  lower,
+  upper,
+  number,
+  symbol
+) {
+  if (typeof length !== "number" || isNaN(length)) return "";
+
+  var getLower = function getLower() {
+    return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+  };
+
+  var getUpper = function getUpper() {
+    return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+  };
+
+  var getNumber = function getNumber() {
+    return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+  };
+  var symbols = "#$^&()_+=!<>/[]";
+  var getSymbol = function getSymbol() {
+    return symbols[Math.floor(Math.random() * symbols.length)];
+  };
+
+  var sensitivities = [
+    { lower: lower },
+    { upper: upper },
+    { number: number },
+    { symbol: symbol }
+  ].filter(function(a) {
+    return a[Object.keys(a)[0]];
+  });
+  var passwordKeys = {
+    lower: getLower,
+    upper: getUpper,
+    number: getNumber,
+    symbol: getSymbol
+  };
+  var usedKeys = sensitivities.map(function(a) {
+    return Object.keys(a);
+  });
+  var generatedPassword = "";
+  Array(Number(length))
+    .fill(length)
+    .map(function(value) {
+      var randomise = passwordKeys[
+        usedKeys[Math.floor(Math.random() * usedKeys.length)]
+      ]();
+      generatedPassword += randomise;
+
+      return 0;
+    });
+
+  var firstValue = generatedPassword[0];
+  if (RegExp("\\" + firstValue, "g").test(symbols)) {
+    generatedPassword =
+      passwordKeys[usedKeys[Math.floor(Math.random() * 2)]]() +
+      generatedPassword.slice(1, Number(length));
+  }
+  return generatedPassword;
+};
+
+var GenerateButton = function GenerateButton(props) {
+  var lower = props.lower,
+    upper = props.upper,
+    symbol = props.symbol,
+    number = props.number,
+    length = props.length;
+
+  var setGeneratedPassword = function setGeneratedPassword(
+    length,
+    lower,
+    upper,
+    number,
+    symbol
+  ) {
+    return props.generatedPasswordAction(
+      generatePassword(Number(length), lower, upper, number, symbol)
+    );
+  };
+  return React.createElement(
+    "div",
+    { className: "btn" },
+    React.createElement(
+      PrimaryButton,
+      {
+        size: 25,
+        background: "#00ff89",
+        color: "#00ff89",
+        onClick: function onClick() {
+          return setGeneratedPassword(length, lower, upper, number, symbol);
+        }
+      },
+      "Generate Password"
+    )
+  );
+};
+var MapGenerateStateToProps = function MapGenerateStateToProps(state) {
+  var _state$sensitivity2 = _slicedToArray(state.sensitivity, 4),
+    lower = _state$sensitivity2[0],
+    upper = _state$sensitivity2[1],
+    number = _state$sensitivity2[2],
+    symbol = _state$sensitivity2[3];
+
+  var length = state.passwordLength.value;
+
+  return {
+    lower: lower.data,
+    upper: upper.data,
+    symbol: symbol.data,
+    number: number.data,
+    length: length
+  };
+};
+
+var MapGenerateDispatchToProps = function MapGenerateDispatchToProps(dispatch) {
+  return {
+    generatedPasswordAction: function generatedPasswordAction(payload) {
+      return dispatch(_generatedPasswordAction(payload));
+    }
+  };
+};
+var GeneratePassword = connect(
+  MapGenerateStateToProps,
+  MapGenerateDispatchToProps
+)(GenerateButton);
+
+var PasswordGenerator = function PasswordGenerator(props) {
+  return React.createElement(
+    "div",
+    { className: "container" },
+    React.createElement("h2", null, "Password Generator"),
+    React.createElement(Password, null),
+    React.createElement(Sensitivity, null),
+    React.createElement(GeneratePassword, null)
+  );
+};
+function App() {
   return React.createElement(
     "div",
     { className: "App" },
-    React.createElement(AppNavbar, null),
-    React.createElement(
-      Container,
-      null,
-      React.createElement(ItemModal, null),
-      React.createElement(List, null)
-    )
+    React.createElement(PasswordGenerator, null)
   );
-};
+}
 
 ReactDOM.render(
   React.createElement(

@@ -223,7 +223,8 @@ const examp = {
     },
     stylesheet: {
       snippets: {
-        myp: "body{\n height: 100vh; \n color: #888; \n width: 100vw;\n background: #20232E;\n overflow: hidden; \n display: flex; \n align-items: center; \n justify-content: center; \n} \n .hello{ \n font-size: 30px; \n padding: 10px; \n color: white; \n text-transform: capitalize; \n}"
+        myp:
+          "body{\n height: 100vh; \n color: #888; \n width: 100vw;\n background: #20232E;\n overflow: hidden; \n display: flex; \n align-items: center; \n justify-content: center; \n} \n .hello{ \n font-size: 30px; \n padding: 10px; \n color: white; \n text-transform: capitalize; \n}"
       }
     }
   }
@@ -237,7 +238,6 @@ const dataItems = JSON.parse(crumbData);
 let jsChangeNum = 0;
 let cssChangeNum = 0;
 let htmlChangeNum = 0;
-
 
 function crumbEditor(mode) {
   return {
@@ -264,27 +264,27 @@ function crumbEditor(mode) {
     },
 
     _extraKeys: {
-      "Ctrl-Q": function (cm) {
+      "Ctrl-Q": function(cm) {
         cm.foldCode(cm.getCursor());
       },
       "Alt-F": "findPersistent",
 
-      "Ctrl-S": function () {
+      "Ctrl-S": function() {
         if (dataItems.author == "anonymous") return null;
         keyMapSave();
       },
       "Ctrl-Enter": updatePreview,
-      "Alt-J": function () {
+      "Alt-J": function() {
         beautifySingleFile(jsEditor, csse.js);
       },
-      "Alt-C": function () {
+      "Alt-C": function() {
         beautifySingleFile(cssEditor, csse.css);
       },
-      "Alt-H": function () {
+      "Alt-H": function() {
         beautifySingleFile(htmlEditor, csse.html);
       },
       "Ctrl-Space": "autocomplete",
-      "Alt-A": function () {
+      "Alt-A": function() {
         prettify(htmlEditor, cssEditor, jsEditor);
       },
       Tab: "emmetExpandAbbreviationAll",
@@ -306,10 +306,12 @@ function crumbEditor(mode) {
       "CodeMirror-foldgutter",
       "CodeMirror-lint-markers"
     ],
-    _emmet: snippetFormatted == "None" ||
+    _emmet:
+      snippetFormatted == "None" ||
       snippetFormatted == " " ||
-      snippetFormatted.length == 0 ?
-      examp : JSON.parse(snippetFormatted),
+      snippetFormatted.length == 0
+        ? examp
+        : JSON.parse(snippetFormatted),
     get emmet() {
       return this._emmet;
     },
@@ -521,14 +523,14 @@ function sendJson(url) {
 
   const origin = window.origin;
   fetch(`${origin}${url}`, {
-      method: "POST",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      }),
-      credentials: "include",
-      body: crumbData
-    })
+    method: "POST",
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
+    credentials: "include",
+    body: crumbData
+  })
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(err => {
@@ -593,15 +595,9 @@ function printError(x) {
       errorCount++;
       consoleBError++;
       outnum.setAttribute("data-error", `${errorCount}`);
-      consoleBError > 1 ?
-        consoleBar.setAttribute(
-          "data-label",
-          `${consoleBError} errors.`
-        ) :
-        consoleBar.setAttribute(
-          "data-label",
-          `${consoleBError} error.`
-        );
+      consoleBError > 1
+        ? consoleBar.setAttribute("data-label", `${consoleBError} errors.`)
+        : consoleBar.setAttribute("data-label", `${consoleBError} error.`);
       consoleEditor.replaceRange(
         errorOutput,
         CodeMirror.Pos(consoleEditor.lastLine() + 1)
@@ -612,15 +608,9 @@ function printError(x) {
       ++errorCount;
       ++consoleBError;
       outnum.setAttribute("data-error", `${errorCount}`);
-      consoleBError > 1 ?
-        consoleBar.setAttribute(
-          "data-label",
-          `${consoleBError} errors.`
-        ) :
-        consoleBar.setAttribute(
-          "data-label",
-          `${consoleBError} error.`
-        );
+      consoleBError > 1
+        ? consoleBar.setAttribute("data-label", `${consoleBError} errors.`)
+        : consoleBar.setAttribute("data-label", `${consoleBError} error.`);
       consoleEditor.getDoc().setValue(errorOutput);
     }
     // updates textContent / error numbers and set text color.
@@ -637,7 +627,7 @@ function printError(x) {
 function unsavedChange() {
   let t;
 
-  htmlEditor.on("change", function () {
+  htmlEditor.on("change", function() {
     clearTimeout(t);
     t = setTimeout(() => {
       htmlChangeNum++;
@@ -649,7 +639,7 @@ function unsavedChange() {
     }, 2000);
   });
 
-  cssEditor.on("change", function () {
+  cssEditor.on("change", function() {
     clearTimeout(t);
     t = setTimeout(() => {
       cssChangeNum++;
@@ -661,7 +651,7 @@ function unsavedChange() {
     }, 2000);
   });
 
-  jsEditor.on("change", function () {
+  jsEditor.on("change", function() {
     clearTimeout(t);
     t = setTimeout(() => {
       jsChangeNum++;
@@ -722,7 +712,7 @@ function autoSave() {
     cssChangesMade.style.display = "none";
     jsChangesMade.style.display = "none";
     editors.forEach(editor => {
-      editor.on("keyup", function () {
+      editor.on("keyup", function() {
         clearTimeout(delay);
         requestAnimationFrame(() => {
           delay = setTimeout(() => {
@@ -773,58 +763,29 @@ submitLib.addEventListener("click", () => {
 });
 
 crumbName.crumb.addEventListener("blur", e => {
-  if(e.target.value === "" || e.target.value.length < 1){
-    e.target.value = "Unnamed Crumb"
+  if (e.target.value === "" || e.target.value.length < 1) {
+    e.target.value = "Unnamed Crumb";
   }
 });
 crumbName.crumb.addEventListener("keypress", e => {
- 
   if (e.keyCode === 13) {
-    if(e.target.value === "" || e.target.value.length < 1){
-      e.target.value = "Unnamed Crumb"
+    if (e.target.value === "" || e.target.value.length < 1) {
+      e.target.value = "Unnamed Crumb";
     }
     keyMapSave();
-    crumbName.crumb.blur()
+    crumbName.crumb.blur();
   }
 });
 crumbName.addEventListener("submit", e => {
-  e.preventDefault()
+  e.preventDefault();
 });
 function __setEditorPreset__(type, value) {
   if (localStorage.__defineEditorPresets__) {
     const x = JSON.parse(localStorage.__defineEditorPresets__);
-    if(!x.type){
-      const addType = {...x, [type]: value};
-      localStorage.setItem(
-        "__defineEditorPresets__", JSON.stringify(addType))
-    }else{
-    localStorage.setItem(
-      "__defineEditorPresets__",
-      JSON.stringify({
-        ...x,
-        [type]: value
-      })
-    )}
-  }else if (!localStorage.__defineEditorPresets__) {
-      let __defineEditorPresets__ = {
-        skin: "dark",
-        layout: "left",
-        colorPicker: "default",
-        linter: true,
-        autoComplete: true,
-        runDelayTimeout: 2000,
-        tab: 2,
-        indent: 2,
-        fontLigatures: true,
-        activeLine: false,
-        loopTimeout: 1000
-      };
-      localStorage.setItem(
-        "__defineEditorPresets__",
-        JSON.stringify(__defineEditorPresets__)
-      );
-      
-      const x = JSON.parse(localStorage.__defineEditorPresets__);
+    if (!x.type) {
+      const addType = { ...x, [type]: value };
+      localStorage.setItem("__defineEditorPresets__", JSON.stringify(addType));
+    } else {
       localStorage.setItem(
         "__defineEditorPresets__",
         JSON.stringify({
@@ -833,10 +794,35 @@ function __setEditorPreset__(type, value) {
         })
       );
     }
+  }
+  if (
+    localStorage.__defineEditorPresets__ === undefined &&
+    type === undefined &&
+    value === undefined
+  ) {
+    let __defineEditorPresets__ = {
+      skin: "dark",
+      layout: "column",
+      colorPicker: "default",
+      linter: true,
+      autoComplete: true,
+      runDelayTimeout: 2000,
+      tab: 2,
+      indent: 2,
+      fontLigatures: true,
+      activeLine: false,
+      loopTimeout: 1000
+    };
+    localStorage.setItem(
+      "__defineEditorPresets__",
+      JSON.stringify(__defineEditorPresets__)
+    );
+  }
 }
+__setEditorPreset__();
 
 if (dataItems.arg === true && dataItems.author != "anonymous") {
-  saveCrumb.addEventListener("click", function (e) {
+  saveCrumb.addEventListener("click", function(e) {
     e.preventDefault();
     localStorage.removeItem("crumb");
     savedChange();
@@ -868,8 +854,7 @@ if (dataItems.arg === true && dataItems.author != "anonymous") {
 
   window.addEventListener("click", e => {
     if (e.target == anonymousModal) {
-      anonymousModal.style.animation =
-        "alertModalOut .15s linear  forwards";
+      anonymousModal.style.animation = "alertModalOut .15s linear  forwards";
     }
   });
 } else if (!dataItems.arg && dataItems.status) {
@@ -890,13 +875,13 @@ function redirectUser(url) {
   };
 
   fetch(`${org}${url}`, {
-      method: "POST",
-      headers: new Headers({
-        "Content-Type": "application/json"
-      }),
-      cache: "no-cache",
-      body: JSON.stringify(getPreload)
-    })
+    method: "POST",
+    headers: new Headers({
+      "Content-Type": "application/json"
+    }),
+    cache: "no-cache",
+    body: JSON.stringify(getPreload)
+  })
     .then(res => res.json())
     .then(data => {
       const newPath = data.path;
@@ -1148,20 +1133,19 @@ function elementDeclaration() {
     loopTimeout
   };
 }
-window.onbeforeunload = function () {
+window.onbeforeunload = function() {
   if (htmlChangeNum > 0 || cssChangeNum > 0 || jsChangeNum > 0) {
     return "Changes you made have not been saved, Do you still want to reload?";
   } else return;
 };
 function deferred() {
-    const s = {}
-    const promise = new Promise(function (resolve, reject) {
-        s.resolve = resolve;
-        s.reject = reject;
-    });
-    s.promise = promise
-    return Object.assign(s, promise);
-
+  const s = {};
+  const promise = new Promise(function(resolve, reject) {
+    s.resolve = resolve;
+    s.reject = reject;
+  });
+  s.promise = promise;
+  return Object.assign(s, promise);
 }
 function htmlPenState(editor, mode) {
   const d = deferred();
@@ -1477,9 +1461,9 @@ function CSSCompile(editor, mode) {
 }
 
 function JSCompile(editor, mode) {
-  let infiniteLoopTimeout =
-    JSON.parse(localStorage.getItem("__defineEditorPresets__")).loopTimeout ||
-    1000;
+  let infiniteLoopTimeout = localStorage.getItem("__defineEditorPresets__")
+    ? JSON.parse(localStorage.getItem("__defineEditorPresets__")).loopTimeout
+    : 1000;
   let userCode = editor.getValue();
   const d = deferred();
   let error;
@@ -2179,9 +2163,9 @@ class tabOptions {
       head.style.display = this.codeHeadDisplay;
       //handles codehead border for tabstyle editor view.
       head.style.borderTop = this.tabStyleBorder;
-      codeHead[0].style.borderTop = "2px solid var(--editor-color)"
+      codeHead[0].style.borderTop = "2px solid var(--editor-color)";
     });
-      
+
     // defines editors display flex/hidden;
     Array.from(editorTab).forEach(eTab => {
       eTab.style.display = this.editorTab;
@@ -2217,7 +2201,7 @@ function fullScreenPreview() {
   resetSplitPane();
   footerLeft.style.order = "1";
   footerRight.style.order = "2";
-  footerLeft.style.flexFlow = "row"
+  footerLeft.style.flexFlow = "row";
   footerRight.style.flexFlow = "row";
   const tabbed = new tabOptions(
     2,
@@ -2241,7 +2225,7 @@ function fullScreenPreview() {
     "none"
   );
   tabbed.changeView();
-  __setEditorPreset__('layout', "full-view");
+  __setEditorPreset__("layout", "full-view");
 }
 
 //right
@@ -2256,7 +2240,7 @@ function tabStyleRight() {
   });
   footerLeft.style.order = "2";
   footerRight.style.order = "1";
-  footerLeft.style.flexFlow = "row-reverse"
+  footerLeft.style.flexFlow = "row-reverse";
   footerRight.style.flexFlow = "row-reverse";
   jsPen.classList.add("pen-active");
   code.style.display = "inline";
@@ -2289,7 +2273,7 @@ function tabStyleRight() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("layout", "right");
+  __setEditorPreset__("layout", "right");
 }
 
 //left
@@ -2307,7 +2291,7 @@ function tabStyleLeft() {
   cssPen.classList.add("pen-active");
   footerLeft.style.order = "1";
   footerRight.style.order = "2";
-  footerLeft.style.flexFlow = "row"
+  footerLeft.style.flexFlow = "row";
   footerRight.style.flexFlow = "row";
   const tabbed = new tabOptions(
     1,
@@ -2336,7 +2320,7 @@ function tabStyleLeft() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("layout", "left");
+  __setEditorPreset__("layout", "left");
 }
 
 //tab
@@ -2356,7 +2340,7 @@ function tabStyleDefault() {
       jsPen.classList.remove("pen-active");
       footerLeft.style.order = "1";
       footerRight.style.order = "2";
-      footerLeft.style.flexFlow = "row"
+      footerLeft.style.flexFlow = "row";
       footerRight.style.flexFlow = "row";
       cssPen.classList.remove("pen-active");
     } else if (tab.classList.contains("active") && attr === "css") {
@@ -2395,7 +2379,7 @@ function tabStyleDefault() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("layout", "column");
+  __setEditorPreset__("layout", "column");
 }
 
 //top
@@ -2403,7 +2387,7 @@ function tabStyleTop() {
   resetSplitPane();
   footerLeft.style.order = "1";
   footerRight.style.order = "2";
-  footerLeft.style.flexFlow = "row"
+  footerLeft.style.flexFlow = "row";
   footerRight.style.flexFlow = "row";
   resetTransition();
   const resizes = [htmlResize, cssResize, jsResize];
@@ -2443,7 +2427,7 @@ function tabStyleTop() {
   editors.forEach(editor => {
     editor.refresh();
   });
-   __setEditorPreset__("layout", "top");
+  __setEditorPreset__("layout", "top");
 }
 
 resizeHeight(33.33);
@@ -2790,55 +2774,41 @@ preview.contentWindow.onresize = function() {
     consoleInput.style.fontSize = "0.8rem";
   } else if (consoleInput.offsetWidth <= 300) {
     consoleInput.style.fontSize = "0.7rem";
-  }else if(consoleInput.offsetWidth == 200){
-       consoleInput.style.fontSize = "0.65rem";
-    } else {
+  } else if (consoleInput.offsetWidth == 200) {
+    consoleInput.style.fontSize = "0.65rem";
+  } else {
     consoleInput.style.fontSize = "0.95rem";
-
   }
- 
-    if(consoleOutput.offsetWidth <= 565){
-     
-        consoleCode.style.fontSize = "11.5px"
 
-    }else if(consoleOutput.offsetWidth <= 400){
-     
-        consoleCode.style.fontSize = "9.5px"
-
-    }else{
-      consoleCode.style.fontSize = "13.5px"
-    }
-
+  if (consoleOutput.offsetWidth <= 565) {
+    consoleCode.style.fontSize = "11.5px";
+  } else if (consoleOutput.offsetWidth <= 400) {
+    consoleCode.style.fontSize = "9.5px";
+  } else {
+    consoleCode.style.fontSize = "13.5px";
+  }
 };
 
 preview.addEventListener("load", () => {
   preview.contentWindow.onresize = function() {
-    resizeFrame.innerHTML = `${this.innerWidth}px &times; ${
-      this.innerHeight
-    }px`;
+    resizeFrame.innerHTML = `${this.innerWidth}px &times; ${this.innerHeight}px`;
     if (consoleInput.offsetWidth <= 400) {
       consoleInput.style.fontSize = "0.8rem";
     } else if (consoleInput.offsetWidth <= 300) {
       consoleInput.style.fontSize = "0.7rem";
-    }else if(consoleInput.offsetWidth == 200){
-       consoleInput.style.fontSize = "0.65rem";
-    }else{
+    } else if (consoleInput.offsetWidth == 200) {
+      consoleInput.style.fontSize = "0.65rem";
+    } else {
       consoleInput.style.fontSize = "0.95rem";
     }
-    
-   
-    if(consoleOutput.offsetWidth <= 565){
-     
-      consoleCode.style.fontSize = "11.5px"
 
-  }else if(consoleOutput.offsetWidth <= 400){
-   
-      consoleCode.style.fontSize = "9.5px"
-
-  }else{
-    consoleCode.style.fontSize = "13.5px"
-  }
-
+    if (consoleOutput.offsetWidth <= 565) {
+      consoleCode.style.fontSize = "11.5px";
+    } else if (consoleOutput.offsetWidth <= 400) {
+      consoleCode.style.fontSize = "9.5px";
+    } else {
+      consoleCode.style.fontSize = "13.5px";
+    }
   };
 });
 resizeBoth.addEventListener("mousedown", () => {
@@ -2849,17 +2819,15 @@ resizeBoth.addEventListener("mouseup", () => {
   resizeFrame.parentElement.style.opacity = "0";
 });
 
-
-
 function showHints(editor) {
   CodeMirror.registerGlobalHelper(
     "hint",
     "emmet",
-    function (mode, editor) {
+    function(mode, editor) {
       // Tell `show-hint` module that current helper will provide completions
       return !!editor.getEmmetAbbreviation();
     },
-    function (editor, options) {
+    function(editor, options) {
       // Activate auto-popup, if disabled (see below)
       const marker = editor.findEmmetMarker();
       if (!marker) {
@@ -2875,11 +2843,11 @@ function showHints(editor) {
           from: completions.from,
           to: completions.to,
           // Transform Emmet completions to ones that supported by `show-hint`
-          list: completions.list.map(function (completion) {
+          list: completions.list.map(function(completion) {
             return {
               from: completion.range.from,
               to: completion.range.to,
-              render: function (elt) {
+              render: function(elt) {
                 var content = document.createDocumentFragment();
                 var label = document.createElement("span");
                 label.className = "emmet-label";
@@ -2909,7 +2877,7 @@ function showHints(editor) {
 
                 elt.appendChild(content);
               },
-              hint: function () {
+              hint: function() {
                 // Use completions’ `insert()` method to properly
                 // insert Emmet completion
                 completion.insert();
@@ -2922,7 +2890,7 @@ function showHints(editor) {
   );
   // Automatically display Emmet completions when cursor enters abbreviation
   // marker if `markEmmetAbbreviation` option was enabled (true by default)
-  editor.on("cursorActivity", function () {
+  editor.on("cursorActivity", function() {
     if (editor.getOption("markEmmetAbbreviation")) {
       const marker = editor.findEmmetMarker();
       if (marker && !marker.autoPopupDisabled) {
@@ -2933,18 +2901,18 @@ function showHints(editor) {
     }
   });
 
-  editor.on("startCompletion", function () {
+  editor.on("startCompletion", function() {
     var marker = editor.findEmmetMarker();
     if (marker) {
       clearTimeout(marker.popupDisableTimer);
       marker.popupDisableTimer = null;
     }
   });
-  editor.on("endCompletion", function () {
+  editor.on("endCompletion", function() {
     var marker = editor.findEmmetMarker();
     if (marker) {
       clearTimeout(marker.popupDisableTimer);
-      marker.popupDisableTimer = setTimeout(function () {
+      marker.popupDisableTimer = setTimeout(function() {
         marker.autoPopupDisabled = true;
       }, 30);
     }
@@ -2979,30 +2947,37 @@ function hint() {
   showHints(cssEditor);
   showHints(jsEditor);
 
-  jsEditor.on("inputRead", function (e, cm) {
-    if (!cm.text[0].match(/[\s()\[\]{}\-\+\=\?\<\|\~\/;:>,(.+\d)]/) && cm.origin === "+input") {
-      jsEditor.showHint({
-        completeSingle: false,
-        alignWithWord: true,
-        closeOnUnfocus: true,
-        closeOnBackspace: true
-      });
+  jsEditor.on(
+    "inputRead",
+    function(e, cm) {
+      if (
+        !cm.text[0].match(/[\s()\[\]{}\-\+\=\?\<\|\~\/;:>,(.+\d)]/) &&
+        cm.origin === "+input"
+      ) {
+        jsEditor.showHint({
+          completeSingle: false,
+          alignWithWord: true,
+          closeOnUnfocus: true,
+          closeOnBackspace: true
+        });
+      }
+    },
+    {
+      passive: true
     }
-  }, {
-    passive: true
-  });
+  );
 
   editors.forEach(editor => {
     editor.setOption("extrakeys", {
-      "Ctrl-Q": function (cm) {
+      "Ctrl-Q": function(cm) {
         cm.foldCode(cm.getCursor());
       },
-      "Ctrl-K": function (cm, event) {
+      "Ctrl-K": function(cm, event) {
         cm.state.colorpicker.popup_color_picker();
       },
       "Alt-f": "findPersistent",
 
-      "Ctrl-S": function () {
+      "Ctrl-S": function() {
         if (dataItems.author) {
           if (dataItems.author === "anonymous") return null;
           keyMapSave() || null;
@@ -3012,16 +2987,16 @@ function hint() {
       },
 
       "Ctrl-Enter": updatePreview,
-      "Alt-J": function () {
+      "Alt-J": function() {
         beautifySingleFile(jsEditor, csse.js);
       },
-      "Alt-C": function () {
+      "Alt-C": function() {
         beautifySingleFile(cssEditor, csse.css);
       },
-      "Alt-H": function () {
+      "Alt-H": function() {
         beautifySingleFile(htmlEditor, csse.html);
       },
-      "Alt-A": function () {
+      "Alt-A": function() {
         prettify(htmlEditor, cssEditor, jsEditor);
       },
       "Ctrl-Space": "autocomplete",
@@ -3033,16 +3008,15 @@ function hint() {
     });
     editor.setOption("markEmmetAbbreviation", true);
 
-
-    editor.on("cursorActivity", (cm) => {
-      CodeMirror.commands.autocomplete = function (cm) {
+    editor.on("cursorActivity", cm => {
+      CodeMirror.commands.autocomplete = function(cm) {
         cm.showHint({
           hint: CodeMirror.hint.emoji,
           completeSingle: true,
           alignWithWord: true
         });
       };
-    })
+    });
   });
 }
 hint();
@@ -3070,19 +3044,16 @@ colorPicker();
       x.setOption("indentUnit", presets.indent);
       x.setOption("styleActiveLine", presets.activeLine);
       x.setOption("colorpicker", {
-        mode: 'edit',
+        mode: "edit",
         type: presets.colorPicker
       });
       x.setOption("lint", presets.linter);
       if (presets.autoComplete) {
-        hint()
+        hint();
       } else {
-        x.setOption(
-          "markEmmetAbbreviation",
-          false
-        );
+        x.setOption("markEmmetAbbreviation", false);
 
-        x.on("keypress", function () {
+        x.on("keypress", function() {
           x.closeHint();
         });
         x.closeHint();
@@ -3112,23 +3083,22 @@ colorPicker();
         tabStyleFullView.checked = true;
         break;
       default:
-        null
-
+        null;
     }
     // font-ligatures
     const cm = Array.from(document.querySelectorAll(".CodeMirror pre"));
-    presets.fontLigature ? cm.forEach(x => x.style.fontVariantLigatures = "contextual") : cm.forEach(x => x.style.fontVariantLigatures = "none")
-
-
+    presets.fontLigature
+      ? cm.forEach(x => (x.style.fontVariantLigatures = "contextual"))
+      : cm.forEach(x => (x.style.fontVariantLigatures = "none"));
 
     // handle ui changes
     const handleSelectUI = (item, selectEl) => {
       const ts = selectEl.namedItem(item);
       selectEl.selectedIndex = ts.index;
-    }
+    };
     const handleCheckUI = (value, checkEl) => {
-      checkEl.checked = value
-    }
+      checkEl.checked = value;
+    };
     handleSelectUI(`${presets.tab}`, tabSize);
     handleSelectUI(`${presets.indent}`, indentUnit);
     handleSelectUI(`${presets.colorPicker}`, colorPickerType);
@@ -3187,7 +3157,6 @@ function settingButtons(
           editor.setOption("styleActiveLine", true);
         });
         __setEditorPreset__("activeLine", true);
-
       } else if (!current.checked && current.name == "active") {
         editors.forEach(editor => {
           editor.setOption("styleActiveLine", false);
@@ -3204,7 +3173,7 @@ function settingButtons(
 
         editors.forEach(editor => {
           editor.setOption("extrakeys", {
-            "Ctrl-Q": function (cm) {
+            "Ctrl-Q": function(cm) {
               cm.foldCode(cm.getCursor());
             },
 
@@ -3212,7 +3181,7 @@ function settingButtons(
 
             "Ctrl-Enter": updatePreview,
 
-            "Alt-A": function () {
+            "Alt-A": function() {
               prettify(htmlEditor, cssEditor, jsEditor);
             },
             "Ctrl-Space": false,
@@ -3221,7 +3190,7 @@ function settingButtons(
           });
           editor.setOption("markEmmetAbbreviation", false);
 
-          editor.on("keypress", function () {
+          editor.on("keypress", function() {
             editor.closeHint();
           });
           editor.closeHint();
@@ -3261,21 +3230,25 @@ function settingButtons(
 
       if (current.checked && current.name == "run") {
         editors.forEach(editor => {
-          editor.on("inputRead", function () {
+          editor.on("inputRead", function() {
             requestAnimationFrame(() => {
               clearTimeout(delay);
-              delay = setTimeout(updatePreview, localStorage.__defineEditorPresets__ ? (function () {
-                let x =
-                  JSON.parse(localStorage.__defineEditorPresets__);
-                return x.runDelayTimeout
-              })() : 2000);
+              delay = setTimeout(
+                updatePreview,
+                localStorage.__defineEditorPresets__
+                  ? (function() {
+                      let x = JSON.parse(localStorage.__defineEditorPresets__);
+                      return x.runDelayTimeout;
+                    })()
+                  : 2000
+              );
             });
             console.clear();
           });
         });
       } else if (!current.checked && current.name == "run") {
         editors.forEach(editor => {
-          editor.on("inputRead", function () {
+          editor.on("inputRead", function() {
             requestAnimationFrame(() => {
               clearTimeout(delay);
               delay = setTimeout(null, 2000);
@@ -3309,8 +3282,6 @@ function settingButtons(
     });
   });
 
-
-
   // event for font-size settings;
   sizes.addEventListener("change", changeFontSize);
   customFSize.addEventListener("keypress", overRideFontSize);
@@ -3328,7 +3299,6 @@ function settingButtons(
       );
       customFSize.value = selectedSize;
 
-
       fSize.style.fontSize = `${parseInt(customFSize.value, 10)}px`;
     });
   }
@@ -3336,16 +3306,11 @@ function settingButtons(
   function overRideFontSize(e) {
     if (e.keyCode === 13) {
       if (dataItems.author) {
-        if (
-          dataItems.arg === true &&
-          dataItems.author != "anonymous"
-        ) {
+        if (dataItems.arg === true && dataItems.author != "anonymous") {
           keyMapSave();
         }
       }
-      const themeFSize = document.querySelectorAll(
-        ".CodeMirror"
-      );
+      const themeFSize = document.querySelectorAll(".CodeMirror");
       Array.from(themeFSize).forEach(fSize => {
         const selectedSize = parseInt(this.value);
 
@@ -3359,11 +3324,7 @@ function settingButtons(
     }
   }
 
-
-
   //tab size
-
-
 
   tabSize.addEventListener("change", changeTabSize);
 
@@ -3377,10 +3338,7 @@ function settingButtons(
     __setEditorPreset__("tabSize", selectedTab);
   }
 
-
   // indent unit
-
-
 
   // event listener for user option to select indent unit.
   indentUnit.addEventListener("change", indentToggled);
@@ -3393,15 +3351,10 @@ function settingButtons(
     __setEditorPreset__("indentUnit", indented);
   }
 
-
-
-
-
   // event for font-family settings;
   fontFm.addEventListener("change", changeFontFamily);
   fontFmCustom.addEventListener("keypress", overRideFont);
   fontFmCustom.addEventListener("blur", overRideFont);
-
 
   function changeFontFamily() {
     const cm = document.querySelectorAll(".CodeMirror");
@@ -3418,11 +3371,6 @@ function settingButtons(
     });
   }
 
-
-
-
-
-
   // custom fonts overides predefined fonts.
   // using predefined fonts is just setting the overRiddenFont.
 
@@ -3438,16 +3386,12 @@ function settingButtons(
         });
         fontFmCustom.blur();
         if (dataItems.author) {
-          if (
-            dataItems.arg === true &&
-            dataItems.author != "anonymous"
-          ) {
+          if (dataItems.arg === true && dataItems.author != "anonymous") {
             keyMapSave();
           }
         }
       }
     } else if (e.type === "blur") {
-
       const cm = document.querySelectorAll(".CodeMirror");
 
       Array.from(cm).forEach(fSize => {
@@ -3457,19 +3401,12 @@ function settingButtons(
       });
       fontFmCustom.blur();
       if (dataItems.author) {
-        if (
-          dataItems.arg === true &&
-          dataItems.author != "anonymous"
-        ) {
+        if (dataItems.arg === true && dataItems.author != "anonymous") {
           keyMapSave();
         }
       }
-
     }
   }
-
-
-
 
   // event for theme settings;
   cmDark.addEventListener("change", changeEditorThemeDark);
@@ -3489,10 +3426,6 @@ function settingButtons(
     });
   }
 
-
-
-
-
   // event for keymap settings;
   keymaps.addEventListener("change", changeKeymaps);
 
@@ -3511,32 +3444,25 @@ function settingButtons(
     });
   }
 
-
-
-
-
   // handles font-ligatures.
-  fontLigatures.addEventListener("change", function () {
+  fontLigatures.addEventListener("change", function() {
     const cmPre = document.querySelectorAll(".CodeMirror pre");
     Array.from(cmPre).forEach(cm => {
       if (fontLigatures.checked) {
         cm.style.fontVariantLigatures = "contextual";
       } else if (!fontLigatures.checked) {
-        cm.style.fontVariantLigatures = "none"
+        cm.style.fontVariantLigatures = "none";
       }
-    })
+    });
     if (fontLigatures.checked) {
       __setEditorPreset__("fontLigatures", true);
     } else {
       __setEditorPreset__("fontLigatures", false);
     }
-  })
-
-
-
+  });
 
   // color picker type
-  colorPickerType.addEventListener("change", function () {
+  colorPickerType.addEventListener("change", function() {
     const editors = [htmlEditor, cssEditor];
     editors.forEach(editor => {
       editor.setOption("colorpicker", false);
@@ -3545,40 +3471,40 @@ function settingButtons(
         type: colorPickerType.selectedOptions[0].value
       });
     });
-    __setEditorPreset__("colorPicker", colorPickerType.selectedOptions[0].value);
-  })
-  autoRunDelay.addEventListener("keypress", function (e) {
+    __setEditorPreset__(
+      "colorPicker",
+      colorPickerType.selectedOptions[0].value
+    );
+  });
+  autoRunDelay.addEventListener("keypress", function(e) {
     if (e.keyCode === 13) {
-      const runDelayTimeout = parseInt(this.value, 10) > 10000 ? 10000 : parseInt(this.value, 10);
+      const runDelayTimeout =
+        parseInt(this.value, 10) > 10000 ? 10000 : parseInt(this.value, 10);
       autoRunDelay.value = "" + runDelayTimeout;
       autoRunDelay.blur();
       __setEditorPreset__("runDelayTimeout", runDelayTimeout);
     }
-  })
+  });
 
-  autoRunDelay.addEventListener("change", function () {
-
+  autoRunDelay.addEventListener("change", function() {
     const runDelayTimeout = parseInt(this.value, 10);
     autoRunDelay.blur();
     __setEditorPreset__("runDelayTimeout", runDelayTimeout);
-
   });
-  loopTimeout.addEventListener("keypress", function (e) {
+  loopTimeout.addEventListener("keypress", function(e) {
     if (e.keyCode === 13) {
-      const lt = parseInt(this.value, 10) > 5000 ? 5000 : parseInt(this.value, 10);
+      const lt =
+        parseInt(this.value, 10) > 5000 ? 5000 : parseInt(this.value, 10);
       loopTimeout.value = "" + lt;
       loopTimeout.blur();
       __setEditorPreset__("loopTimeout", lt);
     }
-  })
-  loopTimeout.addEventListener("change", function () {
-
+  });
+  loopTimeout.addEventListener("change", function() {
     const lt = parseInt(this.value, 10);
     loopTimeout.blur();
     __setEditorPreset__("loopTimeout", lt);
-
-  })
-
+  });
 }
 
 function changeEditorSettings(
@@ -3591,24 +3517,30 @@ function changeEditorSettings(
   sizes,
   keymaps
 ) {
-
-
   //checks if custom font matches the predef one
-  fontFm.namedItem(editorSettings.font.split(",")[0]) ?
-    (fontFm.options.selectedIndex = fontFm.namedItem(
-      editorSettings.font.split(",")[0]
-    ).index) :
-    null;
+  fontFm.namedItem(editorSettings.font.split(",")[0])
+    ? (fontFm.options.selectedIndex = fontFm.namedItem(
+        editorSettings.font.split(",")[0]
+      ).index)
+    : null;
 
   // checks if custom fontsize matched the predef one
-  sizes.namedItem(editorSettings.fSize) ?
-    (sizes.options.selectedIndex = sizes.index) :
-    null;
+  sizes.namedItem(editorSettings.fSize)
+    ? (sizes.options.selectedIndex = sizes.index)
+    : null;
 
   // checks if theme exists
-  cmDark.namedItem(editorSettings.theme) ? cmDark.options.selectedIndex = cmDark.namedItem(editorSettings.theme).index : null
+  cmDark.namedItem(editorSettings.theme)
+    ? (cmDark.options.selectedIndex = cmDark.namedItem(
+        editorSettings.theme
+      ).index)
+    : null;
   // checks if keymap exists
-  keymaps.namedItem(editorSettings.keymap) ? keymaps.options.selectedIndex = keymaps.namedItem(editorSettings.keymap).index : null
+  keymaps.namedItem(editorSettings.keymap)
+    ? (keymaps.options.selectedIndex = keymaps.namedItem(
+        editorSettings.keymap
+      ).index)
+    : null;
 
   const themeFSize = document.querySelectorAll(".CodeMirror");
   const k = Array.from(themeFSize);
@@ -3640,7 +3572,7 @@ function changeEditorSettings(
 function handleFooterLnCol() {
   const edLn = document.querySelector(".ln");
   const edCh = document.querySelector(".ch");
-  const selected = document.querySelector(".line-selected")
+  const selected = document.querySelector(".line-selected");
   editors.forEach(editor => {
     const editorMode = document.querySelector(".editor-mode");
     editor.on("cursorActivity", () => {
@@ -3663,11 +3595,11 @@ function handleFooterLnCol() {
       } else if (editor === jsEditor) {
         editorMode.style.opacity = "1";
         if (csse.js === "babel") {
-          editorMode.innerText = "javascript with babel"
+          editorMode.innerText = "javascript with babel";
         } else if (csse.js === "jsx") {
-          editorMode.innerText = "javascript with react"
+          editorMode.innerText = "javascript with react";
         } else {
-          editorMode.innerText = `${csse.js}`
+          editorMode.innerText = `${csse.js}`;
         }
 
         editorMode.style.margin = "4px";
@@ -3677,8 +3609,9 @@ function handleFooterLnCol() {
         .getSelection()
         .split("\n")
         .join("").length;
-      selectedLen >= 1 ? selected.textContent = `(${selectedLen} selected)` : selected.textContent = ``;
-
+      selectedLen >= 1
+        ? (selected.textContent = `(${selectedLen} selected)`)
+        : (selected.textContent = ``);
     });
   });
 }
@@ -3697,11 +3630,10 @@ toggleLinter.addEventListener("click", () => {
   }
 });
 
-
-editorSkins.addEventListener("change", (e) => {
+editorSkins.addEventListener("change", e => {
   changeEditorSkin(editorSkins.selectedOptions[0].value);
   __setEditorPreset__("skin", editorSkins.selectedOptions[0].value);
-})
+});
 
 function changeEditorSkin(skinType) {
   const skins = {
@@ -3755,9 +3687,8 @@ function changeEditorSkin(skinType) {
   const colors = skins[skinType];
   let i;
   for (i in colors) {
-    document.documentElement.style.setProperty(i, colors[i])
+    document.documentElement.style.setProperty(i, colors[i]);
   }
-
 }
 function keyboardShortCuts(updatePreview, htmlEditor, cssEditor, jsEditor) {
   document.addEventListener("keyup", e => {
@@ -4130,7 +4061,6 @@ stop.addEventListener("click", function() {
   __startTimer = true;
 });
 
-
 const consoleClose = document.querySelector(".out-close");
 const error = document.querySelector(".console-label");
 const consoleBtnITag = document.querySelector(".opc");
@@ -4190,9 +4120,7 @@ class ProxyConsole {
       const lineNo = x.data.lineNumber;
       const colNo = x.data.columnNumber;
 
-      const errorOutput = `\n# ${mess} \n#\t\t\t\t at main(${lineNo}:${colNo})\n${
-        this.dashes
-      }`;
+      const errorOutput = `\n# ${mess} \n#\t\t\t\t at main(${lineNo}:${colNo})\n${this.dashes}`;
 
       // updates the  console.
 
@@ -4449,9 +4377,7 @@ function exportToZip() {
         js: beautifyExport(js, "babylon")
       },
       url: url,
-      README: `Happy coding! 🚀\n\n#Introducton. \nA Crumb created at CodeCrumb.io. Original URL: [${
-        crumbName.crumb.value
-      }](${path}).`
+      README: `Happy coding! 🚀\n\n#Introducton. \nA Crumb created at CodeCrumb.io. Original URL: [${crumbName.crumb.value}](${path}).`
     });
 
     sendDATA(TOZIP);
@@ -4469,9 +4395,7 @@ function exportToZip() {
     })
       .then(res => res.json())
       .then(data => {
-        window.location.href = `${window.origin}/crumbs/exports/${
-          data.request
-        }`;
+        window.location.href = `${window.origin}/crumbs/exports/${data.request}`;
         exportFile.textContent = "Export as ZIP";
       })
       .catch(err => new Error(err));

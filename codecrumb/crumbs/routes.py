@@ -147,28 +147,57 @@ def codecrumb(author, url):
     if current_user.is_authenticated:
         imageFile = url_for("static", filename="profile-images/" + current_user.image)
         c_id = crumb.userId == current_user.id
-        code = json.dumps(json_response(crumb, c_id))
+        json_res = json_response(crumb, c_id)
+        code = json.dumps(json_res)
         is_author = crumb.author.id == current_user.id
+        title = json_res.get("title").get("name") if json_res.get("title").get("name") != "Unnamed Crumb" else "A Crumb"
         return render_template(
             "editor-v01.html",
             user=crumb,
             crumb=code,
-            title=f"A Crumb by {author.capitalize()}",
+            title=f"{title} by {author.capitalize()}",
             image=imageFile,
             is_author=is_author,
             snippets=user.snippet,
         )
     else:
         c_id = False
-        code = json.dumps(json_response(crumb, c_id))
         is_author = False
+        json_res = json_response(crumb, c_id)
+        code = json.dumps(json_res)
+        title = json_res.get("title").get("name") if json_res.get("title").get("name") != "Unnamed Crumb" else "A Crumb"
         return render_template(
             "editor-v01.html",
             user=crumb,
             crumb=code,
-            title=f"A Crumb by {author.capitalize()}",
+            title=f"{title} by {author.capitalize()}",
             is_author=is_author,
         )
+
+@set_crumb.route("/<author>/crumb/<url>/<ext>", methods=["GET", "POST"])
+def get_file(author, url, ext):
+    crumb = Crumbs.query.filter_by(url=url).first_or_404()
+    user = User.query.filter_by(username=author).first_or_404()
+
+    if crumb.userId != user.id:
+        abort(404)
+    if request.method == 'POST':
+        abort(400)
+
+
+    if current_user.is_authenticated:
+        if ext.lower() != 'css' and ext.lower() != 'js':
+           
+            return 'Code extension not supported.'
+        elif ext.lower() == 'css':
+            code = json_response(crumb, True)
+            
+            return code.get("codes").get("css")
+        elif ext.lower() == 'js':
+            code = json_response(crumb, True)
+           
+            return code.get("codes").get("js")
+
 
 
 @set_crumb.route("/crumbs/fork", methods=["GET", "POST"])
